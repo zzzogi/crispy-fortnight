@@ -56,7 +56,7 @@ export default function Header() {
       <header className="bg-amber-900 text-amber-50 px-6 py-2 flex justify-between items-center">
         <div className="flex items-center">
           <FaPhone className="mr-2 text-amber-200" />
-          <span className="text-sm font-medium">Hotline: 090 456 6260</span>
+          <span className="text-sm font-medium">Hotline: 0935 388 699</span>
         </div>
         <div className="flex space-x-4">
           <FaFacebookF className="cursor-pointer hover:text-amber-200 transition duration-300" />
@@ -79,7 +79,7 @@ export default function Header() {
               className="text-3xl md:text-4xl font-bold text-amber-900 tracking-wide cursor-pointer"
               onClick={() => handleNavigation("/")}
             >
-              DÃ VỊ
+              KIM VĨNH VƯƠNG
             </h1>
             <span className="ml-2 text-xs md:text-sm text-amber-700 italic border-l border-amber-300 pl-2">
               Hương vị truyền thống

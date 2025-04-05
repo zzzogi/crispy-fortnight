@@ -60,17 +60,17 @@ export default function ProductSection() {
 
   const products = [
     {
-      name: "Bánh đậu xanh truyền thống",
+      name: "Chè lam truyền thống",
       price: "85.000đ",
       image: "/api/placeholder/300/300",
     },
     {
-      name: "Bánh đậu xanh trà xanh",
+      name: "Chè lam trà xanh",
       price: "90.000đ",
       image: "/api/placeholder/300/300",
     },
     {
-      name: "Bánh đậu xanh sầu riêng",
+      name: "Chè lam sầu riêng",
       price: "95.000đ",
       image: "/api/placeholder/300/300",
     },
@@ -87,15 +87,15 @@ export default function ProductSection() {
       price: "350.000đ",
       image: "/api/placeholder/500/300",
       description:
-        "Hộp quà sang trọng với bánh đậu xanh, trà sen và kẹo lạc truyền thống",
-      items: "1 hộp bánh đậu xanh, 1 hộp trà sen, 1 gói kẹo lạc",
+        "Hộp quà sang trọng với chè lam, trà sen và kẹo lạc truyền thống",
+      items: "1 hộp chè lam, 1 hộp trà sen, 1 gói kẹo lạc",
     },
     {
       name: "Set Quà Tặng Tâm Giao",
       price: "450.000đ",
       image: "/api/placeholder/500/300",
       description: "Bộ quà tặng cao cấp với hộp gỗ thiết kế tinh tế",
-      items: "2 hộp bánh đậu xanh, 1 hộp trà cổ thụ, 1 hộp ômai",
+      items: "2 hộp chè lam, 1 hộp trà cổ thụ, 1 hộp ômai",
     },
     {
       name: "Set Quà Tặng Thịnh Vượng",
@@ -103,7 +103,7 @@ export default function ProductSection() {
       image: "/api/placeholder/500/300",
       description: "Bộ sưu tập đặc biệt dành cho các dịp lễ trọng đại",
       items:
-        "3 hộp bánh đậu xanh, 2 hộp trà đặc biệt, 1 hộp hạt điều, 1 hộp kẹo lạc cao cấp",
+        "3 hộp chè lam, 2 hộp trà đặc biệt, 1 hộp hạt sen, 1 hộp kẹo lạc cao cấp",
     },
   ];
 
@@ -116,11 +116,12 @@ export default function ProductSection() {
           <div className="grid md:grid-cols-2 gap-8 items-center relative z-10 p-8 md:p-12">
             <div className="text-center md:text-left">
               <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-4">
-                Dà Vị & Bánh đậu xanh Rồng Vàng Kỳ Anh
+                Kim Vĩnh Vương - Chè Lam Truyền Thống
               </h1>
               <p className="text-lg text-amber-800 mb-6">
-                Hương vị truyền thống, chất lượng đỉnh cao từ làng nghề nổi
-                tiếng Kỳ Anh
+                Khám phá hương vị truyền thống từ những sản phẩm tự nhiên, chất
+                lượng cao. Chúng tôi mang đến cho bạn những trải nghiệm ẩm thực
+                độc đáo và đáng nhớ.
               </p>
               <button className="bg-amber-600 hover:bg-amber-700 text-white font-medium py-3 px-6 rounded-full transition duration-300 shadow-lg hover:shadow-xl">
                 Khám phá ngay
@@ -130,7 +131,7 @@ export default function ProductSection() {
               <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-white shadow-xl overflow-hidden">
                 <Image
                   src="/api/placeholder/500/500"
-                  alt="Bánh đậu xanh Rồng Vàng"
+                  alt="Sản phẩm Kim Vĩnh Vương"
                   layout="fill"
                   objectFit="cover"
                   className="object-center"
@@ -194,9 +195,8 @@ export default function ProductSection() {
                 Sản phẩm nổi bật
               </h2>
               <p className="text-amber-700 max-w-2xl mx-auto">
-                Bốn bánh đậu xanh, bánh đậu trà xanh, bánh đậu sầu riêng, trà cổ
-                thụ, kẹo lạc, bột sắn trà xanh, trà Sen, ômai, hạt điều...và
-                những thứ ăn chơi cực kỳ chất lượng.
+                Chè lam truyền thống và các sản phẩm như kẹo lạc, bột sắn trà
+                xanh, trà Sen, ômai, hạt sen... cực kỳ sang trọng và chất lượng.
               </p>
             </div>
 
@@ -305,11 +305,15 @@ export default function ProductSection() {
         {/* Call to action */}
         <div className="mt-16 bg-gradient-to-r from-amber-500 to-amber-600 rounded-xl p-8 text-center text-white">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Đặt hàng ngay hôm nay!
+            Sứ mệnh của Kim Vĩnh Vương
           </h2>
-          <p className="text-lg mb-6 max-w-2xl mx-auto">
-            Nhận ưu đãi đặc biệt khi đặt hàng trực tuyến. Giao hàng miễn phí cho
-            đơn hàng từ 500.000đ.
+          <p className="text-lg mb-6 max-w-2xl mx-auto italic">
+            “Chúng tôi không chỉ bán chè lam hay kẹo lạc – chúng tôi gửi gắm cả
+            tâm huyết và niềm tự hào về văn hóa ẩm thực dân tộc. Mỗi sản phẩm là
+            một cam kết về chất lượng và sự chân thành.”
+          </p>
+          <p className="text-sm text-amber-100 mb-8">
+            — Người sáng lập Kim Vĩnh Vương
           </p>
           <button className="bg-white text-amber-600 hover:bg-amber-100 font-medium py-3 px-8 rounded-full transition duration-300 shadow-lg hover:shadow-xl">
             Khám phá ngay!

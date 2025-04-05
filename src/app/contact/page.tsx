@@ -55,22 +55,24 @@ export default function ContactPage() {
       <div className="bg-amber-800 text-white py-10">
         <div className="container mx-auto text-center">
           <h1 className="text-3xl font-bold">LIÊN HỆ</h1>
-          <p className="mt-2">
-            Kết nối với Dã Vị - Bánh đậu xanh Rồng Vàng Kỳ Anh
-          </p>
+          <p className="mt-2">Kết nối với Thực phẩm Kim Vĩnh Vương</p>
         </div>
       </div>
 
       {/* Bản đồ Google */}
       <div className="w-full h-96 relative">
         <iframe
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3826.3662860824795!2d106.29231751469984!3d18.068882687730684!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31387f769ce98b83%3A0x9c7c5c5a6c7a0f93!2zS-G7syBBbmgsIEjDoCBUxKluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1641900000000!5m2!1svi!2s"
-          width="100%"
-          height="100%"
-          style={{ border: 0 }}
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3723.666721195125!2d105.79943817503194!3d21.046017280607618!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab3d762822b1%3A0x939f7732eb3ad4ef!2zOTMgSG_DoG5nIFF14buRYyBWaeG7h3QsIE5naMSpYSDEkMO0LCBD4bqndSBHaeG6pXksIEjDoCBO4buZaSwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1743867726646!5m2!1svi!2s"
+          width="600"
+          height="450"
+          style={{
+            border: 0,
+            width: "100%",
+            height: "100%",
+          }}
           allowFullScreen={false}
           loading="lazy"
-          title="Google Maps"
+          referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
 
@@ -91,7 +93,8 @@ export default function ContactPage() {
                 <div>
                   <h3 className="font-semibold text-amber-900 mb-1">Địa Chỉ</h3>
                   <p className="text-gray-700">
-                    Phường 1, Thị xã Kỳ Anh, Tỉnh Hà Tĩnh
+                    Số 9, ngách 4, ngõ 93, đường Hoàng Quốc Việt, phường Nghĩa
+                    Đô, quận Cầu Giấy, TP Hà Nội
                   </p>
                 </div>
               </div>
@@ -104,7 +107,7 @@ export default function ContactPage() {
                   <h3 className="font-semibold text-amber-900 mb-1">
                     Số Điện Thoại
                   </h3>
-                  <p className="text-gray-700">090 456 6260</p>
+                  <p className="text-gray-700">0935 388 699</p>
                 </div>
               </div>
 
@@ -114,11 +117,13 @@ export default function ContactPage() {
                 </div>
                 <div>
                   <h3 className="font-semibold text-amber-900 mb-1">Email</h3>
-                  <p className="text-gray-700">info@davivietnam.com</p>
+                  <p className="text-gray-700">
+                    thucphamkimvinhvuong@gmail.com
+                  </p>
                 </div>
               </div>
 
-              <div className="flex items-start">
+              {/* <div className="flex items-start">
                 <div className="bg-amber-100 rounded-full p-3 mr-4 text-amber-800">
                   <FaClock />
                 </div>
@@ -129,7 +134,7 @@ export default function ContactPage() {
                   <p className="text-gray-700">Thứ 2 - Thứ 7: 8:00 - 17:30</p>
                   <p className="text-gray-700">Chủ nhật: 8:00 - 12:00</p>
                 </div>
-              </div>
+              </div> */}
             </div>
 
             {/* Chi nhánh */}
@@ -145,16 +150,16 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-amber-900 mb-1">
-                      Chi Nhánh Hà Nội
+                      Nơi sản xuất
                     </h3>
                     <p className="text-gray-700">
-                      123 Phố Huế, Quận Hai Bà Trưng, Hà Nội
+                      Số 11, ngách 1, ngõ 117, đường Mỹ Độ, phường Mỹ Độ, TP Bắc
+                      Giang
                     </p>
-                    <p className="text-gray-700">SĐT: 024 1234 5678</p>
                   </div>
                 </div>
 
-                <div className="flex items-start">
+                {/* <div className="flex items-start">
                   <div className="bg-amber-100 rounded-full p-3 mr-4 text-amber-800">
                     <FaMapMarkerAlt />
                   </div>
@@ -167,7 +172,7 @@ export default function ContactPage() {
                     </p>
                     <p className="text-gray-700">SĐT: 028 1234 5678</p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
 
@@ -178,12 +183,12 @@ export default function ContactPage() {
               </h2>
               <div className="flex space-x-4">
                 <a
-                  href="#"
+                  href="https://www.facebook.com/tinhhoachelam"
                   className="bg-amber-100 hover:bg-amber-200 text-amber-800 p-3 rounded-full transition-colors duration-300"
                 >
                   <FaFacebookF size={20} />
                 </a>
-                <a
+                {/* <a
                   href="#"
                   className="bg-amber-100 hover:bg-amber-200 text-amber-800 p-3 rounded-full transition-colors duration-300"
                 >
@@ -194,7 +199,7 @@ export default function ContactPage() {
                   className="bg-amber-100 hover:bg-amber-200 text-amber-800 p-3 rounded-full transition-colors duration-300"
                 >
                   <FaYoutube size={20} />
-                </a>
+                </a> */}
               </div>
             </div>
           </div>

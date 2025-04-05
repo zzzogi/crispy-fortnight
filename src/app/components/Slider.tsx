@@ -9,7 +9,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const images = [
   {
     src: "/images/slider1.jpg",
-    title: "Mẫu bánh đậu xanh 3 vị đựng giỏ tre",
+    title: "Mẫu chè lam 3 vị đựng giỏ tre",
   },
   {
     src: "/images/slider2.jpg",
@@ -17,7 +17,7 @@ const images = [
   },
   {
     src: "/images/slider3.jpg",
-    title: "Bánh đậu xanh vị truyền thống",
+    title: "Chè lam vị truyền thống",
   },
 ];
 

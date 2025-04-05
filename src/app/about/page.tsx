@@ -7,11 +7,10 @@ export default function About() {
       {/* Hero Section */}
       <div className="relative h-96 w-full overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-amber-900 to-amber-800">
-          {/* Placeholder cho hình ảnh thực tế */}
           <div className="absolute inset-0 opacity-40">
             <Image
               src="/api/placeholder/1600/800"
-              alt="Truyền thống Dã Vị"
+              alt="Truyền thống Kim Vĩnh Vương"
               layout="fill"
               objectFit="cover"
               className="w-full h-full"
@@ -20,12 +19,11 @@ export default function About() {
         </div>
         <div className="absolute inset-0 flex flex-col justify-center items-center text-center px-4">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4 tracking-tight">
-            CÂU CHUYỆN DÃ VỊ
+            CÂU CHUYỆN KIM VĨNH VƯƠNG
           </h1>
           <div className="w-24 h-1 bg-amber-400 mb-6"></div>
           <p className="text-xl text-amber-100 max-w-2xl">
-            Kết nối tinh hoa ẩm thực truyền thống Việt Nam với cuộc sống hiện
-            đại
+            Gìn giữ hương vị truyền thống – Chè lam và đặc sản dân gian Việt
           </p>
         </div>
       </div>
@@ -34,26 +32,27 @@ export default function About() {
       <div className="container mx-auto py-16 px-4">
         <div className="flex flex-col md:flex-row items-center">
           <div className="md:w-1/2 mb-8 md:mb-0 md:pr-8">
-            <h2 className="text-3xl font-bold text-amber-900 mb-4">Về Dã Vị</h2>
+            <h2 className="text-3xl font-bold text-amber-900 mb-4">
+              Về Kim Vĩnh Vương
+            </h2>
             <div className="w-16 h-1 bg-amber-500 mb-6"></div>
             <p className="text-gray-700 mb-6 leading-relaxed">
-              Dã Vị được thành lập với tâm huyết gìn giữ và phát huy những giá
-              trị ẩm thực truyền thống Việt Nam. Chúng tôi tự hào mang đến những
-              sản phẩm thực phẩm chất lượng cao, được chế biến từ những nguyên
-              liệu tự nhiên quý giá từ rừng núi Việt Nam theo quy trình sản xuất
-              đảm bảo an toàn và chất lượng.
+              Kim Vĩnh Vương là thương hiệu ra đời từ lòng đam mê và sự trân
+              trọng dành cho ẩm thực truyền thống Việt Nam. Chúng tôi chuyên
+              cung cấp các sản phẩm như chè lam – món quà quê ngọt ngào, mang
+              đậm bản sắc dân tộc.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Qua nhiều năm phát triển, Dã Vị đã trở thành một thương hiệu uy
-              tín và được yêu mến bởi sự kết hợp hài hòa giữa hương vị truyền
-              thống và tiêu chuẩn chất lượng hiện đại, mang đến cho khách hàng
-              những trải nghiệm ẩm thực đặc sắc và tinh tế.
+              Với mục tiêu không ngừng phát triển, Kim Vĩnh Vương sẽ mở rộng
+              thêm các dòng sản phẩm như kẹo lạc, mứt, ô mai – tất cả đều được
+              chế biến từ nguyên liệu tự nhiên, đảm bảo chất lượng và hương vị
+              thuần Việt.
             </p>
           </div>
           <div className="md:w-1/2 relative h-80 rounded-lg overflow-hidden shadow-xl">
             <Image
               src="/api/placeholder/800/600"
-              alt="Sản phẩm Dã Vị"
+              alt="Sản phẩm Kim Vĩnh Vương"
               layout="fill"
               objectFit="cover"
               className="w-full h-full rounded-lg"
@@ -71,8 +70,8 @@ export default function About() {
             </h2>
             <div className="w-24 h-1 bg-amber-500 mx-auto mb-6"></div>
             <p className="text-gray-700 max-w-2xl mx-auto">
-              Những giá trị định hình nên thương hiệu Dã Vị và là kim chỉ nam
-              cho mọi hoạt động của chúng tôi
+              Những nguyên tắc tạo nên thương hiệu Kim Vĩnh Vương – gắn kết
+              truyền thống và chất lượng
             </p>
           </div>
 
@@ -85,8 +84,8 @@ export default function About() {
                 Tự Nhiên
               </h3>
               <p className="text-gray-600">
-                Sử dụng nguyên liệu tự nhiên, không chất bảo quản độc hại, tôn
-                trọng giá trị dinh dưỡng vốn có
+                Nguyên liệu truyền thống, không phẩm màu nhân tạo, an toàn và
+                giữ nguyên hương vị quê hương
               </p>
             </div>
 
@@ -98,8 +97,8 @@ export default function About() {
                 Truyền Thống
               </h3>
               <p className="text-gray-600">
-                Gìn giữ và phát huy công thức chế biến truyền thống, bảo tồn
-                hương vị Việt Nam nguyên bản
+                Gìn giữ công thức chế biến lâu đời, tôn vinh nét ẩm thực cổ
+                truyền Việt Nam
               </p>
             </div>
 
@@ -111,8 +110,8 @@ export default function About() {
                 Chất Lượng
               </h3>
               <p className="text-gray-600">
-                Cam kết mang đến những sản phẩm chất lượng cao, đạt tiêu chuẩn
-                an toàn vệ sinh thực phẩm
+                Đảm bảo vệ sinh an toàn thực phẩm và quy trình chế biến nghiêm
+                ngặt trong từng mẻ sản phẩm
               </p>
             </div>
 
@@ -124,15 +123,15 @@ export default function About() {
                 Tận Tâm
               </h3>
               <p className="text-gray-600">
-                Luôn đặt sự hài lòng của khách hàng lên hàng đầu, tận tâm trong
-                từng sản phẩm và dịch vụ
+                Luôn lấy sự hài lòng của khách hàng làm trọng tâm, phục vụ bằng
+                cả tấm lòng
               </p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Câu chuyện thương hiệu */}
+      {/* Hành trình thương hiệu */}
       <div className="container mx-auto py-16 px-4">
         <div className="flex flex-col md:flex-row-reverse items-center">
           <div className="md:w-1/2 mb-8 md:mb-0 md:pl-8">
@@ -141,28 +140,26 @@ export default function About() {
             </h2>
             <div className="w-16 h-1 bg-amber-500 mb-6"></div>
             <p className="text-gray-700 mb-6 leading-relaxed">
-              Từ một xưởng sản xuất nhỏ tại Hải Dương, Dã Vị đã không ngừng phát
-              triển và mở rộng quy mô với hệ thống phân phối rộng khắp cả nước,
-              bao gồm các chi nhánh tại Hà Nội, TP Vinh và Thành phố Hồ Chí
-              Minh.
+              Khởi đầu từ một cơ sở thủ công nhỏ tại vùng quê Bắc Bộ, Kim Vĩnh
+              Vương đã vươn mình trở thành một thương hiệu được yêu thích với hệ
+              thống phân phối tại nhiều tỉnh thành.
             </p>
             <p className="text-gray-700 leading-relaxed">
-              Chúng tôi tự hào đã phục vụ hàng triệu khách hàng trong suốt chặng
-              đường phát triển và được tin tưởng lựa chọn bởi sự cam kết không
-              ngừng nâng cao chất lượng sản phẩm cũng như dịch vụ khách hàng.
+              Chúng tôi tự hào là lựa chọn của hàng ngàn khách hàng bởi sự chỉn
+              chu trong từng sản phẩm – mang đậm tình quê và chất lượng đảm bảo.
             </p>
             <div className="mt-8">
               <blockquote className="italic text-amber-800 border-l-4 border-amber-500 pl-4 py-2">
-                "Với Dã Vị, chúng tôi không chỉ bán sản phẩm, mà còn truyền tải
-                nền văn hóa ẩm thực phong phú của Việt Nam đến với mọi người."
-                <footer className="text-gray-600 mt-2">— Sáng lập Dã Vị</footer>
+                "Kim Vĩnh Vương không chỉ là một thương hiệu, mà còn là nơi lưu
+                giữ và lan tỏa tinh hoa ẩm thực Việt."
+                <footer className="text-gray-600 mt-2">— Người sáng lập</footer>
               </blockquote>
             </div>
           </div>
           <div className="md:w-1/2 relative h-80 rounded-lg overflow-hidden shadow-xl">
             <Image
               src="/api/placeholder/800/600"
-              alt="Xưởng sản xuất Dã Vị"
+              alt="Xưởng Kim Vĩnh Vương"
               layout="fill"
               objectFit="cover"
               className="w-full h-full rounded-lg"
@@ -174,10 +171,12 @@ export default function About() {
       {/* Call to Action */}
       <div className="bg-amber-900 text-white py-16">
         <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">Khám Phá Sản Phẩm Dã Vị</h2>
+          <h2 className="text-3xl font-bold mb-6">
+            Khám Phá Sản Phẩm Kim Vĩnh Vương
+          </h2>
           <p className="text-lg text-amber-200 max-w-2xl mx-auto mb-8">
-            Trải nghiệm hương vị truyền thống Việt Nam qua các sản phẩm chất
-            lượng của Dã Vị
+            Từ chè lam truyền thống đến những món quà quê như kẹo lạc, mứt, ô
+            mai – tất cả đều mang hồn Việt
           </p>
           <button className="bg-amber-500 hover:bg-amber-600 text-white font-medium py-3 px-8 rounded-full transition duration-300 shadow-lg">
             Xem Sản Phẩm

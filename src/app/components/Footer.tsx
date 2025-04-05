@@ -13,10 +13,12 @@ export default function Footer() {
     <footer className="bg-gradient-to-r from-amber-900 to-amber-800 text-white">
       <div className="container mx-auto py-10 px-6">
         {/* Grid layout cho footer */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Phần thông tin thương hiệu */}
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold text-amber-100">DÃ VỊ</h2>
+            <h2 className="text-3xl font-bold text-amber-100">
+              THỰC PHẨM KIM VĨNH VƯƠNG
+            </h2>
             <p className="text-amber-200 text-sm italic">
               Hương vị truyền thống
             </p>
@@ -27,22 +29,10 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4 pt-2">
               <a
-                href="#"
+                href="https://www.facebook.com/tinhhoachelam"
                 className="bg-white bg-opacity-20 p-2 rounded-full hover:bg-amber-600 transition duration-300"
               >
                 <FaFacebookF className="text-amber-100" />
-              </a>
-              <a
-                href="#"
-                className="bg-white bg-opacity-20 p-2 rounded-full hover:bg-amber-600 transition duration-300"
-              >
-                <FaInstagram className="text-amber-100" />
-              </a>
-              <a
-                href="#"
-                className="bg-white bg-opacity-20 p-2 rounded-full hover:bg-amber-600 transition duration-300"
-              >
-                <FaYoutube className="text-amber-100" />
               </a>
             </div>
           </div>
@@ -50,18 +40,16 @@ export default function Footer() {
           {/* Phần các chi nhánh */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold text-amber-100 border-b border-amber-600 pb-2">
-              HỆ THỐNG CHI NHÁNH
+              THÔNG TIN CỬA HÀNG
             </h3>
             <div className="space-y-3">
               <div className="flex items-start">
                 <FaMapMarkerAlt className="text-amber-300 mt-1 mr-2 flex-shrink-0" />
                 <div>
-                  <p className="font-medium text-amber-200">Hải Dương</p>
+                  <p className="font-medium text-amber-200">Địa chỉ</p>
                   <p className="text-sm text-gray-300">
-                    Số 6 Hoàng Hoa Thám, TP Hải Dương
-                  </p>
-                  <p className="text-sm text-gray-300">
-                    <FaPhone className="inline mr-1" /> 094 286 6969
+                    Số 9, ngách 4, ngõ 93, đường Hoàng Quốc Việt, phường Nghĩa
+                    Đô, quận Cầu Giấy, TP Hà Nội
                   </p>
                 </div>
               </div>
@@ -69,42 +57,12 @@ export default function Footer() {
               <div className="flex items-start">
                 <FaMapMarkerAlt className="text-amber-300 mt-1 mr-2 flex-shrink-0" />
                 <div>
-                  <p className="font-medium text-amber-200">Hà Nội</p>
+                  <p className="font-medium text-amber-200">Nơi sản xuất</p>
                   <p className="text-sm text-gray-300">
-                    Số 15, ngõ 343 Đội Cấn, Quận Ba Đình
-                  </p>
-                  <p className="text-sm text-gray-300">
-                    <FaPhone className="inline mr-1" /> 090 456 6260
+                    Số 11, ngách 1, ngõ 117, đường Mỹ Độ, phường Mỹ Độ, TP Bắc
+                    Giang
                   </p>
                 </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Phần liên hệ & đăng ký */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold text-amber-100 border-b border-amber-600 pb-2">
-              LIÊN HỆ & ĐĂNG KÝ
-            </h3>
-            <div className="flex items-start mb-2">
-              <FaMapMarkerAlt className="text-amber-300 mt-1 mr-2 flex-shrink-0" />
-              <div>
-                <p className="font-medium text-amber-200">TP Vinh</p>
-                <p className="text-sm text-gray-300">
-                  Đường Trần Huy Liệu, TP Vinh
-                </p>
-                <p className="text-sm text-gray-300">
-                  <FaPhone className="inline mr-1" /> 098 198 2358
-                </p>
-              </div>
-            </div>
-            <div className="flex items-start">
-              <FaMapMarkerAlt className="text-amber-300 mt-1 mr-2 flex-shrink-0" />
-              <div>
-                <p className="font-medium text-amber-200">Sài Gòn</p>
-                <p className="text-sm text-gray-300">
-                  Lầu 1 - 59 Cư Xá, Trần Quang Diệu, Quận 3
-                </p>
               </div>
             </div>
           </div>
@@ -115,8 +73,8 @@ export default function Footer() {
       <div className="bg-black bg-opacity-30 py-4">
         <div className="container mx-auto px-6 flex flex-col md:flex-row justify-between items-center">
           <p className="text-xs text-gray-400">
-            © {new Date().getFullYear()} Bản quyền thuộc DÃ VỊ - RỒNG VÀNG KỲ
-            ANH
+            © {new Date().getFullYear()} Bản quyền thuộc THỰC PHẨM KIM VĨNH
+            VƯƠNG
           </p>
         </div>
       </div>
