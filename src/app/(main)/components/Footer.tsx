@@ -20,7 +20,7 @@ export default function Footer() {
               THỰC PHẨM KIM VĨNH VƯƠNG
             </h2>
             <p className="text-amber-200 text-sm italic">
-              Hương vị truyền thống
+              Tinh hoa đặc sản Kinh Bắc
             </p>
             <p className="text-sm text-gray-300">
               Mang đến những sản phẩm thực phẩm tự nhiên, hương vị đặc trưng từ

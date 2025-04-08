@@ -32,9 +32,27 @@ export default function ContactPage() {
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log("Form data:", formData);
-    // Tại đây sẽ gửi dữ liệu form đến backend
     setSubmitted(true);
+
+    fetch("/api/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        console.log("Success:", data);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
 
     // Reset form sau khi gửi
     setTimeout(() => {

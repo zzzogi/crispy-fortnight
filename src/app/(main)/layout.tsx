@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import "./globals.css";
+import "../globals.css";
 import Layout from "./components/Layout";
+import { ReactQueryClientProvider } from "../providers/ReactQueryClientProvider";
 
 export const metadata: Metadata = {
   title: "Thực phẩm Kim Vĩnh Vương",
@@ -13,10 +14,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        <Layout>{children}</Layout>
-      </body>
-    </html>
+    <ReactQueryClientProvider>
+      <html lang="vi">
+        <body>
+          <Layout>{children}</Layout>
+        </body>
+      </html>
+    </ReactQueryClientProvider>
   );
 }

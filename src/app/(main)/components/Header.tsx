@@ -60,7 +60,7 @@ export default function Header() {
         </div>
         <div className="flex space-x-4">
           <FaFacebookF className="cursor-pointer hover:text-amber-200 transition duration-300" />
-          <FaInstagram className="cursor-pointer hover:text-amber-200 transition duration-300" />
+          {/* <FaInstagram className="cursor-pointer hover:text-amber-200 transition duration-300" /> */}
           <div className="relative">
             <FaShoppingCart className="cursor-pointer hover:text-amber-200 transition duration-300" />
             <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
@@ -74,15 +74,15 @@ export default function Header() {
       <nav className="border-b border-amber-200 bg-white shadow-sm relative z-20">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           {/* Logo với phong cách tối giản */}
-          <div className="flex items-center">
+          <div className="flex flex-col ">
             <h1
               className="text-3xl md:text-4xl font-bold text-amber-900 tracking-wide cursor-pointer"
               onClick={() => handleNavigation("/")}
             >
               KIM VĨNH VƯƠNG
             </h1>
-            <span className="ml-2 text-xs md:text-sm text-amber-700 italic border-l border-amber-300 pl-2">
-              Hương vị truyền thống
+            <span className="text-xs md:text-sm text-amber-700 italic">
+              Tinh hoa đặc sản Kinh Bắc
             </span>
           </div>
 
