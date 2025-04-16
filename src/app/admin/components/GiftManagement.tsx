@@ -1,16 +1,7 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  Search,
-  Plus,
-  Edit,
-  Trash2,
-  X,
-  Upload,
-  Image,
-  Loader,
-} from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Edit, Loader, Plus, Search, Trash2, Upload, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 interface Gift {
   id: string;
@@ -20,10 +11,11 @@ interface Gift {
   description: string;
   imageUrl: string[];
   category: string;
+  type: "RETAIL" | "GIFT";
 }
 
 interface GiftsResponse {
-  gifts: Gift[];
+  products: Gift[];
   total: number;
   limit: number;
   offset: number;
@@ -50,6 +42,7 @@ const GiftsManagement: React.FC = () => {
     description: "",
     imageUrl: [],
     category: "",
+    type: "GIFT",
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -71,9 +64,10 @@ const GiftsManagement: React.FC = () => {
     const [_, page, limit, search] = queryKey;
     const offset = (page - 1) * limit;
     const response = await fetch(
-      `http://localhost:3000/api/gifts?limit=${limit}&offset=${offset}&search=${search}`
+      `http://localhost:3000/api/products?type=GIFT&limit=${limit}&offset=${offset}&search=${search}`
     );
     if (!response.ok) throw new Error("Network response was not ok");
+
     return response.json();
   };
 
@@ -96,10 +90,13 @@ const GiftsManagement: React.FC = () => {
         formData.append(`images`, image.file);
       });
 
-      const response = await fetch("http://localhost:3000/api/gifts/upload", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/products/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Error uploading images");
@@ -115,7 +112,7 @@ const GiftsManagement: React.FC = () => {
 
   const addGiftMutation = useMutation({
     mutationFn: async (gift: Omit<Gift, "id">) => {
-      const response = await fetch("http://localhost:3000/api/gifts", {
+      const response = await fetch("http://localhost:3000/api/products", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(gift),
@@ -152,7 +149,7 @@ const GiftsManagement: React.FC = () => {
 
   const updateGiftMutation = useMutation({
     mutationFn: async (gift: Gift) => {
-      const response = await fetch("http://localhost:3000/api/gifts", {
+      const response = await fetch("http://localhost:3000/api/products", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(gift),
@@ -189,14 +186,14 @@ const GiftsManagement: React.FC = () => {
     mutationFn: async (obj: { id: string; name: string }) => {
       // First delete S3 images
       const imageDeleteResponse = await fetch(
-        `http://localhost:3000/api/gifts/upload?giftName=${obj.name}`,
+        `http://localhost:3000/api/products/upload?productName=${obj.name}`,
         {
           method: "DELETE",
         }
       );
 
       // Then delete the gift from database
-      const response = await fetch("http://localhost:3000/api/gifts", {
+      const response = await fetch("http://localhost:3000/api/products", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: obj.id }),
@@ -242,6 +239,7 @@ const GiftsManagement: React.FC = () => {
       description: gift.description,
       imageUrl: gift.imageUrl,
       category: gift.category,
+      type: "GIFT",
     });
     setCurrentGift(gift);
     setUploadedImages([]);
@@ -285,6 +283,7 @@ const GiftsManagement: React.FC = () => {
       description: "",
       imageUrl: [],
       category: "",
+      type: "GIFT",
     });
   };
 
@@ -317,6 +316,8 @@ const GiftsManagement: React.FC = () => {
   };
 
   const totalPages = data ? Math.ceil(data.total / ITEMS_PER_PAGE) : 0;
+
+  console.log(data, totalPages);
 
   return (
     <div className="p-6">
@@ -366,47 +367,48 @@ const GiftsManagement: React.FC = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {data?.gifts.map((gift) => (
-              <div
-                key={gift.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer"
-                onClick={() => openDetailModal(gift)}
-              >
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={gift.imageUrl[0] || "/images/placeholder-image.jpg"}
-                    alt={gift.name}
-                    className="w-full h-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src =
-                        "/images/placeholder-image.jpg";
-                    }}
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg mb-1 text-gray-800">
-                    {gift.name}
-                  </h3>
-                  <p className="text-blue-600 font-medium mb-2">
-                    {gift.price.toLocaleString("vi-VN")} đ
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        gift.available
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {gift.available ? "Còn hàng" : "Hết hàng"}
-                    </span>
-                    <span className="text-sm text-gray-600">
-                      {gift.category}
-                    </span>
+            {data?.products &&
+              data.products.map((gift) => (
+                <div
+                  key={gift.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer"
+                  onClick={() => openDetailModal(gift)}
+                >
+                  <div className="h-48 overflow-hidden">
+                    <img
+                      src={gift.imageUrl[0] || "/images/placeholder.jpg"}
+                      alt={gift.name}
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src =
+                          "/images/placeholder.jpg";
+                      }}
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-semibold text-lg mb-1 text-gray-800">
+                      {gift.name}
+                    </h3>
+                    <p className="text-blue-600 font-medium mb-2">
+                      {gift.price.toLocaleString("vi-VN")} đ
+                    </p>
+                    <div className="flex justify-between items-center">
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs ${
+                          gift.available
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {gift.available ? "Còn hàng" : "Hết hàng"}
+                      </span>
+                      <span className="text-sm text-gray-600">
+                        {gift.category}
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
           </div>
 
           {/* Pagination */}
@@ -420,19 +422,20 @@ const GiftsManagement: React.FC = () => {
                 &lt;
               </button>
 
-              {[...Array(totalPages)].map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`px-3 py-1 rounded-md ${
-                    currentPage === index + 1
-                      ? "bg-blue-600 text-white"
-                      : "border border-gray-300 hover:bg-gray-50"
-                  }`}
-                >
-                  {index + 1}
-                </button>
-              ))}
+              {totalPages &&
+                [...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentPage(index + 1)}
+                    className={`px-3 py-1 rounded-md ${
+                      currentPage === index + 1
+                        ? "bg-blue-600 text-white"
+                        : "border border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
 
               <button
                 onClick={() =>
@@ -473,7 +476,7 @@ const GiftsManagement: React.FC = () => {
                   <input
                     type="text"
                     required
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                     value={newGift.name}
                     onChange={(e) =>
                       setNewGift({ ...newGift, name: e.target.value })
@@ -488,7 +491,7 @@ const GiftsManagement: React.FC = () => {
                   <input
                     type="number"
                     required
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                     value={newGift.price}
                     onChange={(e) =>
                       setNewGift({
@@ -571,18 +574,28 @@ const GiftsManagement: React.FC = () => {
                   )}
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Danh mục
+                <div className="md:col-span-2">
+                  <label
+                    htmlFor="giftType"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Loại sản phẩm
                   </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  <select
+                    id="giftType"
+                    className="mt-1 block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm text-gray-500 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     value={newGift.category}
                     onChange={(e) =>
-                      setNewGift({ ...newGift, category: e.target.value })
+                      setNewGift({
+                        ...newGift,
+                        category: e.target.value,
+                      })
                     }
-                  />
+                  >
+                    <option value="Mới">Mới</option>
+                    <option value="Hot">Hot</option>
+                    <option value="Truyền thống">Truyền thống</option>
+                  </select>
                 </div>
 
                 <div className="md:col-span-2">
@@ -591,7 +604,7 @@ const GiftsManagement: React.FC = () => {
                   </label>
                   <textarea
                     rows={3}
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                     value={newGift.description}
                     onChange={(e) =>
                       setNewGift({
@@ -674,14 +687,12 @@ const GiftsManagement: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <img
-                  src={
-                    currentGift.imageUrl[0] || "/images/placeholder-image.jpg"
-                  }
+                  src={currentGift.imageUrl[0] || "/images/placeholder.jpg"}
                   alt={currentGift.name}
                   className="w-full h-auto object-cover rounded-lg"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =
-                      "/images/placeholder-image.jpg";
+                      "/images/placeholder.jpg";
                   }}
                 />
               </div>

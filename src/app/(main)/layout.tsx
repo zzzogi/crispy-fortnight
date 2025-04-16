@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../globals.css";
 import Layout from "./components/Layout";
 import { ReactQueryClientProvider } from "../providers/ReactQueryClientProvider";
+import { CartProvider } from "../context/CartContext";
 
 export const metadata: Metadata = {
   title: "Thực phẩm Kim Vĩnh Vương",
@@ -15,11 +16,13 @@ export default function RootLayout({
 }>) {
   return (
     <ReactQueryClientProvider>
-      <html lang="vi">
-        <body>
-          <Layout>{children}</Layout>
-        </body>
-      </html>
+      <CartProvider>
+        <html lang="vi">
+          <body>
+            <Layout>{children}</Layout>
+          </body>
+        </html>
+      </CartProvider>
     </ReactQueryClientProvider>
   );
 }

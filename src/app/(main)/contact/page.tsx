@@ -1,4 +1,5 @@
 "use client";
+import Link from "next/link";
 // Trang liên hệ với bản đồ và form
 import React, { useState } from "react";
 import {
@@ -200,12 +201,13 @@ export default function ContactPage() {
                 Kết Nối Với Chúng Tôi
               </h2>
               <div className="flex space-x-4">
-                <a
+                <Link
                   href="https://www.facebook.com/tinhhoachelam"
+                  target="_blank"
                   className="bg-amber-100 hover:bg-amber-200 text-amber-800 p-3 rounded-full transition-colors duration-300"
                 >
                   <FaFacebookF size={20} />
-                </a>
+                </Link>
                 {/* <a
                   href="#"
                   className="bg-amber-100 hover:bg-amber-200 text-amber-800 p-3 rounded-full transition-colors duration-300"
@@ -245,7 +247,7 @@ export default function ContactPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <label htmlFor="name" className="block text-gray-700 mb-1">
-                    Họ và Tên *
+                    Họ và Tên <span className="text-red-700">*</span>
                   </label>
                   <input
                     type="text"
@@ -254,13 +256,13 @@ export default function ContactPage() {
                     value={formData.name}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-700"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="email" className="block text-gray-700 mb-1">
-                    Email *
+                    Email <span className="text-red-700">*</span>
                   </label>
                   <input
                     type="email"
@@ -269,7 +271,7 @@ export default function ContactPage() {
                     value={formData.email}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-700"
                   />
                 </div>
               </div>
@@ -285,13 +287,13 @@ export default function ContactPage() {
                     name="phone"
                     value={formData.phone}
                     onChange={handleChange}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-700"
                   />
                 </div>
 
                 <div>
                   <label htmlFor="subject" className="block text-gray-700 mb-1">
-                    Chủ Đề *
+                    Chủ Đề <span className="text-red-700">*</span>
                   </label>
                   <input
                     type="text"
@@ -300,14 +302,14 @@ export default function ContactPage() {
                     value={formData.subject}
                     onChange={handleChange}
                     required
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-700"
                   />
                 </div>
               </div>
 
               <div>
                 <label htmlFor="message" className="block text-gray-700 mb-1">
-                  Tin Nhắn *
+                  Tin Nhắn <span className="text-red-700">*</span>
                 </label>
                 <textarea
                   id="message"
@@ -316,7 +318,7 @@ export default function ContactPage() {
                   onChange={handleChange}
                   required
                   rows={5}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-amber-500 text-amber-700"
                 ></textarea>
               </div>
 

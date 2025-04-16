@@ -1,16 +1,7 @@
 "use client";
-import { useState, useRef, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import {
-  Search,
-  Plus,
-  Edit,
-  Trash2,
-  X,
-  Upload,
-  Image,
-  Loader,
-} from "lucide-react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { Edit, Loader, Plus, Search, Trash2, Upload, X } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
 interface Product {
   id: string;
@@ -20,6 +11,7 @@ interface Product {
   description: string;
   imageUrl: string[];
   category: string;
+  type: "RETAIL" | "GIFT";
 }
 
 interface ProductsResponse {
@@ -50,6 +42,7 @@ const ProductsManagement: React.FC = () => {
     description: "",
     imageUrl: [],
     category: "",
+    type: "RETAIL",
   });
   const [isEditing, setIsEditing] = useState(false);
 
@@ -71,7 +64,7 @@ const ProductsManagement: React.FC = () => {
     const [_, page, limit, search] = queryKey;
     const offset = (page - 1) * limit;
     const response = await fetch(
-      `http://localhost:3000/api/products?limit=${limit}&offset=${offset}&search=${search}`
+      `http://localhost:3000/api/products?type=RETAIL&limit=${limit}&offset=${offset}&search=${search}`
     );
     if (!response.ok) throw new Error("Network response was not ok");
     return response.json();
@@ -96,10 +89,13 @@ const ProductsManagement: React.FC = () => {
         formData.append(`images`, image.file);
       });
 
-      const response = await fetch("http://localhost:3000/api/products/upload", {
-        method: "POST",
-        body: formData,
-      });
+      const response = await fetch(
+        "http://localhost:3000/api/products/upload",
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Error uploading images");
@@ -242,6 +238,7 @@ const ProductsManagement: React.FC = () => {
       description: product.description,
       imageUrl: product.imageUrl,
       category: product.category,
+      type: "RETAIL",
     });
     setCurrentProduct(product);
     setUploadedImages([]);
@@ -285,6 +282,7 @@ const ProductsManagement: React.FC = () => {
       description: "",
       imageUrl: [],
       category: "",
+      type: "RETAIL",
     });
   };
 
@@ -374,12 +372,12 @@ const ProductsManagement: React.FC = () => {
               >
                 <div className="h-48 overflow-hidden">
                   <img
-                    src={product.imageUrl[0] || "/images/placeholder-image.jpg"}
+                    src={product.imageUrl[0] || "/images/placeholder.jpg"}
                     alt={product.name}
                     className="w-full h-full object-cover"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src =
-                        "/images/placeholder-image.jpg";
+                        "/images/placeholder.jpg";
                     }}
                   />
                 </div>
@@ -473,7 +471,7 @@ const ProductsManagement: React.FC = () => {
                   <input
                     type="text"
                     required
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                     value={newProduct.name}
                     onChange={(e) =>
                       setNewProduct({ ...newProduct, name: e.target.value })
@@ -488,7 +486,7 @@ const ProductsManagement: React.FC = () => {
                   <input
                     type="number"
                     required
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                     value={newProduct.price}
                     onChange={(e) =>
                       setNewProduct({
@@ -571,18 +569,28 @@ const ProductsManagement: React.FC = () => {
                   )}
                 </div>
 
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Danh mục
+                <div className="md:col-span-2">
+                  <label
+                    htmlFor="productType"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Loại sản phẩm
                   </label>
-                  <input
-                    type="text"
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  <select
+                    id="productType"
+                    className="mt-1 block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm text-gray-500 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
                     value={newProduct.category}
                     onChange={(e) =>
-                      setNewProduct({ ...newProduct, category: e.target.value })
+                      setNewProduct({
+                        ...newProduct,
+                        category: e.target.value,
+                      })
                     }
-                  />
+                  >
+                    <option value="Mới">Mới</option>
+                    <option value="Hot">Hot</option>
+                    <option value="Truyền thống">Truyền thống</option>
+                  </select>
                 </div>
 
                 <div className="md:col-span-2">
@@ -591,7 +599,7 @@ const ProductsManagement: React.FC = () => {
                   </label>
                   <textarea
                     rows={3}
-                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                     value={newProduct.description}
                     onChange={(e) =>
                       setNewProduct({
@@ -674,15 +682,12 @@ const ProductsManagement: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
                 <img
-                  src={
-                    currentProduct.imageUrl[0] ||
-                    "/images/placeholder-image.jpg"
-                  }
+                  src={currentProduct.imageUrl[0] || "/images/placeholder.jpg"}
                   alt={currentProduct.name}
                   className="w-full h-auto object-cover rounded-lg"
                   onError={(e) => {
                     (e.target as HTMLImageElement).src =
-                      "/images/placeholder-image.jpg";
+                      "/images/placeholder.jpg";
                   }}
                 />
               </div>

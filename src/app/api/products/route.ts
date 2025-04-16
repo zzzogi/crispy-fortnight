@@ -1,4 +1,5 @@
 import { prisma } from "../../libs/prisma";
+import { Type } from "../../../../generated/prisma";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
@@ -7,6 +8,7 @@ export async function GET(request: Request) {
   const limit = searchParams.get("limit") || undefined;
   const offset = searchParams.get("offset") || undefined;
   const search = searchParams.get("search") || undefined;
+  const type = searchParams.get("type") || undefined;
   const priceDesc = searchParams.get("priceDesc") || undefined;
   const priceAsc = searchParams.get("priceAsc") || undefined;
 
@@ -15,6 +17,9 @@ export async function GET(request: Request) {
       name: {
         contains: search || undefined,
         mode: "insensitive",
+      },
+      type: {
+        equals: type as Type | undefined,
       },
     },
     orderBy: {
@@ -47,7 +52,8 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { name, price, available, description, imageUrl, category } = body;
+  const { name, price, available, description, imageUrl, category, type } =
+    body;
   const product = await prisma.product.create({
     data: {
       name,
@@ -56,6 +62,7 @@ export async function POST(request: Request) {
       description,
       imageUrl,
       category,
+      type,
     },
   });
   return NextResponse.json(product, {
@@ -67,7 +74,8 @@ export async function POST(request: Request) {
 }
 export async function PATCH(request: Request) {
   const body = await request.json();
-  const { id, name, price, available, description, imageUrl, category } = body;
+  const { id, name, price, available, description, imageUrl, category, type } =
+    body;
 
   const product = await prisma.product.update({
     where: { id },
@@ -78,6 +86,7 @@ export async function PATCH(request: Request) {
       description,
       imageUrl,
       category,
+      type,
     },
   });
   return NextResponse.json(product, {

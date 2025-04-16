@@ -1,12 +1,5 @@
-import {
-  FaMapMarkerAlt,
-  FaPhone,
-  FaFacebookF,
-  FaInstagram,
-  FaYoutube,
-} from "react-icons/fa";
-import { MdMail } from "react-icons/md";
-import Image from "next/image";
+import Link from "next/link";
+import { FaFacebookF, FaMapMarkerAlt } from "react-icons/fa";
 
 export default function Footer() {
   return (
@@ -16,24 +9,34 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Phần thông tin thương hiệu */}
           <div className="space-y-4">
-            <h2 className="text-3xl font-bold text-amber-100">
-              THỰC PHẨM KIM VĨNH VƯƠNG
-            </h2>
-            <p className="text-amber-200 text-sm italic">
-              Tinh hoa đặc sản Kinh Bắc
-            </p>
+            <div className="flex items-center space-x-4">
+              <img
+                src="/icons/kim-vinh-vuong-icon.png"
+                alt="Logo"
+                className="w-20 h-16 mb-2"
+              />
+              <div>
+                <h2 className="text-3xl font-bold text-amber-100">
+                  THỰC PHẨM KIM VĨNH VƯƠNG
+                </h2>
+                <p className="text-amber-200 text-sm italic">
+                  Tinh hoa đặc sản Kinh Bắc
+                </p>
+              </div>
+            </div>
             <p className="text-sm text-gray-300">
               Mang đến những sản phẩm thực phẩm tự nhiên, hương vị đặc trưng từ
               rừng núi Việt Nam, được chế biến theo phương pháp truyền thống kết
               hợp công nghệ hiện đại.
             </p>
             <div className="flex space-x-4 pt-2">
-              <a
+              <Link
                 href="https://www.facebook.com/tinhhoachelam"
+                target="_blank"
                 className="bg-white bg-opacity-20 p-2 rounded-full hover:bg-amber-600 transition duration-300"
               >
                 <FaFacebookF className="text-amber-100" />
-              </a>
+              </Link>
             </div>
           </div>
 

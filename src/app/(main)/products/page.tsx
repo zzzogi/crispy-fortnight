@@ -34,7 +34,7 @@ const fetchProducts = async ({ queryKey }: { queryKey: any[] }) => {
   const offset = (page - 1) * limit;
 
   const response = await fetch(
-    `http://localhost:3000/api/products?limit=${limit}&offset=${offset}&search=${
+    `http://localhost:3000/api/products?type=RETAIL&limit=${limit}&offset=${offset}&search=${
       search || ""
     }&${priceOrder || ""}`
   );
@@ -320,7 +320,7 @@ export default function Products() {
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {data.products.map((product: Product) => (
               <Link
-                href={`/product/${product.id}`}
+                href={`/products/${product.id}`}
                 key={product.id}
                 className="block"
               >
@@ -377,12 +377,6 @@ export default function Products() {
               </div>
             </div>
           )}
-
-          <div className="mt-6 text-center">
-            <p className="text-amber-800">
-              Hiển thị {data.products.length} trên tổng số {data.total} sản phẩm
-            </p>
-          </div>
         </>
       ) : (
         <div className="text-center py-16 bg-amber-50 rounded-lg">

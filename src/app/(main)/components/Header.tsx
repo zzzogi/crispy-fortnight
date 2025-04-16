@@ -1,7 +1,6 @@
 "use client";
 import {
   FaFacebookF,
-  FaInstagram,
   FaShoppingCart,
   FaPhone,
   FaBars,
@@ -9,6 +8,7 @@ import {
 } from "react-icons/fa";
 import { useRouter, usePathname } from "next/navigation";
 import { useState, useEffect } from "react";
+import CartDropdown from "./CartDropdown";
 
 export default function Header() {
   const router = useRouter();
@@ -62,10 +62,7 @@ export default function Header() {
           <FaFacebookF className="cursor-pointer hover:text-amber-200 transition duration-300" />
           {/* <FaInstagram className="cursor-pointer hover:text-amber-200 transition duration-300" /> */}
           <div className="relative">
-            <FaShoppingCart className="cursor-pointer hover:text-amber-200 transition duration-300" />
-            <span className="absolute -top-2 -right-2 bg-red-600 text-white text-xs w-4 h-4 flex items-center justify-center rounded-full">
-              0
-            </span>
+            <CartDropdown />
           </div>
         </div>
       </header>
@@ -74,16 +71,27 @@ export default function Header() {
       <nav className="border-b border-amber-200 bg-white shadow-sm relative z-20">
         <div className="container mx-auto px-6 py-4 flex justify-between items-center">
           {/* Logo với phong cách tối giản */}
-          <div className="flex flex-col ">
-            <h1
-              className="text-3xl md:text-4xl font-bold text-amber-900 tracking-wide cursor-pointer"
-              onClick={() => handleNavigation("/")}
-            >
-              KIM VĨNH VƯƠNG
-            </h1>
-            <span className="text-xs md:text-sm text-amber-700 italic">
-              Tinh hoa đặc sản Kinh Bắc
-            </span>
+          <div
+            className="flex items-center space-x-2 cursor-pointer"
+            onClick={() => handleNavigation("/")}
+          >
+            <img
+              src="/icons/kim-vinh-vuong-icon.png"
+              alt="Logo"
+              className="h-12 w-14 "
+            />
+
+            <div className="flex flex-col">
+              <h1
+                className="text-3xl md:text-4xl font-bold text-amber-900 tracking-wide cursor-pointer"
+                onClick={() => handleNavigation("/")}
+              >
+                KIM VĨNH VƯƠNG
+              </h1>
+              <span className="text-xs md:text-sm text-amber-700 italic">
+                Tinh hoa đặc sản Kinh Bắc
+              </span>
+            </div>
           </div>
 
           {/* Nút hamburger cho mobile */}

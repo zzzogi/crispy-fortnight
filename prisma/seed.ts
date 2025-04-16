@@ -21,56 +21,40 @@ async function main() {
     ],
   });
 
-  // Seed 3 products
+  // Seed 3 items
   await prisma.product.createMany({
     data: [
       {
         name: "Chè lam gừng",
-        price: 25000,
+        price: 2500,
         category: "Truyền thống",
         description: "Chè lam vị gừng thơm ngon",
         imageUrl: ["/images/chelam-gung.jpg"],
+        type: "RETAIL",
       },
       {
         name: "Chè lam đậu phộng",
-        price: 28000,
+        price: 2800,
         category: "Đặc sản",
         description: "Chè lam với đậu phộng giòn bùi",
         imageUrl: ["/images/chelam-dauphong.jpg"],
+        type: "GIFT",
       },
       {
         name: "Chè lam dẻo",
-        price: 30000,
+        price: 3000,
         category: "Mới",
         description: "Chè lam dẻo mềm, vị truyền thống",
         imageUrl: ["/images/chelam-deo.jpg"],
-      },
-    ],
-  });
-
-  // Seed 3 gifts
-  await prisma.gift.createMany({
-    data: [
-      {
-        name: "Set quà Tết 1",
-        price: 120000,
-        category: "Tết",
-        description: "Bao gồm chè lam, kẹo lạc, mứt gừng",
-        imageUrl: ["/images/set-tet-1.jpg"],
+        type: "GIFT",
       },
       {
-        name: "Set quà Trung Thu",
-        price: 98000,
-        category: "Trung thu",
-        description: "Bao gồm ô mai, chè lam, kẹo dẻo",
-        imageUrl: ["/images/set-trungthu.jpg"],
-      },
-      {
-        name: "Set quà sinh nhật",
-        price: 150000,
-        category: "Sinh nhật",
-        description: "Hộp quà gồm chè lam và bánh ngọt",
-        imageUrl: ["/images/set-sinhnhat.jpg"],
+        name: "Chè lam trà xanh",
+        price: 320,
+        category: "Mới",
+        description: "Chè lam vị trà xanh thanh mát",
+        imageUrl: ["/images/chelam-traxanh.jpg"],
+        type: "RETAIL",
       },
     ],
   });

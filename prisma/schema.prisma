@@ -1,6 +1,6 @@
 generator client {
   provider = "prisma-client-js"
-  output = "../generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
@@ -8,35 +8,31 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+enum Type {
+  RETAIL
+  GIFT
+}
+
 model User {
   id        String   @id @default(auto()) @map("_id") @db.ObjectId
   name      String
   email     String   @unique
   password  String
-  role      String   // admin, staff, etc.
+  role      String // admin, staff, etc.
   createdAt DateTime @default(now())
 }
 
 model Product {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  id          String      @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   price       Float
-  available   Boolean  @default(true)
+  available   Boolean     @default(true)
   description String?
   imageUrl    String[]
   category    String
-  createdAt   DateTime @default(now())
-}
-
-model Gift {
-  id          String   @id @default(auto()) @map("_id") @db.ObjectId
-  name        String
-  price       Float
-  available   Boolean  @default(true)
-  description String?
-  imageUrl    String[]
-  category    String
-  createdAt   DateTime @default(now())
+  createdAt   DateTime    @default(now())
+  OrderItem   OrderItem[]
+  type        Type
 }
 
 model Contact {
@@ -49,4 +45,25 @@ model Contact {
   createdAt DateTime @default(now())
 }
 
+model Order {
+  id           String      @id @default(auto()) @map("_id") @db.ObjectId
+  buyerName    String
+  buyerEmail   String
+  buyerPhone   String
+  buyerAddress String
+  items        OrderItem[]
+  totalItems   Int
+  totalPrice   Float
+  status       String      @default("pending") // optional: pending, paid, shipped, etc.
+  createdAt    DateTime    @default(now())
+}
 
+model OrderItem {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  product   Product? @relation(fields: [productId], references: [id])
+  productId String?  @db.ObjectId
+
+  quantity Int
+  order    Order  @relation(fields: [orderId], references: [id])
+  orderId  String @db.ObjectId
+}

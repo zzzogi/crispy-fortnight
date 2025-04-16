@@ -5,19 +5,25 @@ import { Navigation, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import { Imperial_Script } from "next/font/google";
+
+const imperial_script = Imperial_Script({
+  subsets: ["vietnamese"],
+  weight: "400",
+});
 
 const images = [
   {
-    src: "/images/slider1.jpg",
-    title: "Mẫu chè lam 3 vị đựng giỏ tre",
-  },
-  {
-    src: "/images/slider2.jpg",
-    title: "Hộp quà tặng cao cấp 2024",
-  },
-  {
-    src: "/images/slider3.jpg",
+    src: "/slider/image-1.jpg",
     title: "Chè lam vị truyền thống",
+  },
+  {
+    src: "/slider/image-2.jpg",
+    title: "Hộp quà tặng cao cấp",
+  },
+  {
+    src: "/slider/image-3.jpg",
+    title: "Món ngon từ thiên nhiên",
   },
 ];
 
@@ -42,8 +48,10 @@ export default function ImageSlider() {
               alt={item.title}
               className="w-full h-[400px] object-cover"
             />
-            <div className="absolute inset-0 bg-black bg-opacity-30 flex justify-center items-center">
-              <h2 className="text-white text-2xl font-bold text-center">
+            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex justify-center items-end p-6">
+              <h2
+                className={`${imperial_script.className} text-white text-3xl sm:text-4xl md:text-5xl font-semibold text-center`}
+              >
                 {item.title}
               </h2>
             </div>

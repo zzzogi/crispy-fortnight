@@ -128,13 +128,13 @@ export default function ProductSection() {
               </button>
             </div>
             <div className="flex justify-center">
-              <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-full bg-white shadow-xl overflow-hidden">
+              <div className="relative w-64 h-64 md:w-80 md:h-80 rounded-xl bg-white shadow-xl overflow-hidden">
                 <Image
-                  src="/api/placeholder/500/500"
+                  src="/images/logo-quote.jpg"
                   alt="Sản phẩm Kim Vĩnh Vương"
                   layout="fill"
                   objectFit="cover"
-                  className="object-center"
+                  className="object-scale-down hover:scale-105 transition-transform duration-500"
                 />
               </div>
             </div>

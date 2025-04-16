@@ -37,7 +37,7 @@ const fetchGifts = async ({ queryKey }: { queryKey: any[] }) => {
   const offset = (page - 1) * limit;
 
   const response = await fetch(
-    `http://localhost:3000/api/gifts?limit=${limit}&offset=${offset}&search=${
+    `http://localhost:3000/api/products?type=GIFT&limit=${limit}&offset=${offset}&search=${
       search || ""
     }&${priceOrder || ""}`
   );
@@ -409,11 +409,15 @@ export default function Gifts() {
         </div>
 
         {/* Gifts */}
-        {data?.gifts && data.gifts.length > 0 ? (
+        {data?.products && data.products.length > 0 ? (
           <>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-12">
-              {data.gifts.map((gift: Gift) => (
-                <Link href={`/gift/${gift.id}`} key={gift.id} className="block">
+              {data.products.map((gift: Gift) => (
+                <Link
+                  href={`/gifts/${gift.id}`}
+                  key={gift.id}
+                  className="block"
+                >
                   <GiftCard gift={gift} />
                 </Link>
               ))}
@@ -467,12 +471,6 @@ export default function Gifts() {
                 </div>
               </div>
             )}
-
-            <div className="text-center">
-              <p className="text-amber-800">
-                Hiển thị {data.gifts.length} trên tổng số {data.total} quà tặng
-              </p>
-            </div>
           </>
         ) : (
           <div className="text-center py-16 bg-amber-50 rounded-lg">

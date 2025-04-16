@@ -17,6 +17,8 @@ import {
 } from "lucide-react";
 import ProductsManagement from "./components/ProductManagement";
 import GiftsManagement from "./components/GiftManagement";
+import OrderManagement from "./components/OrderManagement";
+import ContactManagement from "./components/ContactManagement";
 
 interface SidebarItem {
   id: string;
@@ -43,62 +45,48 @@ export default function AdminPanel() {
       icon: <Gift className="h-5 w-5" />,
       content: <GiftsManagement />,
     },
-    {
-      id: "users",
-      title: "Quản lí người dùng",
-      icon: <Users className="h-5 w-5" />,
-      content: (
-        <div className="p-6">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            Quản lí người dùng
-          </h2>
-          <p className="text-gray-700">
-            Nội dung quản lí người dùng sẽ xuất hiện ở đây.
-          </p>
-        </div>
-      ),
-    },
-    {
-      id: "categories",
-      title: "Quản lí danh mục",
-      icon: <Package2Icon className="h-5 w-5" />,
-      content: (
-        <div className="p-6">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            Quản lí danh mục
-          </h2>
-          <p className="text-gray-700">
-            Nội dung quản lí danh mục sẽ xuất hiện ở đây.
-          </p>
-        </div>
-      ),
-    },
+    // {
+    //   id: "users",
+    //   title: "Quản lí người dùng",
+    //   icon: <Users className="h-5 w-5" />,
+    //   content: (
+    //     <div className="p-6">
+    //       <h2 className="text-2xl font-bold mb-4 text-gray-800">
+    //         Quản lí người dùng
+    //       </h2>
+    //       <p className="text-gray-700">
+    //         Nội dung quản lí người dùng sẽ xuất hiện ở đây.
+    //       </p>
+    //     </div>
+    //   ),
+    // },
+    // {
+    //   id: "categories",
+    //   title: "Quản lí danh mục",
+    //   icon: <Package2Icon className="h-5 w-5" />,
+    //   content: (
+    //     <div className="p-6">
+    //       <h2 className="text-2xl font-bold mb-4 text-gray-800">
+    //         Quản lí danh mục
+    //       </h2>
+    //       <p className="text-gray-700">
+    //         Nội dung quản lí danh mục sẽ xuất hiện ở đây.
+    //       </p>
+    //     </div>
+    //   ),
+    // },
     {
       id: "orders",
       title: "Quản lí đơn hàng",
       icon: <FileCheck className="h-5 w-5" />,
-      content: (
-        <div className="p-6">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">
-            Quản lí đơn hàng
-          </h2>
-          <p className="text-gray-700">
-            Nội dung quản lí đơn hàng sẽ xuất hiện ở đây.
-          </p>
-        </div>
-      ),
+      content: <OrderManagement />,
     },
 
     {
       id: "messages",
       title: "Tin nhắn",
       icon: <MessageSquare className="h-5 w-5" />,
-      content: (
-        <div className="p-6">
-          <h2 className="text-2xl font-bold mb-4 text-gray-800">Tin nhắn</h2>
-          <p className="text-gray-700">Nội dung tin nhắn sẽ xuất hiện ở đây.</p>
-        </div>
-      ),
+      content: <ContactManagement />,
     },
   ];
 
