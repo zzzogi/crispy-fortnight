@@ -1,15 +1,13 @@
 "use client";
-import { useEffect, use } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useCart } from "@/app/context/CartContext";
+import Link from "next/link";
+import { use } from "react";
 
 const ThankYouPage = ({
   params,
 }: {
   params: Promise<{ orderCode: string }>;
 }) => {
-  const router = useRouter();
   const { totalItems, totalPrice } = useCart();
 
   // Optional: Extract order information from URL parameters

@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import Image from "next/image";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import {
   FaHandshake,
@@ -8,10 +10,22 @@ import {
   FaMedal,
   FaStar,
 } from "react-icons/fa";
-import { IoMdCheckmarkCircleOutline } from "react-icons/io";
+import { IoMdCheckmarkCircleOutline, IoMdClose } from "react-icons/io";
 
 export default function About() {
   const router = useRouter();
+
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const openModal = (imageSrc: any) => {
+    setSelectedImage(imageSrc);
+    document.body.style.overflow = "hidden"; // Prevent scrolling when modal is open
+  };
+
+  const closeModal = () => {
+    setSelectedImage(null);
+    document.body.style.overflow = "auto"; // Restore scrolling
+  };
 
   return (
     <div className="bg-white">
@@ -34,7 +48,7 @@ export default function About() {
           </h1>
           <div className="w-24 h-1 bg-amber-400 mb-6"></div>
           <p className="text-xl text-amber-100 max-w-2xl">
-            Gìn giữ hương vị truyền thống – Chè lam và đặc sản dân gian Việt
+            Gìn giữ hương vị truyền thống &#45; Chè lam và đặc sản dân gian Việt
           </p>
         </div>
       </div>
@@ -161,71 +175,132 @@ export default function About() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-            <div className="relative h-64 mb-6 rounded overflow-hidden">
-              <Image
-                src="/about/test-result-2.jpg"
-                alt="Giấy xét nghiệm dưỡng chất"
-                layout="fill"
-                objectFit="cover"
-                className="w-full h-full"
-              />
-            </div>
-            <h3 className="text-xl font-semibold text-amber-900 mb-2">
-              Kết quả xét nghiệm dưỡng chất
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Hàm lượng dưỡng chất ổn định, nhà nhà đều có thể thưởng thức
+        <div className="container mx-auto py-16 px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-amber-900 mb-4">
+              Chứng Nhận Chất Lượng
+            </h2>
+            <div className="w-24 h-1 bg-amber-500 mx-auto mb-6"></div>
+            <p
+              className="text-gray-700 max-w-2xl mx-auto"
+              style={{
+                whiteSpace: "pre-line",
+              }}
+            >
+              Kim Vĩnh Vương tự hào đạt được các chứng nhận uy tín từ cơ quan có
+              thẩm quyền, {"\n"}khẳng định cam kết vệ sinh an toàn thực phẩm
             </p>
-            <div className="flex items-center text-amber-700">
-              <IoMdCheckmarkCircleOutline className="mr-2" /> Năm 2021
-            </div>
           </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-            <div className="relative h-64 mb-6 rounded overflow-hidden">
-              <Image
-                src="/about/test-result-3.jpg"
-                alt="Giấy xét nghiệm dưỡng chất"
-                layout="fill"
-                objectFit="cover"
-                className="w-full h-full"
-              />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300"
+              onClick={() => openModal("/about/test-result-1.jpg")}
+            >
+              <div className="relative h-64 mb-6 rounded overflow-hidden">
+                <Image
+                  src="/about/test-result-2.jpg"
+                  alt="Giấy xét nghiệm dưỡng chất"
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full"
+                />
+              </div>
+              <h3 className="text-xl font-semibold text-amber-900 mb-2">
+                Kết quả xét nghiệm dưỡng chất
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Hàm lượng dưỡng chất ổn định, nhà nhà đều có thể thưởng thức
+              </p>
+              <div className="flex items-center text-amber-700">
+                <IoMdCheckmarkCircleOutline className="mr-2" /> Năm 2021
+              </div>
             </div>
-            <h3 className="text-xl font-semibold text-amber-900 mb-2">
-              Kết quả xét nghiệm ô nhiễm sinh học
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Đạt tiêu chuẩn vệ sinh an toàn thực phẩm theo quy định của Bộ Y Tế
-              Bắc Giang
-            </p>
-            <div className="flex items-center text-amber-700">
-              <IoMdCheckmarkCircleOutline className="mr-2" /> Năm 2021
-            </div>
-          </div>
 
-          <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
-            <div className="relative h-64 mb-6 rounded overflow-hidden">
-              <Image
-                src="/about/vietgap.jpg"
-                alt="Chứng nhận tiểu chuẩn VIETGAP"
-                layout="fill"
-                objectFit="cover"
-                className="w-full h-full"
-              />
+            <div
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300"
+              onClick={() => openModal("/about/test-result-3.jpg")}
+            >
+              <div className="relative h-64 mb-6 rounded overflow-hidden">
+                <Image
+                  src="/about/test-result-3.jpg"
+                  alt="Giấy xét nghiệm dưỡng chất"
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full"
+                />
+              </div>
+              <h3 className="text-xl font-semibold text-amber-900 mb-2">
+                Kết quả xét nghiệm ô nhiễm sinh học
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Đạt tiêu chuẩn vệ sinh an toàn thực phẩm theo quy định của Bộ Y
+                Tế Bắc Giang
+              </p>
+              <div className="flex items-center text-amber-700">
+                <IoMdCheckmarkCircleOutline className="mr-2" /> Năm 2021
+              </div>
             </div>
-            <h3 className="text-xl font-semibold text-amber-900 mb-2">
-              Chứng Nhận ĐẠT TIÊU CHUẨN VIETGAP
-            </h3>
-            <p className="text-gray-600 mb-4">
-              Sản phẩm đạt tiêu chuẩn VietGAP trong sản xuất nông nghiệp
-            </p>
-            <div className="flex items-center text-amber-700">
-              <IoMdCheckmarkCircleOutline className="mr-2" /> Cấp năm 2023
+
+            <div
+              className="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300"
+              onClick={() => openModal("/about/vietgap.jpg")}
+            >
+              <div className="relative h-64 mb-6 rounded overflow-hidden">
+                <Image
+                  src="/about/vietgap.jpg"
+                  alt="Chứng nhận tiểu chuẩn VIETGAP"
+                  layout="fill"
+                  objectFit="cover"
+                  className="w-full h-full"
+                />
+              </div>
+              <h3 className="text-xl font-semibold text-amber-900 mb-2">
+                Chứng Nhận ĐẠT TIÊU CHUẨN VIETGAP
+              </h3>
+              <p className="text-gray-600 mb-4">
+                Sản phẩm đạt tiêu chuẩn VietGAP trong sản xuất nông nghiệp
+              </p>
+              <div className="flex items-center text-amber-700">
+                <IoMdCheckmarkCircleOutline className="mr-2" /> Cấp năm 2023
+              </div>
             </div>
           </div>
         </div>
+
+        {/* Modal */}
+        {selectedImage && (
+          <div
+            className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50 p-4"
+            onClick={closeModal}
+          >
+            <div
+              className="relative max-w-4xl w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                type="button"
+                className="absolute top-4 right-4 text-white bg-amber-700 rounded-full p-2 hover:bg-amber-800 transition z-10"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  closeModal();
+                }}
+                aria-label="Close"
+              >
+                <IoMdClose size={24} />
+              </button>
+              <div className="relative w-full h-screen max-h-[80vh]">
+                <Image
+                  src={selectedImage}
+                  alt="Enlarged certificate"
+                  layout="fill"
+                  objectFit="contain"
+                  className="rounded"
+                />
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {/* Gallery Sản phẩm - PHẦN MỚI */}
@@ -247,7 +322,7 @@ export default function About() {
               <div className="relative h-60">
                 <Image
                   src="/about/item-1.jpg"
-                  alt="Chè Lam Truyền Thống"
+                  alt="Chè lam truyền thống"
                   layout="fill"
                   objectFit="cover"
                   className="w-full h-full"
@@ -268,7 +343,7 @@ export default function About() {
               <div className="relative h-60">
                 <Image
                   src="/about/item-2.jpg"
-                  alt="Chè Lam Lạc"
+                  alt="Chè lam lạc"
                   layout="fill"
                   objectFit="cover"
                   className="w-full h-full"
@@ -289,7 +364,7 @@ export default function About() {
               <div className="relative h-60">
                 <Image
                   src="/about/item-3.jpg"
-                  alt="chè lam & trà"
+                  alt="Chè lam & trà"
                   layout="fill"
                   objectFit="cover"
                   className="w-full h-full"
@@ -310,7 +385,7 @@ export default function About() {
               <div className="relative h-60">
                 <Image
                   src="/about/item-4.jpg"
-                  alt="Mứt Gừng"
+                  alt="Túi quà sang trọng"
                   layout="fill"
                   objectFit="cover"
                   className="w-full h-full"
@@ -353,13 +428,16 @@ export default function About() {
             </p>
             <p className="text-gray-700 leading-relaxed">
               Chúng tôi tự hào là lựa chọn của hàng ngàn khách hàng bởi sự chỉn
-              chu trong từng sản phẩm – mang đậm tình quê và chất lượng đảm bảo.
+              chu trong từng sản phẩm &#45; mang đậm tình quê và chất lượng đảm
+              bảo.
             </p>
             <div className="mt-8">
               <blockquote className="italic text-amber-800 border-l-4 border-amber-500 pl-4 py-2">
                 &quot;Kim Vĩnh Vương không chỉ là một thương hiệu, mà còn là nơi
                 lưu giữ và lan tỏa tinh hoa ẩm thực Việt.&quot;
-                <footer className="text-gray-600 mt-2">— Người sáng lập</footer>
+                <footer className="text-gray-600 mt-2">
+                  &#45; Người sáng lập
+                </footer>
               </blockquote>
             </div>
           </div>
