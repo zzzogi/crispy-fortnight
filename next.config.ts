@@ -5,9 +5,6 @@ const nextConfig: NextConfig = {
   images: {
     domains: ["kim-vinh-vuong.s3.ap-southeast-2.amazonaws.com"],
   },
-  eslint: {
-    ignoreDuringBuilds: false,
-  },
 };
 
 export default nextConfig;

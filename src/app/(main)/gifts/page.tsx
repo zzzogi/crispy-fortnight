@@ -32,9 +32,7 @@ const fetchGifts = async ({ queryKey }: { queryKey: any[] }) => {
   const offset = (page - 1) * limit;
 
   const response = await fetch(
-    `${
-      process.env.NEXT_PUBLIC_APP_URL
-    }/api/products?type=GIFT&limit=${limit}&offset=${offset}&search=${
+    `/api/products?type=GIFT&limit=${limit}&offset=${offset}&search=${
       search || ""
     }&${priceOrder || ""}`
   );
