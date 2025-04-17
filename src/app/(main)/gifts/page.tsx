@@ -27,11 +27,13 @@ interface Gift {
 }
 
 const fetchGifts = async ({ queryKey }: { queryKey: any[] }) => {
-  const [search, priceOrder, page, limit] = queryKey;
+  const [_, search, priceOrder, page, limit] = queryKey;
   const offset = (page - 1) * limit;
 
   const response = await fetch(
-    `http://localhost:3000/api/products?type=GIFT&limit=${limit}&offset=${offset}&search=${
+    `${
+      process.env.NEXT_PUBLIC_APP_URL
+    }/api/products?type=GIFT&limit=${limit}&offset=${offset}&search=${
       search || ""
     }&${priceOrder || ""}`
   );

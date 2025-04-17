@@ -15,6 +15,8 @@ export default function Footer() {
                 src="/icons/kim-vinh-vuong-icon.png"
                 alt="Logo"
                 className="w-20 h-16 mb-2"
+                width={80}
+                height={64}
               />
               <div>
                 <h2 className="text-3xl font-bold text-amber-100">

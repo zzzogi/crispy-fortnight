@@ -73,7 +73,9 @@ export default function Header() {
             <Image
               src="/icons/kim-vinh-vuong-icon.png"
               alt="Logo"
-              className="h-12 w-14 "
+              className="h-12 w-14"
+              width={56}
+              height={48}
             />
 
             <div className="flex flex-col">

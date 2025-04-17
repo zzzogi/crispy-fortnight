@@ -66,7 +66,7 @@ const ProductsManagement: React.FC = () => {
     const [page, limit, search] = queryKey;
     const offset = (page - 1) * limit;
     const response = await fetch(
-      `http://localhost:3000/api/products?type=RETAIL&limit=${limit}&offset=${offset}&search=${search}`
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/products?type=RETAIL&limit=${limit}&offset=${offset}&search=${search}`
     );
     if (!response.ok) throw new Error("Network response was not ok");
     return response.json();
@@ -92,7 +92,7 @@ const ProductsManagement: React.FC = () => {
       });
 
       const response = await fetch(
-        "http://localhost:3000/api/products/upload",
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/products/upload`,
         {
           method: "POST",
           body: formData,
@@ -113,11 +113,14 @@ const ProductsManagement: React.FC = () => {
 
   const addProductMutation = useMutation({
     mutationFn: async (product: Omit<Product, "id">) => {
-      const response = await fetch("http://localhost:3000/api/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(product),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/products`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(product),
+        }
+      );
       if (!response.ok) throw new Error("Error adding product");
       return response.json();
     },
@@ -150,11 +153,14 @@ const ProductsManagement: React.FC = () => {
 
   const updateProductMutation = useMutation({
     mutationFn: async (product: Product) => {
-      const response = await fetch("http://localhost:3000/api/products", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(product),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/products`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(product),
+        }
+      );
       if (!response.ok) throw new Error("Error updating product");
       return response.json();
     },
@@ -187,18 +193,21 @@ const ProductsManagement: React.FC = () => {
     mutationFn: async (obj: { id: string; name: string }) => {
       // First delete S3 images
       await fetch(
-        `http://localhost:3000/api/products/upload?productName=${obj.name}`,
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/products/upload?productName=${obj.name}`,
         {
           method: "DELETE",
         }
       );
 
       // Then delete the product from database
-      const response = await fetch("http://localhost:3000/api/products", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: obj.id }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/products`,
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: obj.id }),
+        }
+      );
 
       if (!response.ok) throw new Error("Error deleting product");
       return response.json();

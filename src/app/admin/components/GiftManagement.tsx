@@ -66,7 +66,7 @@ const GiftsManagement: React.FC = () => {
     const [page, limit, search] = queryKey;
     const offset = (page - 1) * limit;
     const response = await fetch(
-      `http://localhost:3000/api/products?type=GIFT&limit=${limit}&offset=${offset}&search=${search}`
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/products?type=GIFT&limit=${limit}&offset=${offset}&search=${search}`
     );
     if (!response.ok) throw new Error("Network response was not ok");
 
@@ -93,7 +93,7 @@ const GiftsManagement: React.FC = () => {
       });
 
       const response = await fetch(
-        "http://localhost:3000/api/products/upload",
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/products/upload`,
         {
           method: "POST",
           body: formData,
@@ -114,11 +114,14 @@ const GiftsManagement: React.FC = () => {
 
   const addGiftMutation = useMutation({
     mutationFn: async (gift: Omit<Gift, "id">) => {
-      const response = await fetch("http://localhost:3000/api/products", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(gift),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/products`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(gift),
+        }
+      );
       if (!response.ok) throw new Error("Error adding gift");
       return response.json();
     },
@@ -151,11 +154,14 @@ const GiftsManagement: React.FC = () => {
 
   const updateGiftMutation = useMutation({
     mutationFn: async (gift: Gift) => {
-      const response = await fetch("http://localhost:3000/api/products", {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(gift),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/products`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(gift),
+        }
+      );
       if (!response.ok) throw new Error("Error updating gift");
       return response.json();
     },
@@ -188,18 +194,21 @@ const GiftsManagement: React.FC = () => {
     mutationFn: async (obj: { id: string; name: string }) => {
       // First delete S3 images
       await fetch(
-        `http://localhost:3000/api/products/upload?productName=${obj.name}`,
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/products/upload?productName=${obj.name}`,
         {
           method: "DELETE",
         }
       );
 
       // Then delete the gift from database
-      const response = await fetch("http://localhost:3000/api/products", {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: obj.id }),
-      });
+      const response = await fetch(
+        "${process.env.NEXT_PUBLIC_APP_URL}/api/products",
+        {
+          method: "DELETE",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ id: obj.id }),
+        }
+      );
 
       if (!response.ok) throw new Error("Error deleting gift");
       return response.json();

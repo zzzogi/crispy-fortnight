@@ -49,6 +49,8 @@ export default function ImageSlider() {
               src={item.src}
               alt={item.title}
               className="w-full h-[400px] object-cover"
+              width={1920}
+              height={400}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex justify-center items-end p-6">
               <h2
