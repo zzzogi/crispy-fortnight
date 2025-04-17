@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
 import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -6,6 +7,7 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { Imperial_Script } from "next/font/google";
+import Image from "next/image";
 
 const imperial_script = Imperial_Script({
   subsets: ["vietnamese"],
@@ -43,7 +45,7 @@ export default function ImageSlider() {
       >
         {images.map((item, index) => (
           <SwiperSlide key={index} className="relative">
-            <img
+            <Image
               src={item.src}
               alt={item.title}
               className="w-full h-[400px] object-cover"

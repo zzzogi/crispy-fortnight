@@ -6,6 +6,7 @@ import {
   useState,
   useEffect,
   ReactNode,
+  useCallback,
 } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import axios from "axios";
@@ -50,15 +51,8 @@ export function AdminProvider({
   const router = useRouter();
   const pathname = usePathname();
 
-  // Fetch user data on mount if not provided
-  useEffect(() => {
-    if (!initialUser) {
-      refreshUserData();
-    }
-  }, [initialUser]);
-
   // Function to refresh user data from server
-  const refreshUserData = async () => {
+  const refreshUserData = useCallback(async () => {
     try {
       if (pathname === "/admin/login") return; // Don't fetch user data on login page
 
@@ -77,7 +71,14 @@ export function AdminProvider({
     } finally {
       setIsLoading(false);
     }
-  };
+  }, [pathname, router]);
+
+  // Fetch user data on mount if not provided
+  useEffect(() => {
+    if (!initialUser) {
+      refreshUserData();
+    }
+  }, [refreshUserData, initialUser]);
 
   // Logout function
   const logout = async () => {

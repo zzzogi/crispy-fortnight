@@ -1,3 +1,4 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { NextResponse } from "next/server";
 import { prisma } from "../../../libs/prisma";
 import bcrypt from "bcryptjs";

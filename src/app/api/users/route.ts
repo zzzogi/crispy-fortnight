@@ -1,11 +1,10 @@
-// File: app/api/users/route.js
-// This file handles GET (all users) and POST requests
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 import { NextResponse, NextRequest } from "next/server";
 import { prisma } from "../../libs/prisma";
 import bcrypt from "bcryptjs";
 
 // GET all users
-export async function GET(res: NextResponse) {
+export async function GET() {
   try {
     const users = await prisma.user.findMany({
       select: {

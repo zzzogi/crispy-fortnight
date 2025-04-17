@@ -1,13 +1,8 @@
 "use client";
-import { useState, useEffect } from "react";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaShoppingCart,
-  FaArrowUp,
-} from "react-icons/fa";
-import Header from "./Header";
+import { useEffect, useState } from "react";
+import { FaArrowUp } from "react-icons/fa";
 import Footer from "./Footer";
+import Header from "./Header";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [showScrollButton, setShowScrollButton] = useState(false);

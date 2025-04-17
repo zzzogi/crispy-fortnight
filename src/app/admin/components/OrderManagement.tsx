@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import { useState } from "react";
+import Image from "next/image";
 
 // Types
 type OrderStatus = "pending" | "paid" | "shipping" | "done" | "cancel";
@@ -480,7 +481,7 @@ export default function OrdersPage() {
                           {item.product &&
                           item.product.imageUrl &&
                           item.product.imageUrl.length > 0 ? (
-                            <img
+                            <Image
                               src={item.product.imageUrl[0]}
                               alt={item.product.name}
                               className="h-full w-full object-cover"

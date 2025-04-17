@@ -1,14 +1,14 @@
 "use client";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
-  FaLeaf,
-  FaHistory,
-  FaMedal,
   FaHandshake,
+  FaHistory,
+  FaLeaf,
+  FaMedal,
   FaStar,
 } from "react-icons/fa";
 import { IoMdCheckmarkCircleOutline } from "react-icons/io";
-import { useRouter } from "next/navigation";
 
 export default function About() {
   const router = useRouter();
@@ -352,8 +352,8 @@ export default function About() {
             </p>
             <div className="mt-8">
               <blockquote className="italic text-amber-800 border-l-4 border-amber-500 pl-4 py-2">
-                "Kim Vĩnh Vương không chỉ là một thương hiệu, mà còn là nơi lưu
-                giữ và lan tỏa tinh hoa ẩm thực Việt."
+                &quot;Kim Vĩnh Vương không chỉ là một thương hiệu, mà còn là nơi
+                lưu giữ và lan tỏa tinh hoa ẩm thực Việt.&quot;
                 <footer className="text-gray-600 mt-2">— Người sáng lập</footer>
               </blockquote>
             </div>
@@ -394,9 +394,9 @@ export default function About() {
                 ))}
               </div>
               <p className="text-gray-700 italic mb-6">
-                "Bố mẹ chồng em rất kén đồ, thử bao loại chè lam nhưng Chè của
-                Bà vẫn được đánh giá số 1. Tết ko có túi chè lam của bà là thiếu
-                hương vị tết."
+                &quot;Bố mẹ chồng em rất kén đồ, thử bao loại chè lam nhưng Chè
+                của Bà vẫn được đánh giá số 1. Tết ko có túi chè lam của bà là
+                thiếu hương vị tết.&quot;
               </p>
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
@@ -423,8 +423,8 @@ export default function About() {
                 ))}
               </div>
               <p className="text-gray-700 italic mb-6">
-                "Chưa thấy hương vị chè lam nào ngon như vậy, mặc dù mình đã ăn
-                thử khá nhiều loại ở các nơi. Tuyệt vời!!! "
+                &quot;Chưa thấy hương vị chè lam nào ngon như vậy, mặc dù mình
+                đã ăn thử khá nhiều loại ở các nơi. Tuyệt vời!!!&quot;
               </p>
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
@@ -453,8 +453,8 @@ export default function About() {
                 ))}
               </div>
               <p className="text-gray-700 italic mb-6">
-                "Đã ăn rất nhiều loại chè lam nhưng chưa nơi nào ngon như chè
-                lam của Bà 😋"
+                &quot;Đã ăn rất nhiều loại chè lam nhưng chưa nơi nào ngon như
+                chè lam của Bà 😋&quot;
               </p>
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded-full overflow-hidden mr-4">

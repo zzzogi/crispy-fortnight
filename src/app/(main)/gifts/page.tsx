@@ -1,16 +1,17 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
+
 import { useQuery } from "@tanstack/react-query";
-import { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import {
-  FiGift,
-  FiSearch,
-  FiChevronDown,
-  FiFilter,
   FiArrowLeft,
   FiArrowRight,
-  FiHeart,
+  FiChevronDown,
+  FiFilter,
+  FiGift,
+  FiSearch,
   FiShoppingBag,
 } from "react-icons/fi";
 
@@ -25,15 +26,8 @@ interface Gift {
   createdAt: string;
 }
 
-interface GiftsResponse {
-  gifts: Gift[];
-  total: number;
-  limit: number;
-  offset: number;
-}
-
 const fetchGifts = async ({ queryKey }: { queryKey: any[] }) => {
-  const [_, search, priceOrder, page, limit] = queryKey;
+  const [search, priceOrder, page, limit] = queryKey;
   const offset = (page - 1) * limit;
 
   const response = await fetch(

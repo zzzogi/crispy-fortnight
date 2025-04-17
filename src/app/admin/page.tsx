@@ -1,5 +1,6 @@
 "use client";
 
+import { useAdminContext } from "@/app/context/AdminContext";
 import {
   ChevronDown,
   FileCheck,
@@ -21,7 +22,6 @@ import LogoutButton from "./components/LogoutButton";
 import OrderManagement from "./components/OrderManagement";
 import ProductsManagement from "./components/ProductManagement";
 import UserManagement from "./components/UserManagement";
-import { useAdminContext } from "@/app/context/AdminContext";
 
 interface SidebarItem {
   id: string;
@@ -34,13 +34,13 @@ export default function AdminPanel() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState("products");
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const { user, logout, isLoading } = useAdminContext();
+  const { user, isLoading } = useAdminContext();
 
   if (isLoading || !user) {
     return null; // Don't render navbar while loading or if user not authenticated
   }
 
-  let username = user.name || user.email || "Admin";
+  const username = user.name || user.email || "Admin";
 
   const sidebarItems: SidebarItem[] = [
     {

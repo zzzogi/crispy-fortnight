@@ -2,7 +2,7 @@ import { payOS } from "@/app/libs/payos";
 import { NextResponse, NextRequest } from "next/server";
 import { CheckoutRequestType } from "@payos/node/lib/type";
 
-export async function POST(req: NextRequest, res: NextResponse) {
+export async function POST(req: NextRequest) {
   const body = await req.json();
   const { orderCode, amount, description, items, returnUrl, cancelUrl } = body;
 

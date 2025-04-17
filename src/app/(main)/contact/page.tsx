@@ -1,15 +1,13 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
+
 import Link from "next/link";
-// Trang liên hệ với bản đồ và form
-import React, { useState } from "react";
+import { useState } from "react";
 import {
-  FaPhoneAlt,
   FaEnvelope,
-  FaMapMarkerAlt,
-  FaClock,
   FaFacebookF,
-  FaInstagram,
-  FaYoutube,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
 } from "react-icons/fa";
 
 export default function ContactPage() {

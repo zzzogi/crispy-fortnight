@@ -1,14 +1,16 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
+
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 import {
-  FiSearch,
-  FiChevronDown,
-  FiFilter,
   FiArrowLeft,
   FiArrowRight,
+  FiChevronDown,
+  FiFilter,
+  FiSearch,
 } from "react-icons/fi";
 
 interface Product {
@@ -22,15 +24,8 @@ interface Product {
   createdAt: string;
 }
 
-interface ProductsResponse {
-  products: Product[];
-  total: number;
-  limit: number;
-  offset: number;
-}
-
 const fetchProducts = async ({ queryKey }: { queryKey: any[] }) => {
-  const [_, search, priceOrder, page, limit] = queryKey;
+  const [search, priceOrder, page, limit] = queryKey;
   const offset = (page - 1) * limit;
 
   const response = await fetch(

@@ -84,7 +84,7 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     return () => {
       isMounted.current = false;
     };
-  }, []);
+  }, [items]);
 
   // Save cart to localStorage and update totals whenever items change
   useEffect(() => {

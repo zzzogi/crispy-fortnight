@@ -1,6 +1,8 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Loader, Plus, Search, Trash2, Upload, X } from "lucide-react";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 interface Product {
@@ -61,7 +63,7 @@ const ProductsManagement: React.FC = () => {
 
   // API Calls with @tanstack/react-query
   const fetchProducts = async ({ queryKey }: any) => {
-    const [_, page, limit, search] = queryKey;
+    const [page, limit, search] = queryKey;
     const offset = (page - 1) * limit;
     const response = await fetch(
       `http://localhost:3000/api/products?type=RETAIL&limit=${limit}&offset=${offset}&search=${search}`
@@ -85,7 +87,7 @@ const ProductsManagement: React.FC = () => {
       const formData = new FormData();
       formData.append("productName", productName);
 
-      uploadedImages.forEach((image, _) => {
+      uploadedImages.forEach((image) => {
         formData.append(`images`, image.file);
       });
 
@@ -184,7 +186,7 @@ const ProductsManagement: React.FC = () => {
   const deleteProductMutation = useMutation({
     mutationFn: async (obj: { id: string; name: string }) => {
       // First delete S3 images
-      const imageDeleteResponse = await fetch(
+      await fetch(
         `http://localhost:3000/api/products/upload?productName=${obj.name}`,
         {
           method: "DELETE",
@@ -371,7 +373,7 @@ const ProductsManagement: React.FC = () => {
                 onClick={() => openDetailModal(product)}
               >
                 <div className="h-48 overflow-hidden">
-                  <img
+                  <Image
                     src={product.imageUrl[0] || "/images/placeholder.jpg"}
                     alt={product.name}
                     className="w-full h-full object-cover"
@@ -507,7 +509,7 @@ const ProductsManagement: React.FC = () => {
                     <div className="flex flex-wrap gap-4 mb-3">
                       {uploadedImages.map((image, index) => (
                         <div key={index} className="relative w-24 h-24">
-                          <img
+                          <Image
                             src={image.preview}
                             alt={`Preview ${index + 1}`}
                             className="w-full h-full object-cover rounded-md"
@@ -681,7 +683,7 @@ const ProductsManagement: React.FC = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <img
+                <Image
                   src={currentProduct.imageUrl[0] || "/images/placeholder.jpg"}
                   alt={currentProduct.name}
                   className="w-full h-auto object-cover rounded-lg"

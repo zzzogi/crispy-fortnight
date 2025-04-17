@@ -34,7 +34,8 @@ export default async function RootLayout({
         role: payload.role as string,
       };
     } catch (error) {
-      // Invalid token, initialUser remains null
+      console.error("JWT verification failed:", error);
+      initialUser = null; // Set to null if verification fails
     }
   }
   return (

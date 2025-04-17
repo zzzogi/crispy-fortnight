@@ -69,7 +69,7 @@ export default function UserFormModal({
 
     // If updating and password is empty, omit it from the submission
     if (user && !formData.password) {
-      const { password, ...dataWithoutPassword } = formData;
+      const { ...dataWithoutPassword } = formData;
       onSubmit(dataWithoutPassword);
     } else {
       onSubmit(formData);

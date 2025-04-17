@@ -1,13 +1,12 @@
+/* eslint-disable  @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
-import { Lock, Mail, AlertCircle } from "lucide-react";
 import axios from "axios";
+import { AlertCircle, Lock, Mail } from "lucide-react";
+import { useState } from "react";
 
 export default function LoginPage() {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,7 +16,7 @@ export default function LoginPage() {
       const response = await axios.post("/api/auth/login", credentials);
       return response.data;
     },
-    onSuccess: (data) => {
+    onSuccess: () => {
       // Redirect to admin dashboard after successful login
       window.location.href = "/admin";
     },

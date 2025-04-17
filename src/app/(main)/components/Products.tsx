@@ -3,10 +3,58 @@
 import Image from "next/image";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+
+// Define the Product type based on your Prisma schema
+interface Product {
+  id: string;
+  name: string;
+  price: number;
+  available: boolean;
+  description: string;
+  imageUrl: string[];
+  category: string;
+  createdAt: string;
+  type: string;
+}
+
+// Interface for the API response
+interface ProductsResponse {
+  products: Product[];
+  total: number;
+  limit?: number;
+  offset?: number;
+}
 
 export default function ProductSection() {
   const [activeTab, setActiveTab] = useState("products");
   const router = useRouter();
+
+  // Fetch retail products (regular products)
+  const { data: retailProducts, isLoading: isLoadingRetail } =
+    useQuery<ProductsResponse>({
+      queryKey: ["products", "RETAIL"],
+      queryFn: async () => {
+        const response = await fetch("/api/products?type=RETAIL&limit=4");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      },
+    });
+
+  // Fetch gift products (gift sets)
+  const { data: giftProducts, isLoading: isLoadingGifts } =
+    useQuery<ProductsResponse>({
+      queryKey: ["products", "GIFT"],
+      queryFn: async () => {
+        const response = await fetch("/api/products?type=GIFT&limit=3");
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      },
+    });
 
   const benefits = [
     {
@@ -60,54 +108,82 @@ export default function ProductSection() {
     },
   ];
 
-  const products = [
+  // Fallback data in case the API fails or is loading
+  const fallbackProducts = [
     {
+      id: "fallback1",
       name: "Chè lam truyền thống",
-      price: "85.000đ",
-      image: "/images/placeholder.jpg",
+      price: 85000,
+      imageUrl: "/images/placeholder.jpg",
     },
     {
+      id: "fallback2",
       name: "Chè lam trà xanh",
-      price: "90.000đ",
-      image: "/images/placeholder.jpg",
+      price: 90000,
+      imageUrl: "/images/placeholder.jpg",
     },
     {
+      id: "fallback3",
       name: "Chè lam sầu riêng",
-      price: "95.000đ",
-      image: "/images/placeholder.jpg",
+      price: 95000,
+      imageUrl: "/images/placeholder.jpg",
     },
     {
+      id: "fallback4",
       name: "Trà cổ thụ đặc biệt",
-      price: "120.000đ",
-      image: "/images/placeholder.jpg",
+      price: 120000,
+      imageUrl: "/images/placeholder.jpg",
     },
   ];
 
-  const giftSets = [
+  const fallbackGiftSets = [
     {
+      id: "gift1",
       name: "Set Quà Tặng Đoàn Viên",
-      price: "350.000đ",
-      image: "/images/placeholder.jpg",
+      price: 350000,
+      imageUrl: "/images/placeholder.jpg",
       description:
         "Hộp quà sang trọng với chè lam, trà sen và kẹo lạc truyền thống",
-      items: "1 hộp chè lam, 1 hộp trà sen, 1 gói kẹo lạc",
     },
     {
+      id: "gift2",
       name: "Set Quà Tặng Tâm Giao",
-      price: "450.000đ",
-      image: "/images/placeholder.jpg",
+      price: 450000,
+      imageUrl: "/images/placeholder.jpg",
       description: "Bộ quà tặng cao cấp với hộp gỗ thiết kế tinh tế",
-      items: "2 hộp chè lam, 1 hộp trà cổ thụ, 1 hộp ômai",
     },
     {
+      id: "gift3",
       name: "Set Quà Tặng Thịnh Vượng",
-      price: "650.000đ",
-      image: "/images/placeholder.jpg",
+      price: 650000,
+      imageUrl: "/images/placeholder.jpg",
       description: "Bộ sưu tập đặc biệt dành cho các dịp lễ trọng đại",
-      items:
-        "3 hộp chè lam, 2 hộp trà đặc biệt, 1 hộp hạt sen, 1 hộp kẹo lạc cao cấp",
     },
   ];
+
+  // Helper to format price from number to Vietnamese currency
+  const formatPrice = (price: number) => {
+    return new Intl.NumberFormat("vi-VN", {
+      style: "currency",
+      currency: "VND",
+      maximumFractionDigits: 0,
+    }).format(price);
+  };
+
+  // Products to display - use API data if available, otherwise use fallbacks
+  const productsToDisplay =
+    isLoadingRetail || !retailProducts?.products.length
+      ? fallbackProducts
+      : retailProducts.products;
+
+  const giftsToDisplay =
+    isLoadingGifts || !giftProducts?.products.length
+      ? fallbackGiftSets
+      : giftProducts.products.map((product) => ({
+          ...product,
+          description:
+            product.description || "Bộ quà tặng đặc biệt từ Kim Vĩnh Vương",
+        }));
 
   return (
     <div className="bg-gradient-to-b from-amber-50 to-white">
@@ -137,8 +213,7 @@ export default function ProductSection() {
                 <Image
                   src="/images/logo-quote.jpg"
                   alt="Sản phẩm Kim Vĩnh Vương"
-                  layout="fill"
-                  objectFit="cover"
+                  fill
                   className="object-scale-down hover:scale-105 transition-transform duration-500"
                 />
               </div>
@@ -205,19 +280,26 @@ export default function ProductSection() {
               </p>
             </div>
 
+            {/* Loading State */}
+            {isLoadingRetail && (
+              <div className="text-center py-4">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-amber-400 border-t-amber-700"></div>
+              </div>
+            )}
+
+            {/* Product Grid */}
             <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-              {products.map((product, index) => (
+              {productsToDisplay.map((product) => (
                 <div
-                  key={index}
+                  key={product.id}
                   className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 group"
                 >
                   <div className="relative h-48 overflow-hidden">
                     <Image
-                      src={product.image}
+                      src={product.imageUrl[0] || "/images/placeholder.jpg"}
                       alt={product.name}
-                      layout="fill"
-                      objectFit="cover"
-                      className="group-hover:scale-110 transition-transform duration-500"
+                      fill
+                      className="object-cover group-hover:scale-110 transition-transform duration-500"
                     />
                   </div>
                   <div className="p-4">
@@ -225,7 +307,7 @@ export default function ProductSection() {
                       {product.name}
                     </h3>
                     <p className="text-amber-600 font-semibold">
-                      {product.price}
+                      {formatPrice(product.price)}
                     </p>
                     <button className="mt-3 w-full bg-amber-50 hover:bg-amber-100 text-amber-700 font-medium py-2 rounded-lg transition duration-300">
                       Mua ngay
@@ -233,6 +315,14 @@ export default function ProductSection() {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="mt-8 text-center">
+              <button
+                className="bg-amber-100 hover:bg-amber-200 text-amber-700 font-medium py-2 px-6 rounded-lg transition duration-300"
+                onClick={() => router.push("/products")}
+              >
+                Xem tất cả sản phẩm
+              </button>
             </div>
           </div>
         )}
@@ -251,20 +341,26 @@ export default function ProductSection() {
               </p>
             </div>
 
+            {/* Loading State */}
+            {isLoadingGifts && (
+              <div className="text-center py-4">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-amber-400 border-t-amber-700"></div>
+              </div>
+            )}
+
             <div className="space-y-8">
-              {giftSets.map((giftSet, index) => (
+              {giftsToDisplay.map((giftSet) => (
                 <div
-                  key={index}
+                  key={giftSet.id}
                   className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition duration-300 border border-amber-100"
                 >
                   <div className="grid md:grid-cols-2 gap-6">
                     <div className="relative h-64 overflow-hidden">
                       <Image
-                        src={giftSet.image}
+                        src={giftSet.imageUrl[0] || "/images/placeholder.jpg"}
                         alt={giftSet.name}
-                        layout="fill"
-                        objectFit="cover"
-                        className="hover:scale-105 transition-transform duration-500"
+                        fill
+                        className="object-cover hover:scale-105 transition-transform duration-500"
                       />
                       <div className="absolute top-3 left-3 bg-amber-500 text-white px-3 py-1 rounded-full font-medium">
                         Hot
@@ -278,14 +374,10 @@ export default function ProductSection() {
                         <p className="text-amber-700 mb-4">
                           {giftSet.description}
                         </p>
-                        <div className="bg-amber-50 rounded-lg p-3 mb-4">
-                          <p className="text-amber-800 font-medium">Bao gồm:</p>
-                          <p className="text-amber-700">{giftSet.items}</p>
-                        </div>
                       </div>
                       <div className="flex items-center justify-between">
                         <div className="text-2xl font-bold text-amber-600">
-                          {giftSet.price}
+                          {formatPrice(giftSet.price)}
                         </div>
                         <button className="bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 flex items-center">
                           <svg
@@ -304,6 +396,14 @@ export default function ProductSection() {
                 </div>
               ))}
             </div>
+            <div className="mt-8 text-center">
+              <button
+                className="bg-amber-100 hover:bg-amber-200 text-amber-700 font-medium py-2 px-6 rounded-lg transition duration-300"
+                onClick={() => router.push("/gifts")}
+              >
+                Xem tất cả set quà tặng
+              </button>
+            </div>
           </div>
         )}
 
@@ -313,9 +413,9 @@ export default function ProductSection() {
             Sứ mệnh của Kim Vĩnh Vương
           </h2>
           <p className="text-lg mb-6 max-w-2xl mx-auto italic">
-            “Chúng tôi không chỉ bán chè lam hay kẹo lạc – chúng tôi gửi gắm cả
-            tâm huyết và niềm tự hào về văn hóa ẩm thực dân tộc. Mỗi sản phẩm là
-            một cam kết về chất lượng và sự chân thành.”
+            &quot;Chúng tôi không chỉ bán chè lam hay kẹo lạc &#45; chúng tôi
+            gửi gắm cả tâm huyết và niềm tự hào về văn hóa ẩm thực dân tộc. Mỗi
+            sản phẩm là một cam kết về chất lượng và sự chân thành.&quot;
           </p>
           <p className="text-sm text-amber-100 mb-8">
             — Người sáng lập Kim Vĩnh Vương

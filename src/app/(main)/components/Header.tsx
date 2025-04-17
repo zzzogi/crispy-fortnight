@@ -1,14 +1,9 @@
 "use client";
-import {
-  FaFacebookF,
-  FaShoppingCart,
-  FaPhone,
-  FaBars,
-  FaTimes,
-} from "react-icons/fa";
-import { useRouter, usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { FaBars, FaFacebookF, FaPhone, FaTimes } from "react-icons/fa";
 import CartDropdown from "./CartDropdown";
+import Image from "next/image";
 
 export default function Header() {
   const router = useRouter();
@@ -75,7 +70,7 @@ export default function Header() {
             className="flex items-center space-x-2 cursor-pointer"
             onClick={() => handleNavigation("/")}
           >
-            <img
+            <Image
               src="/icons/kim-vinh-vuong-icon.png"
               alt="Logo"
               className="h-12 w-14 "

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { FaFacebookF, FaMapMarkerAlt } from "react-icons/fa";
 
@@ -10,7 +11,7 @@ export default function Footer() {
           {/* Phần thông tin thương hiệu */}
           <div className="space-y-4">
             <div className="flex items-center space-x-4">
-              <img
+              <Image
                 src="/icons/kim-vinh-vuong-icon.png"
                 alt="Logo"
                 className="w-20 h-16 mb-2"
