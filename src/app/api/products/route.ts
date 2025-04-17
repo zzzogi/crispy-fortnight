@@ -37,7 +37,7 @@ export async function GET(request: Request) {
   return NextResponse.json(
     {
       products: products,
-      total: await prisma.product.count(),
+      total: products.length,
       limit: limit ? parseInt(limit as string) : undefined,
       offset: offset ? parseInt(offset as string) : undefined,
     },

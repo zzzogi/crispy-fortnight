@@ -9,29 +9,48 @@ export async function GET(request: NextRequest) {
   const search = searchParams.get("search") || undefined;
   const status = searchParams.get("status") || undefined;
 
-  const orders = await prisma.order.findMany({
+  // First get the total count for pagination
+  const totalCount = await prisma.order.count({
     where: {
-      buyerName: {
-        contains: search || undefined,
-        mode: "insensitive",
-      },
-      buyerAddress: {
-        contains: search || undefined,
-        mode: "insensitive",
-      },
-      buyerEmail: {
-        contains: search || undefined,
-        mode: "insensitive",
-      },
-      buyerPhone: {
-        contains: search || undefined,
-        mode: "insensitive",
-      },
+      OR: search
+        ? [
+            { buyerName: { contains: search, mode: "insensitive" } },
+            { buyerAddress: { contains: search, mode: "insensitive" } },
+            { buyerEmail: { contains: search, mode: "insensitive" } },
+            { buyerPhone: { contains: search, mode: "insensitive" } },
+          ]
+        : undefined,
       ...(status && {
         status: {
           equals: status,
         },
       }),
+    },
+  });
+
+  // Then get the orders with included items and products
+  const orders = await prisma.order.findMany({
+    where: {
+      OR: search
+        ? [
+            { buyerName: { contains: search, mode: "insensitive" } },
+            { buyerAddress: { contains: search, mode: "insensitive" } },
+            { buyerEmail: { contains: search, mode: "insensitive" } },
+            { buyerPhone: { contains: search, mode: "insensitive" } },
+          ]
+        : undefined,
+      ...(status && {
+        status: {
+          equals: status,
+        },
+      }),
+    },
+    include: {
+      items: {
+        include: {
+          product: true,
+        },
+      },
     },
     orderBy: {
       createdAt: "desc",
@@ -39,10 +58,11 @@ export async function GET(request: NextRequest) {
     take: limit ? parseInt(limit as string) : undefined,
     skip: offset ? parseInt(offset as string) : undefined,
   });
+
   return NextResponse.json(
     {
       orders: orders,
-      total: await prisma.order.count(),
+      total: totalCount,
       limit: limit ? parseInt(limit as string) : undefined,
       offset: offset ? parseInt(offset as string) : undefined,
     },

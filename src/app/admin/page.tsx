@@ -1,24 +1,27 @@
 "use client";
 
-// pages/admin/index.tsx
-import { useState } from "react";
-import Head from "next/head";
 import {
-  Menu,
-  X,
   ChevronDown,
-  Package,
-  Gift,
-  Users,
-  MessageSquare,
-  User,
-  Package2Icon,
   FileCheck,
+  Gift,
+  Menu,
+  MessageSquare,
+  Package,
+  Undo2,
+  User,
+  Users,
+  X,
 } from "lucide-react";
-import ProductsManagement from "./components/ProductManagement";
-import GiftsManagement from "./components/GiftManagement";
-import OrderManagement from "./components/OrderManagement";
+import Head from "next/head";
+import { redirect } from "next/navigation";
+import { useState } from "react";
 import ContactManagement from "./components/ContactManagement";
+import GiftsManagement from "./components/GiftManagement";
+import LogoutButton from "./components/LogoutButton";
+import OrderManagement from "./components/OrderManagement";
+import ProductsManagement from "./components/ProductManagement";
+import UserManagement from "./components/UserManagement";
+import { useAdminContext } from "@/app/context/AdminContext";
 
 interface SidebarItem {
   id: string;
@@ -31,6 +34,13 @@ export default function AdminPanel() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState("products");
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const { user, logout, isLoading } = useAdminContext();
+
+  if (isLoading || !user) {
+    return null; // Don't render navbar while loading or if user not authenticated
+  }
+
+  let username = user.name || user.email || "Admin";
 
   const sidebarItems: SidebarItem[] = [
     {
@@ -45,36 +55,12 @@ export default function AdminPanel() {
       icon: <Gift className="h-5 w-5" />,
       content: <GiftsManagement />,
     },
-    // {
-    //   id: "users",
-    //   title: "Quản lí người dùng",
-    //   icon: <Users className="h-5 w-5" />,
-    //   content: (
-    //     <div className="p-6">
-    //       <h2 className="text-2xl font-bold mb-4 text-gray-800">
-    //         Quản lí người dùng
-    //       </h2>
-    //       <p className="text-gray-700">
-    //         Nội dung quản lí người dùng sẽ xuất hiện ở đây.
-    //       </p>
-    //     </div>
-    //   ),
-    // },
-    // {
-    //   id: "categories",
-    //   title: "Quản lí danh mục",
-    //   icon: <Package2Icon className="h-5 w-5" />,
-    //   content: (
-    //     <div className="p-6">
-    //       <h2 className="text-2xl font-bold mb-4 text-gray-800">
-    //         Quản lí danh mục
-    //       </h2>
-    //       <p className="text-gray-700">
-    //         Nội dung quản lí danh mục sẽ xuất hiện ở đây.
-    //       </p>
-    //     </div>
-    //   ),
-    // },
+    {
+      id: "users",
+      title: "Quản lí người dùng",
+      icon: <Users className="h-5 w-5" />,
+      content: <UserManagement />,
+    },
     {
       id: "orders",
       title: "Quản lí đơn hàng",
@@ -93,7 +79,6 @@ export default function AdminPanel() {
   const activeContent = sidebarItems.find(
     (item) => item.id === activeTab
   )?.content;
-  const username = "Admin User";
 
   return (
     <>
@@ -171,24 +156,19 @@ export default function AdminPanel() {
               {isUserMenuOpen && (
                 <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border z-10">
                   <div className="py-1">
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    <button
+                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        redirect("/");
+                      }}
                     >
-                      Hồ sơ
-                    </a>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Cài đặt
-                    </a>
-                    <a
-                      href="#"
-                      className="block px-4 py-2 text-sm hover:bg-gray-100 text-red-600 font-medium"
-                    >
-                      Đăng xuất
-                    </a>
+                      <Undo2 className="h-4 w-4 mr-2" />
+                      <span>Trở về trang chủ</span>
+                    </button>
+                    <div className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <LogoutButton />
+                    </div>
                   </div>
                 </div>
               )}

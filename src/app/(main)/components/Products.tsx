@@ -1,10 +1,12 @@
 "use client";
-// Improved Product Section Component with Gift Sets
+
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ProductSection() {
   const [activeTab, setActiveTab] = useState("products");
+  const router = useRouter();
 
   const benefits = [
     {
@@ -62,22 +64,22 @@ export default function ProductSection() {
     {
       name: "Chè lam truyền thống",
       price: "85.000đ",
-      image: "/api/placeholder/300/300",
+      image: "/images/placeholder.jpg",
     },
     {
       name: "Chè lam trà xanh",
       price: "90.000đ",
-      image: "/api/placeholder/300/300",
+      image: "/images/placeholder.jpg",
     },
     {
       name: "Chè lam sầu riêng",
       price: "95.000đ",
-      image: "/api/placeholder/300/300",
+      image: "/images/placeholder.jpg",
     },
     {
       name: "Trà cổ thụ đặc biệt",
       price: "120.000đ",
-      image: "/api/placeholder/300/300",
+      image: "/images/placeholder.jpg",
     },
   ];
 
@@ -85,7 +87,7 @@ export default function ProductSection() {
     {
       name: "Set Quà Tặng Đoàn Viên",
       price: "350.000đ",
-      image: "/api/placeholder/500/300",
+      image: "/images/placeholder.jpg",
       description:
         "Hộp quà sang trọng với chè lam, trà sen và kẹo lạc truyền thống",
       items: "1 hộp chè lam, 1 hộp trà sen, 1 gói kẹo lạc",
@@ -93,14 +95,14 @@ export default function ProductSection() {
     {
       name: "Set Quà Tặng Tâm Giao",
       price: "450.000đ",
-      image: "/api/placeholder/500/300",
+      image: "/images/placeholder.jpg",
       description: "Bộ quà tặng cao cấp với hộp gỗ thiết kế tinh tế",
       items: "2 hộp chè lam, 1 hộp trà cổ thụ, 1 hộp ômai",
     },
     {
       name: "Set Quà Tặng Thịnh Vượng",
       price: "650.000đ",
-      image: "/api/placeholder/500/300",
+      image: "/images/placeholder.jpg",
       description: "Bộ sưu tập đặc biệt dành cho các dịp lễ trọng đại",
       items:
         "3 hộp chè lam, 2 hộp trà đặc biệt, 1 hộp hạt sen, 1 hộp kẹo lạc cao cấp",
@@ -123,8 +125,11 @@ export default function ProductSection() {
                 lượng cao. Chúng tôi mang đến cho bạn những trải nghiệm ẩm thực
                 độc đáo và đáng nhớ.
               </p>
-              <button className="bg-amber-600 hover:bg-amber-700 text-white font-medium py-3 px-6 rounded-full transition duration-300 shadow-lg hover:shadow-xl">
-                Khám phá ngay
+              <button
+                className="bg-amber-600 hover:bg-amber-700 text-white font-medium py-3 px-6 rounded-full transition duration-300 shadow-lg hover:shadow-xl"
+                onClick={() => router.push("/about")}
+              >
+                Về chúng tôi
               </button>
             </div>
             <div className="flex justify-center">
@@ -315,9 +320,6 @@ export default function ProductSection() {
           <p className="text-sm text-amber-100 mb-8">
             — Người sáng lập Kim Vĩnh Vương
           </p>
-          <button className="bg-white text-amber-600 hover:bg-amber-100 font-medium py-3 px-8 rounded-full transition duration-300 shadow-lg hover:shadow-xl">
-            Khám phá ngay!
-          </button>
         </div>
       </section>
     </div>

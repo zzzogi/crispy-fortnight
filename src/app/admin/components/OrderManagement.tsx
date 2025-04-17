@@ -1,18 +1,17 @@
-// src/app/admin/orders/page.tsx
 "use client";
 
-import { useState, useEffect } from "react";
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import {
-  Loader2,
-  Search,
   Filter,
+  Loader2,
   RefreshCw,
+  Search,
+  ShoppingBag,
   Trash2,
   X,
-  ShoppingBag,
 } from "lucide-react";
+import { useState } from "react";
 
 // Types
 type OrderStatus = "pending" | "paid" | "shipping" | "done" | "cancel";
@@ -67,8 +66,6 @@ export default function OrdersPage() {
   const [offset, setOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
-  const [orderVersion, setOrderVersion] = useState(0);
-  const [isLoadingProducts, setIsLoadingProducts] = useState(false);
 
   // Fetch orders
   const { data, isLoading, isError } = useQuery<OrdersResponse>({
@@ -84,49 +81,6 @@ export default function OrdersPage() {
       return data;
     },
   });
-
-  // Fetch product details when an order is selected
-  useEffect(() => {
-    const fetchProductDetails = async () => {
-      if (!selectedOrder) return;
-
-      const needsProductLoading = selectedOrder?.items?.some(
-        (item) => !item.product
-      );
-      if (!needsProductLoading) return;
-
-      setIsLoadingProducts(true);
-      try {
-        const orderWithProducts = { ...selectedOrder };
-        const updatedItems = [...orderWithProducts.items];
-
-        for (let i = 0; i < updatedItems?.length; i++) {
-          if (updatedItems[i].productId && !updatedItems[i].product) {
-            try {
-              const { data } = await axios.get(
-                `/api/products/${updatedItems[i].productId}`
-              );
-              updatedItems[i] = { ...updatedItems[i], product: data };
-            } catch (error) {
-              console.error(
-                `Failed to fetch product ${updatedItems[i].productId}:`,
-                error
-              );
-            }
-          }
-        }
-
-        orderWithProducts.items = updatedItems;
-        setSelectedOrder(orderWithProducts);
-      } catch (error) {
-        console.error("Error fetching product details:", error);
-      } finally {
-        setIsLoadingProducts(false);
-      }
-    };
-
-    fetchProductDetails();
-  }, [selectedOrder?.id, orderVersion]);
 
   // Update order status mutation
   const updateStatusMutation = useMutation({
@@ -191,7 +145,9 @@ export default function OrdersPage() {
 
   return (
     <div className="p-6">
-      <h1 className="text-2xl font-bold mb-6">Quản lí đơn hàng</h1>
+      <h1 className="text-2xl font-bold mb-6 text-gray-700">
+        Quản lí đơn hàng
+      </h1>
 
       {/* Search and Filter */}
       <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -201,7 +157,7 @@ export default function OrdersPage() {
           </div>
           <input
             type="text"
-            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
             placeholder="Tìm kiếm theo tên, email, địa chỉ, số điện thoại..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
@@ -211,7 +167,7 @@ export default function OrdersPage() {
         <div className="flex items-center gap-2">
           <Filter className="w-5 h-5 text-gray-400" />
           <select
-            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-700"
             value={filterStatus}
             onChange={(e) =>
               setFilterStatus(e.target.value as OrderStatus | "")
@@ -358,9 +314,7 @@ export default function OrdersPage() {
                       <button
                         className="text-blue-600 hover:text-blue-900 mr-2"
                         onClick={() => {
-                          // Create a new object so useEffect detects the change
-                          setSelectedOrder({ ...order });
-                          setOrderVersion((v) => v + 1);
+                          setSelectedOrder(order);
                         }}
                       >
                         Chi tiết
@@ -399,7 +353,7 @@ export default function OrdersPage() {
 
             <div className="flex items-center">
               <button
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-gray-500"
                 onClick={() => handlePageChange(currentPage - 1)}
                 disabled={currentPage === 1}
               >
@@ -413,7 +367,7 @@ export default function OrdersPage() {
               </div>
 
               <button
-                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed text-gray-500"
                 onClick={() => handlePageChange(currentPage + 1)}
                 disabled={currentPage === totalPages}
               >
@@ -434,7 +388,9 @@ export default function OrdersPage() {
           <div className="relative bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6">
               <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-medium">Chi tiết đơn hàng</h3>
+                <h3 className="text-lg font-medium text-gray-700">
+                  Chi tiết đơn hàng
+                </h3>
                 <button
                   className="text-gray-400 hover:text-gray-500"
                   onClick={() => setSelectedOrder(null)}
@@ -448,39 +404,41 @@ export default function OrdersPage() {
                   <h4 className="text-sm font-medium text-gray-500">
                     Mã đơn hàng
                   </h4>
-                  <p>{selectedOrder.id}</p>
+                  <p className="text-blue-500">{selectedOrder.id}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">
                     Ngày đặt
                   </h4>
-                  <p>{formatDate(selectedOrder.createdAt)}</p>
+                  <p className="text-blue-500">
+                    {formatDate(selectedOrder.createdAt)}
+                  </p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">
                     Khách hàng
                   </h4>
-                  <p>{selectedOrder.buyerName}</p>
+                  <p className="text-blue-500">{selectedOrder.buyerName}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Email</h4>
-                  <p>{selectedOrder.buyerEmail}</p>
+                  <p className="text-blue-500">{selectedOrder.buyerEmail}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">
                     Số điện thoại
                   </h4>
-                  <p>{selectedOrder.buyerPhone}</p>
+                  <p className="text-blue-500">{selectedOrder.buyerPhone}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">Địa chỉ</h4>
-                  <p>{selectedOrder.buyerAddress}</p>
+                  <p className="text-blue-500">{selectedOrder.buyerAddress}</p>
                 </div>
                 <div>
                   <h4 className="text-sm font-medium text-gray-500">
                     Tổng thanh toán
                   </h4>
-                  <p className="font-medium">
+                  <p className="font-medium text-blue-500">
                     {selectedOrder.totalPrice.toLocaleString("vi-VN")}đ
                   </p>
                 </div>
@@ -497,7 +455,7 @@ export default function OrdersPage() {
                           status: e.target.value as OrderStatus,
                         });
                       }}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                     >
                       <option value="pending">Chờ xác nhận</option>
                       <option value="paid">Đã thanh toán</option>
@@ -514,16 +472,9 @@ export default function OrdersPage() {
                   Sản phẩm ({selectedOrder.totalItems})
                 </h4>
 
-                {isLoadingProducts ? (
-                  <div className="flex justify-center items-center py-6">
-                    <Loader2 className="w-6 h-6 animate-spin text-blue-500" />
-                    <span className="ml-2 text-gray-500">
-                      Đang tải thông tin sản phẩm...
-                    </span>
-                  </div>
-                ) : (
-                  <div className="border rounded-md divide-y">
-                    {selectedOrder?.items?.map((item) => (
+                <div className="border rounded-md divide-y">
+                  {selectedOrder.items && selectedOrder.items.length > 0 ? (
+                    selectedOrder.items.map((item) => (
                       <div key={item.id} className="p-4 flex items-center">
                         <div className="flex-shrink-0 h-16 w-16 bg-gray-100 rounded-md mr-4 flex items-center justify-center overflow-hidden">
                           {item.product &&
@@ -549,7 +500,9 @@ export default function OrdersPage() {
                             <>
                               <div className="text-sm text-gray-500">
                                 Danh mục: {item.product.category} | Loại:{" "}
-                                {item.product.type}
+                                {item.product.type === "RETAIL"
+                                  ? "Bán lẻ"
+                                  : "Quà tặng"}
                               </div>
                               <div className="text-sm text-gray-500 mt-1">
                                 {item.product.description &&
@@ -582,9 +535,13 @@ export default function OrdersPage() {
                           </div>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
+                    ))
+                  ) : (
+                    <div className="p-4 text-center text-gray-500">
+                      Không có sản phẩm nào trong đơn hàng này
+                    </div>
+                  )}
+                </div>
               </div>
 
               <div className="flex justify-between">

@@ -322,7 +322,7 @@ const GiftsManagement: React.FC = () => {
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">
-        Quản lý sản phẩm
+        Quản lý quà tặng
       </h2>
 
       {/* Search and Add Button */}
