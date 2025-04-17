@@ -63,7 +63,7 @@ const GiftsManagement: React.FC = () => {
 
   // API Calls with @tanstack/react-query
   const fetchGifts = async ({ queryKey }: any) => {
-    const [page, limit, search] = queryKey;
+    const [_, page, limit, search] = queryKey;
     const offset = (page - 1) * limit;
     const response = await fetch(
       `/api/products?type=GIFT&limit=${limit}&offset=${offset}&search=${search}`
@@ -86,7 +86,7 @@ const GiftsManagement: React.FC = () => {
       setUploadProgress(0);
 
       const formData = new FormData();
-      formData.append("giftName", giftName);
+      formData.append("productName", giftName);
 
       uploadedImages.forEach((image) => {
         formData.append(`images`, image.file);
@@ -375,10 +375,8 @@ const GiftsManagement: React.FC = () => {
                       src={gift.imageUrl[0] || "/images/placeholder.jpg"}
                       alt={gift.name}
                       className="w-full h-full object-cover"
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src =
-                          "/images/placeholder.jpg";
-                      }}
+                      width={300}
+                      height={200}
                     />
                   </div>
                   <div className="p-4">
@@ -512,6 +510,8 @@ const GiftsManagement: React.FC = () => {
                             src={image.preview}
                             alt={`Preview ${index + 1}`}
                             className="w-full h-full object-cover rounded-md"
+                            width={100}
+                            height={100}
                           />
                           <button
                             type="button"
@@ -686,10 +686,8 @@ const GiftsManagement: React.FC = () => {
                   src={currentGift.imageUrl[0] || "/images/placeholder.jpg"}
                   alt={currentGift.name}
                   className="w-full h-auto object-cover rounded-lg"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "/images/placeholder.jpg";
-                  }}
+                  width={500}
+                  height={500}
                 />
               </div>
 

@@ -54,7 +54,12 @@ export default function Header() {
           <span className="text-sm font-medium">Hotline: 0935 388 699</span>
         </div>
         <div className="flex space-x-4">
-          <FaFacebookF className="cursor-pointer hover:text-amber-200 transition duration-300" />
+          <FaFacebookF
+            className="cursor-pointer hover:text-amber-200 transition duration-300"
+            onClick={() =>
+              window.open("https://www.facebook.com/tinhhoachelam", "_blank")
+            }
+          />
           {/* <FaInstagram className="cursor-pointer hover:text-amber-200 transition duration-300" /> */}
           <div className="relative">
             <CartDropdown />

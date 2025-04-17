@@ -63,7 +63,7 @@ const ProductsManagement: React.FC = () => {
 
   // API Calls with @tanstack/react-query
   const fetchProducts = async ({ queryKey }: any) => {
-    const [page, limit, search] = queryKey;
+    const [_, page, limit, search] = queryKey;
     const offset = (page - 1) * limit;
     const response = await fetch(
       `/api/products?type=RETAIL&limit=${limit}&offset=${offset}&search=${search}`
@@ -371,10 +371,8 @@ const ProductsManagement: React.FC = () => {
                     src={product.imageUrl[0] || "/images/placeholder.jpg"}
                     alt={product.name}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src =
-                        "/images/placeholder.jpg";
-                    }}
+                    width={500}
+                    height={200}
                   />
                 </div>
                 <div className="p-4">
@@ -507,6 +505,8 @@ const ProductsManagement: React.FC = () => {
                             src={image.preview}
                             alt={`Preview ${index + 1}`}
                             className="w-full h-full object-cover rounded-md"
+                            width={96}
+                            height={96}
                           />
                           <button
                             type="button"
@@ -681,10 +681,8 @@ const ProductsManagement: React.FC = () => {
                   src={currentProduct.imageUrl[0] || "/images/placeholder.jpg"}
                   alt={currentProduct.name}
                   className="w-full h-auto object-cover rounded-lg"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).src =
-                      "/images/placeholder.jpg";
-                  }}
+                  width={500}
+                  height={500}
                 />
               </div>
 
