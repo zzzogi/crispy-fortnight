@@ -4,6 +4,7 @@
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { AlertCircle, Lock, Mail, MoveLeftIcon } from "lucide-react";
+import Link from "next/link";
 import { useState } from "react";
 
 export default function LoginPage() {
@@ -44,10 +45,13 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
       {/* add a back button to push user to / */}
       <div className="absolute top-4 left-4 ">
-        <a href="/" className="flex items-center text-blue-500 hover:underline">
+        <Link
+          href="/"
+          className="flex items-center text-blue-500 hover:underline"
+        >
           <MoveLeftIcon className="h-5 w-5 mr-2" />
           Quay lại trang chủ
-        </a>
+        </Link>
       </div>
       <div className="max-w-md w-full p-8 bg-white rounded-lg shadow-lg">
         <div className="text-center mb-8">
