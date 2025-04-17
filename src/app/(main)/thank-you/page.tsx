@@ -15,18 +15,6 @@ const ThankYouPage = ({
   // Optional: Extract order information from URL parameters
   const { orderCode } = use(params);
 
-  useEffect(() => {
-    // If user navigates directly to this page without checkout
-    // (and there's no order data), redirect them to homepage
-    if (totalItems === 0 && !orderCode) {
-      const redirectTimer = setTimeout(() => {
-        router.push("/");
-      }, 10000);
-
-      return () => clearTimeout(redirectTimer);
-    }
-  }, [totalItems, orderCode, router]);
-
   return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -85,8 +73,8 @@ const ThankYouPage = ({
               </h2>
               <ul className="list-disc pl-5 space-y-2 text-gray-600">
                 <li>
-                  Bạn sẽ nhận được email xác nhận đơn hàng trong thời gian sớm
-                  nhất.
+                  Bạn sẽ nhận được email hoặc cuộc gọi xác nhận đơn hàng trong
+                  thời gian sớm nhất.
                 </li>
                 <li>Chúng tôi sẽ chuẩn bị và đóng gói sản phẩm của bạn.</li>
                 <li>Đơn hàng sẽ được vận chuyển trong 1-3 ngày làm việc.</li>
@@ -115,7 +103,7 @@ const ThankYouPage = ({
             Nếu bạn có bất kỳ câu hỏi nào về đơn hàng, vui lòng liên hệ với
             chúng tôi qua{" "}
             <Link
-              href="/lien-he"
+              href="/contact"
               className="font-medium text-amber-800 hover:text-amber-700"
             >
               trang liên hệ

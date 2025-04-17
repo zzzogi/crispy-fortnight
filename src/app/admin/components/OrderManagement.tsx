@@ -485,6 +485,8 @@ export default function OrdersPage() {
                               src={item.product.imageUrl[0]}
                               alt={item.product.name}
                               className="h-full w-full object-cover"
+                              width={64}
+                              height={64}
                             />
                           ) : (
                             <ShoppingBag className="h-8 w-8 text-gray-400" />

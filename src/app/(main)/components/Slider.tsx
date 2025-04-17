@@ -33,7 +33,7 @@ export default function ImageSlider() {
   const [swiperRef, setSwiperRef] = useState<any>(null);
 
   return (
-    <div className="relative w-full">
+    <div className="relative w-full h-[600px] ">
       {/* SLIDER */}
       <Swiper
         modules={[Navigation, Autoplay]}
@@ -48,9 +48,9 @@ export default function ImageSlider() {
             <Image
               src={item.src}
               alt={item.title}
-              className="w-full h-[400px] object-cover"
+              className="w-full h-[600px] object-cover"
               width={1920}
-              height={400}
+              height={600}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent flex justify-center items-end p-6">
               <h2

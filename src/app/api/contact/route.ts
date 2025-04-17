@@ -45,7 +45,7 @@ export async function POST(request: Request) {
       name,
       email,
       phone,
-      subject,
+      subject: subject ? subject : "Thư không có chủ đề",
       message,
     },
   });

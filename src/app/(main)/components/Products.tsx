@@ -70,7 +70,7 @@ export default function ProductSection() {
       ),
       title: "Sản phẩm chất lượng",
       description:
-        "Sản phẩm được tuyển chọn kỹ lưỡng, đảm bảo chất lượng cao nhất",
+        "Sản phẩm được tuyển chọn kỹ lưỡng, \nđảm bảo chất lượng tốt nhất",
     },
     {
       icon: (
@@ -86,7 +86,7 @@ export default function ProductSection() {
         </svg>
       ),
       title: "Giao hàng nhanh",
-      description: "Giao hàng nhanh chóng trong vòng 24h đến tận nhà bạn",
+      description: "Giao hàng nhanh chóng trong vòng 24h",
     },
     {
       icon: (
@@ -193,8 +193,13 @@ export default function ProductSection() {
           <div className="absolute inset-0 bg-gradient-to-r from-amber-600/20 to-amber-500/10 z-0"></div>
           <div className="grid md:grid-cols-2 gap-8 items-center relative z-10 p-8 md:p-12">
             <div className="text-center md:text-left">
-              <h1 className="text-4xl md:text-5xl font-bold text-amber-900 mb-4">
-                Kim Vĩnh Vương - Chè Lam Truyền Thống
+              <h1
+                className="text-4xl md:text-5xl font-bold text-amber-900 mb-4"
+                style={{
+                  whiteSpace: "pre-line",
+                }}
+              >
+                Kim Vĩnh Vương &#45; {"\n"} Chè Lam Truyền Thống
               </h1>
               <p className="text-lg text-amber-800 mb-6">
                 Khám phá hương vị truyền thống từ những sản phẩm tự nhiên, chất
@@ -235,7 +240,14 @@ export default function ProductSection() {
                 <h3 className="text-xl font-semibold text-amber-900 mb-2">
                   {benefit.title}
                 </h3>
-                <p className="text-amber-700">{benefit.description}</p>
+                <p
+                  className="text-amber-700"
+                  style={{
+                    whiteSpace: "pre-line",
+                  }}
+                >
+                  {benefit.description}
+                </p>
               </div>
             ))}
           </div>
@@ -262,7 +274,7 @@ export default function ProductSection() {
                   : "text-amber-400 hover:text-amber-600"
               }`}
             >
-              Set Quà Tặng
+              Set quà tặng
             </button>
           </div>
         </div>
@@ -275,8 +287,7 @@ export default function ProductSection() {
                 Sản phẩm nổi bật
               </h2>
               <p className="text-amber-700 max-w-2xl mx-auto">
-                Chè lam truyền thống và các sản phẩm như kẹo lạc, bột sắn trà
-                xanh, trà Sen, ômai, hạt sen... cực kỳ sang trọng và chất lượng.
+                Chè lam truyền thống cực kỳ sang trọng và chất lượng.
               </p>
             </div>
 
@@ -309,7 +320,10 @@ export default function ProductSection() {
                     <p className="text-amber-600 font-semibold">
                       {formatPrice(product.price)}
                     </p>
-                    <button className="mt-3 w-full bg-amber-50 hover:bg-amber-100 text-amber-700 font-medium py-2 rounded-lg transition duration-300">
+                    <button
+                      className="mt-3 w-full bg-amber-50 hover:bg-amber-100 text-amber-700 font-medium py-2 rounded-lg transition duration-300"
+                      onClick={() => router.push(`/products/${product.id}`)}
+                    >
                       Mua ngay
                     </button>
                   </div>
@@ -332,12 +346,17 @@ export default function ProductSection() {
           <div>
             <div className="text-center mb-10">
               <h2 className="text-3xl font-bold text-amber-900 mb-3">
-                Set Quà Tặng Cao Cấp
+                Set quà tặng cao cấp
               </h2>
-              <p className="text-amber-700 max-w-2xl mx-auto">
+              <p
+                className="text-amber-700 max-w-2xl mx-auto"
+                style={{
+                  whiteSpace: "pre-line",
+                }}
+              >
                 Bộ sưu tập quà tặng đặc biệt phù hợp cho mọi dịp lễ, tết, sinh
-                nhật và kỷ niệm. Thiết kế sang trọng, ý nghĩa và đậm đà hương vị
-                truyền thống.
+                nhật và kỷ niệm.{"\n"} Thiết kế sang trọng, ý nghĩa và đậm đà
+                hương vị truyền thống.
               </p>
             </div>
 
@@ -379,7 +398,10 @@ export default function ProductSection() {
                         <div className="text-2xl font-bold text-amber-600">
                           {formatPrice(giftSet.price)}
                         </div>
-                        <button className="bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 flex items-center">
+                        <button
+                          className="bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 px-6 rounded-lg transition duration-300 flex items-center"
+                          onClick={() => router.push(`/products/${giftSet.id}`)}
+                        >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
                             className="h-5 w-5 mr-2"
@@ -412,13 +434,18 @@ export default function ProductSection() {
           <h2 className="text-2xl md:text-3xl font-bold mb-4">
             Sứ mệnh của Kim Vĩnh Vương
           </h2>
-          <p className="text-lg mb-6 max-w-2xl mx-auto italic">
+          <p
+            className="text-lg mb-6 max-w-2xl mx-auto italic"
+            style={{
+              whiteSpace: "pre-line",
+            }}
+          >
             &quot;Chúng tôi không chỉ bán chè lam hay kẹo lạc &#45; chúng tôi
             gửi gắm cả tâm huyết và niềm tự hào về văn hóa ẩm thực dân tộc. Mỗi
-            sản phẩm là một cam kết về chất lượng và sự chân thành.&quot;
+            sản phẩm là một cam kết về{"\n"} chất lượng và sự chân thành.&quot;
           </p>
           <p className="text-sm text-amber-100 mb-8">
-            — Người sáng lập Kim Vĩnh Vương
+            &#45; Người sáng lập Kim Vĩnh Vương
           </p>
         </div>
       </section>

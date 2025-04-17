@@ -50,14 +50,14 @@ export default function About() {
             <p className="text-gray-700 mb-6 leading-relaxed">
               Kim Vĩnh Vương là thương hiệu ra đời từ lòng đam mê và sự trân
               trọng dành cho ẩm thực truyền thống Việt Nam. Chúng tôi chuyên
-              cung cấp các sản phẩm như chè lam – món quà quê ngọt ngào, mang
-              đậm bản sắc dân tộc.
+              cung cấp các sản phẩm như chè lam &#45; món quà quê ngọt ngào,
+              mang đậm bản sắc dân tộc.
             </p>
             <p className="text-gray-700 leading-relaxed">
               Với mục tiêu không ngừng phát triển, Kim Vĩnh Vương sẽ mở rộng
-              thêm các dòng sản phẩm như kẹo lạc, mứt, ô mai – tất cả đều được
-              chế biến từ nguyên liệu tự nhiên, đảm bảo chất lượng và hương vị
-              thuần Việt.
+              thêm các dòng sản phẩm như kẹo lạc, mứt, ô mai &#45; tất cả đều
+              được chế biến từ nguyên liệu tự nhiên, đảm bảo chất lượng và hương
+              vị thuần Việt.
             </p>
           </div>
           <div className="md:w-1/2 h-80 rounded-lg overflow-hidden shadow-xl">
@@ -82,7 +82,7 @@ export default function About() {
             </h2>
             <div className="w-24 h-1 bg-amber-500 mx-auto mb-6"></div>
             <p className="text-gray-700 max-w-2xl mx-auto">
-              Những nguyên tắc tạo nên thương hiệu Kim Vĩnh Vương – gắn kết
+              Những nguyên tắc tạo nên thương hiệu Kim Vĩnh Vương &#45; gắn kết
               truyền thống và chất lượng
             </p>
           </div>
@@ -150,9 +150,14 @@ export default function About() {
             Chứng Nhận Chất Lượng
           </h2>
           <div className="w-24 h-1 bg-amber-500 mx-auto mb-6"></div>
-          <p className="text-gray-700 max-w-2xl mx-auto">
+          <p
+            className="text-gray-700 max-w-2xl mx-auto"
+            style={{
+              whiteSpace: "pre-line",
+            }}
+          >
             Kim Vĩnh Vương tự hào đạt được các chứng nhận uy tín từ cơ quan có
-            thẩm quyền, khẳng định cam kết vệ sinh an toàn thực phẩm
+            thẩm quyền, {"\n"}khẳng định cam kết vệ sinh an toàn thực phẩm
           </p>
         </div>
 
@@ -485,8 +490,8 @@ export default function About() {
             Khám Phá Sản Phẩm Kim Vĩnh Vương
           </h2>
           <p className="text-lg text-amber-200 max-w-2xl mx-auto mb-8">
-            Từ chè lam truyền thống đến những món quà quê như kẹo lạc, mứt, ô
-            mai – tất cả đều mang hồn Việt
+            Từ chè lam truyền thống đến những món quà quê &#45; tất cả đều mang
+            hồn Việt
           </p>
           <button
             className="bg-amber-500 hover:bg-amber-600 text-white font-medium py-3 px-8 rounded-full transition duration-300 shadow-lg"

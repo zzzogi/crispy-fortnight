@@ -14,6 +14,7 @@ import {
   FiGift,
   FiSearch,
   FiShoppingBag,
+  FiPhoneIncoming,
 } from "react-icons/fi";
 
 interface Gift {
@@ -561,10 +562,11 @@ export default function Gifts() {
                 chuyên nghiệp sẽ giúp bạn tạo nên món quà ý nghĩa và đặc biệt.
               </p>
               <Link
-                href="/custom-gift"
+                href="tel:+84935388699"
                 className="inline-block px-6 py-3 bg-amber-700 hover:bg-amber-800 text-white rounded-lg transition-colors"
               >
-                Liên hệ tư vấn
+                Gọi ngay cho chúng tôi
+                <FiPhoneIncoming className="inline-block ml-2" />
               </Link>
             </div>
             <div className="flex items-center justify-center p-12 bg-amber-200">

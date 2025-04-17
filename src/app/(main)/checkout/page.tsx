@@ -68,6 +68,11 @@ const Checkout = () => {
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     const { name, value } = e.target;
+
+    // if not number, return
+    if (name === "buyerPhone" && isNaN(Number(value))) {
+      return;
+    }
     setFormData((prev) => ({
       ...prev,
       [name]: value,
@@ -213,7 +218,7 @@ const Checkout = () => {
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-extrabold text-gray-900">Thanh toán</h1>
+          <h1 className="text-3xl font-semibold text-gray-900">Thanh toán</h1>
           <p className="mt-2 text-lg text-gray-600">
             Hoàn tất thông tin để tiến hành thanh toán
           </p>
@@ -222,20 +227,24 @@ const Checkout = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Order Summary */}
           <div className="md:col-span-1 bg-white p-6 rounded-lg shadow">
-            <h2 className="text-xl font-semibold mb-4">Thông tin đơn hàng</h2>
+            <h2 className="text-xl font-semibold mb-4 text-gray-700">
+              Thông tin đơn hàng
+            </h2>
             <div className="divide-y divide-gray-200">
               {items.map((item) => (
                 <div key={item.id} className="py-4 flex items-start">
                   <div className="flex-shrink-0 h-16 w-16 rounded-md overflow-hidden relative">
                     <Image
-                      src={item.imageUrl[0] || "/placeholder.png"}
+                      src={item.imageUrl[0] || "/images/placeholder.png"}
                       alt={item.name}
                       fill
                       className="object-cover"
                     />
                   </div>
                   <div className="ml-4 flex-1">
-                    <h3 className="text-sm font-medium">{item.name}</h3>
+                    <h3 className="text-sm font-medium text-gray-700">
+                      {item.name}
+                    </h3>
                     <p className="mt-1 text-sm text-gray-500">
                       {item.description.substring(0, 60)}...
                     </p>
@@ -270,7 +279,7 @@ const Checkout = () => {
           <div className="md:col-span-2 bg-white p-6 rounded-lg shadow">
             {!showPaymentInterface ? (
               <>
-                <h2 className="text-xl font-semibold mb-4">
+                <h2 className="text-xl font-semibold mb-4 text-gray-700">
                   Thông tin khách hàng
                 </h2>
                 <form onSubmit={handleSubmit}>
@@ -289,7 +298,10 @@ const Checkout = () => {
                           name="buyerName"
                           value={formData.buyerName}
                           onChange={handleInputChange}
-                          className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-10 px-2 text-gray-700"
+                          placeholder="Nhập họ và tên"
+                          pattern="[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚƯƠĐàáâãèéêìíòóôõùúươđ ]{1,}"
+                          maxLength={50}
                           required
                         />
                       </div>
@@ -309,7 +321,8 @@ const Checkout = () => {
                           name="buyerEmail"
                           value={formData.buyerEmail}
                           onChange={handleInputChange}
-                          className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-10 px-2 text-gray-700"
+                          placeholder="Nhập email"
                           required
                         />
                       </div>
@@ -329,7 +342,10 @@ const Checkout = () => {
                           name="buyerPhone"
                           value={formData.buyerPhone}
                           onChange={handleInputChange}
-                          className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-10 p-2 text-gray-700"
+                          placeholder="Nhập số điện thoại"
+                          pattern="[0-9]{3} [0-9]{3} [0-9]{4}"
+                          maxLength={12}
                           required
                         />
                       </div>
@@ -349,7 +365,8 @@ const Checkout = () => {
                           rows={3}
                           value={formData.buyerAddress}
                           onChange={handleInputChange}
-                          className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                          className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-24 p-2 text-gray-700"
+                          placeholder="Nhập địa chỉ giao hàng"
                           required
                         />
                       </div>
