@@ -123,9 +123,9 @@ export default function CartPage() {
                               >
                                 {item.name}
                               </Link>
-                              {item.category && (
+                              {item.label && (
                                 <p className="text-xs text-gray-500">
-                                  {item.category}
+                                  {item.label}
                                 </p>
                               )}
                             </div>
