@@ -14,9 +14,14 @@ interface Product {
   available: boolean;
   description: string;
   imageUrl: string[];
-  category: string;
+  category: {
+    id: string;
+    name: string;
+    label: string;
+  };
   createdAt: string;
   type: string;
+  label: string;
 }
 
 function formatCurrency(amount: number): string {
@@ -166,7 +171,7 @@ export default function ProductPage({
               <div className="bg-white rounded-lg shadow-md p-6">
                 <div className="flex items-center">
                   <span className="px-2 py-1 text-xs font-semibold bg-amber-100 text-amber-800 rounded-full">
-                    {product.category}
+                    {product.label}
                   </span>
                   {product.available ? (
                     <span className="ml-3 px-2 py-1 text-xs font-semibold bg-green-100 text-green-800 rounded-full">

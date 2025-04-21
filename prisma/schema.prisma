@@ -29,10 +29,19 @@ model Product {
   available   Boolean     @default(true)
   description String?
   imageUrl    String[]
-  category    String
   createdAt   DateTime    @default(now())
-  OrderItem   OrderItem[]
+  label String
   type        Type
+  OrderItem   OrderItem[]
+  categoryId  String      @db.ObjectId
+  category    Category    @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id     String    @id @default(auto()) @map("_id") @db.ObjectId
+  name   String
+  label  String
+  products Product[]
 }
 
 model Contact {

@@ -13,8 +13,14 @@ interface Gift {
   available: boolean;
   description: string;
   imageUrl: string[];
-  category: string;
+  label: string;
   type: "RETAIL" | "GIFT";
+  categoryId: string;
+  category?: {
+    id: string;
+    name: string;
+    label: string;
+  };
 }
 
 interface GiftsResponse {
@@ -27,6 +33,12 @@ interface GiftsResponse {
 interface UploadedImage {
   file: File;
   preview: string;
+}
+
+interface ICategory {
+  id: string;
+  name: string;
+  label: string;
 }
 
 const ITEMS_PER_PAGE = 8;
@@ -44,10 +56,12 @@ const GiftsManagement: React.FC = () => {
     available: true,
     description: "",
     imageUrl: [],
-    category: "",
+    label: "",
     type: "GIFT",
+    categoryId: "",
   });
   const [isEditing, setIsEditing] = useState(false);
+  const [categories, setCategories] = useState<ICategory[]>([]);
 
   // Image Upload States
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
@@ -73,6 +87,31 @@ const GiftsManagement: React.FC = () => {
 
     return response.json();
   };
+
+  const fetchCategories = async () => {
+    const response = await fetch("/api/category");
+
+    if (!response.ok) throw new Error("Network response was not ok");
+
+    return response.json();
+  };
+
+  useEffect(() => {
+    fetchCategories()
+      .then((data) => {
+        setCategories(data);
+      })
+      .catch((error) => console.error("Error fetching categories:", error));
+  }, []);
+
+  useEffect(() => {
+    console.log("trigger");
+    setNewGift({
+      ...newGift,
+      categoryId: categories[0]?.id || "",
+      label: "Mới",
+    });
+  }, [categories?.length]);
 
   const { data, isLoading, error } = useQuery<GiftsResponse>({
     queryKey: ["gifts", currentPage, ITEMS_PER_PAGE, searchTerm],
@@ -222,7 +261,6 @@ const GiftsManagement: React.FC = () => {
 
   const openAddModal = () => {
     setIsEditing(false);
-    resetForm();
     setUploadedImages([]);
     setShowAddModal(true);
   };
@@ -237,6 +275,8 @@ const GiftsManagement: React.FC = () => {
       imageUrl: gift.imageUrl,
       category: gift.category,
       type: "GIFT",
+      label: gift.label,
+      categoryId: gift.categoryId,
     });
     setCurrentGift(gift);
     setUploadedImages([]);
@@ -279,8 +319,9 @@ const GiftsManagement: React.FC = () => {
       available: true,
       description: "",
       imageUrl: [],
-      category: "",
+      label: "",
       type: "GIFT",
+      categoryId: "",
     });
   };
 
@@ -314,8 +355,6 @@ const GiftsManagement: React.FC = () => {
 
   const totalPages = data ? Math.ceil(data.total / ITEMS_PER_PAGE) : 0;
 
-  console.log(data, totalPages);
-
   return (
     <div className="p-6">
       <h2 className="text-2xl font-bold mb-6 text-gray-800">
@@ -329,7 +368,7 @@ const GiftsManagement: React.FC = () => {
             <input
               type="text"
               placeholder="Tìm kiếm sản phẩm..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -364,7 +403,7 @@ const GiftsManagement: React.FC = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {data?.products &&
+            {data?.products ? (
               data.products.map((gift) => (
                 <div
                   key={gift.id}
@@ -397,52 +436,64 @@ const GiftsManagement: React.FC = () => {
                       >
                         {gift.available ? "Còn hàng" : "Hết hàng"}
                       </span>
-                      <span className="text-sm text-gray-600">
-                        {gift.category}
+                      <span className="text-sm text-gray-600 rounded-full bg-gray-100 px-2 py-1">
+                        {gift.label}
+                      </span>
+                      <span className="text-sm text-gray-600 rounded-full bg-gray-100 px-2 py-1">
+                        {gift?.category?.name || "Không có danh mục"}
                       </span>
                     </div>
                   </div>
                 </div>
-              ))}
+              ))
+            ) : (
+              <div className="col-span-4 text-center py-12 text-gray-500">
+                Không tìm thấy sản phẩm nào 🥲
+              </div>
+            )}
           </div>
 
           {/* Pagination */}
-          <div className="flex justify-center mt-8">
-            <nav className="flex items-center space-x-2">
-              <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="px-3 py-1 rounded-md border border-gray-300 disabled:opacity-50"
-              >
-                &lt;
-              </button>
+          {totalPages > 1 ? (
+            <div className="flex justify-center mt-8">
+              <nav className="flex items-center space-x-2">
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 rounded-md border border-gray-300 disabled:opacity-50"
+                >
+                  &lt;
+                </button>
 
-              {totalPages &&
-                [...Array(totalPages)].map((_, index) => (
-                  <button
-                    key={index}
-                    onClick={() => setCurrentPage(index + 1)}
-                    className={`px-3 py-1 rounded-md ${
-                      currentPage === index + 1
-                        ? "bg-blue-600 text-white"
-                        : "border border-gray-300 hover:bg-gray-50"
-                    }`}
-                  >
-                    {index + 1}
-                  </button>
-                ))}
+                {totalPages &&
+                  [...Array(totalPages)].map((_, index) => (
+                    <button
+                      key={index}
+                      onClick={() => setCurrentPage(index + 1)}
+                      className={`px-3 py-1 rounded-md ${
+                        currentPage === index + 1
+                          ? "bg-blue-600 text-white"
+                          : "border border-gray-300 hover:bg-gray-50"
+                      }`}
+                    >
+                      {index + 1}
+                    </button>
+                  ))}
 
-              <button
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                disabled={currentPage === totalPages}
-                className="px-3 py-1 rounded-md border border-gray-300 disabled:opacity-50"
-              >
-                &gt;
-              </button>
-            </nav>
-          </div>
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 rounded-md border border-gray-300 disabled:opacity-50"
+                >
+                  &gt;
+                </button>
+              </nav>
+            </div>
+          ) : null}
         </>
       )}
 
@@ -488,12 +539,16 @@ const GiftsManagement: React.FC = () => {
                     required
                     className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                     value={newGift.price}
-                    onChange={(e) =>
-                      setNewGift({
-                        ...newGift,
-                        price: parseFloat(e.target.value),
-                      })
-                    }
+                    onChange={(e) => {
+                      if (e.target.value === "") {
+                        setNewGift({ ...newGift, price: 0 });
+                      } else {
+                        setNewGift({
+                          ...newGift,
+                          price: parseFloat(e.target.value),
+                        });
+                      }
+                    }}
                   />
                 </div>
 
@@ -581,17 +636,43 @@ const GiftsManagement: React.FC = () => {
                   <select
                     id="giftType"
                     className="mt-1 block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm text-gray-500 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    value={newGift.category}
+                    value={newGift.label}
                     onChange={(e) =>
                       setNewGift({
                         ...newGift,
-                        category: e.target.value,
+                        label: e.target.value,
                       })
                     }
                   >
                     <option value="Mới">Mới</option>
                     <option value="Hot">Hot</option>
                     <option value="Truyền thống">Truyền thống</option>
+                  </select>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label
+                    htmlFor="category"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Danh mục sản phẩm
+                  </label>
+                  <select
+                    id="category"
+                    className="mt-1 block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm text-gray-500 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    value={newGift.categoryId}
+                    onChange={(e) =>
+                      setNewGift({
+                        ...newGift,
+                        categoryId: e.target.value,
+                      })
+                    }
+                  >
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -711,7 +792,10 @@ const GiftsManagement: React.FC = () => {
                     {currentGift.available ? "Còn hàng" : "Hết hàng"}
                   </span>
                   <span className="inline-block ml-2 px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
-                    {currentGift.category}
+                    {currentGift.label}
+                  </span>
+                  <span className="inline-block ml-2 px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
+                    {currentGift?.category?.name || "Không có danh mục"}
                   </span>
                 </div>
 

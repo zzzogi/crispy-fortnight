@@ -8,7 +8,12 @@ interface Product {
   available: boolean;
   description: string;
   imageUrl: string[];
-  category: string;
+  category: {
+    id: string;
+    name: string;
+    label: string;
+  };
+  label: string;
   createdAt: string;
 }
 
@@ -41,9 +46,9 @@ export default function ProductCard({ product }: ProductCardProps) {
               <span className="text-gray-400">Không có hình ảnh</span>
             </div>
           )}
-          {product.category && (
+          {product.label && (
             <span className="absolute top-2 left-2 px-2 py-1 text-xs font-semibold bg-amber-100 text-amber-800 rounded-full">
-              {product.category}
+              {product.label}
             </span>
           )}
         </div>

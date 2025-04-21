@@ -14,9 +14,14 @@ interface Product {
   available: boolean;
   description: string;
   imageUrl: string[];
-  category: string;
+  category: {
+    id: string;
+    name: string;
+    label: string;
+  };
   createdAt: string;
   type: string;
+  label: string;
 }
 
 interface CartItem extends Product {

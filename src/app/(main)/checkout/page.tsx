@@ -300,7 +300,6 @@ const Checkout = () => {
                           onChange={handleInputChange}
                           className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-10 px-2 text-gray-700"
                           placeholder="Nhập họ và tên"
-                          pattern="[A-Za-zÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚƯƠĐàáâãèéêìíòóôõùúươđ ]{1,}"
                           maxLength={50}
                           required
                         />
@@ -344,7 +343,6 @@ const Checkout = () => {
                           onChange={handleInputChange}
                           className="block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm h-10 p-2 text-gray-700"
                           placeholder="Nhập số điện thoại"
-                          pattern="[0-9]{3} [0-9]{3} [0-9]{4}"
                           maxLength={12}
                           required
                         />

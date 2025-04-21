@@ -13,8 +13,14 @@ interface Product {
   available: boolean;
   description: string;
   imageUrl: string[];
-  category: string;
+  label: string;
   type: "RETAIL" | "GIFT";
+  categoryId: string;
+  category?: {
+    id: string;
+    name: string;
+    label: string;
+  };
 }
 
 interface ProductsResponse {
@@ -27,6 +33,12 @@ interface ProductsResponse {
 interface UploadedImage {
   file: File;
   preview: string;
+}
+
+interface ICategory {
+  id: string;
+  label: string;
+  name: string;
 }
 
 const ITEMS_PER_PAGE = 8;
@@ -44,10 +56,12 @@ const ProductsManagement: React.FC = () => {
     available: true,
     description: "",
     imageUrl: [],
-    category: "",
     type: "RETAIL",
+    label: "",
+    categoryId: "",
   });
   const [isEditing, setIsEditing] = useState(false);
+  const [categories, setCategories] = useState<ICategory[]>([]);
 
   // Image Upload States
   const [uploadedImages, setUploadedImages] = useState<UploadedImage[]>([]);
@@ -61,6 +75,31 @@ const ProductsManagement: React.FC = () => {
       uploadedImages.forEach((image) => URL.revokeObjectURL(image.preview));
     };
   }, [uploadedImages]);
+
+  const fetchCategories = async () => {
+    const response = await fetch("/api/category");
+
+    if (!response.ok) throw new Error("Network response was not ok");
+
+    return response.json();
+  };
+
+  useEffect(() => {
+    fetchCategories()
+      .then((data) => {
+        setCategories(data);
+      })
+      .catch((error) => console.error("Error fetching categories:", error));
+  }, []);
+
+  useEffect(() => {
+   
+    setNewProduct({
+      ...newProduct,
+      categoryId: categories[0]?.id || "",
+      label: "Mới",
+    });
+  }, [categories?.length]);
 
   // API Calls with @tanstack/react-query
   const fetchProducts = async ({ queryKey }: any) => {
@@ -221,7 +260,6 @@ const ProductsManagement: React.FC = () => {
 
   const openAddModal = () => {
     setIsEditing(false);
-    resetForm();
     setUploadedImages([]);
     setShowAddModal(true);
   };
@@ -236,6 +274,8 @@ const ProductsManagement: React.FC = () => {
       imageUrl: product.imageUrl,
       category: product.category,
       type: "RETAIL",
+      label: product.label,
+      categoryId: product.categoryId,
     });
     setCurrentProduct(product);
     setUploadedImages([]);
@@ -278,8 +318,9 @@ const ProductsManagement: React.FC = () => {
       available: true,
       description: "",
       imageUrl: [],
-      category: "",
       type: "RETAIL",
+      label: "",
+      categoryId: "",
     });
   };
 
@@ -326,7 +367,7 @@ const ProductsManagement: React.FC = () => {
             <input
               type="text"
               placeholder="Tìm kiếm sản phẩm..."
-              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full pl-10 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
             />
@@ -361,83 +402,97 @@ const ProductsManagement: React.FC = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {data?.products?.map((product) => (
-              <div
-                key={product.id}
-                className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer"
-                onClick={() => openDetailModal(product)}
-              >
-                <div className="h-48 overflow-hidden">
-                  <Image
-                    src={product.imageUrl[0] || "/images/placeholder.jpg"}
-                    alt={product.name}
-                    className="w-full h-full object-cover"
-                    width={500}
-                    height={200}
-                  />
-                </div>
-                <div className="p-4">
-                  <h3 className="font-semibold text-lg mb-1 text-gray-800">
-                    {product.name}
-                  </h3>
-                  <p className="text-blue-600 font-medium mb-2">
-                    {product.price.toLocaleString("vi-VN")} đ
-                  </p>
-                  <div className="flex justify-between items-center">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        product.available
-                          ? "bg-green-100 text-green-800"
-                          : "bg-red-100 text-red-800"
-                      }`}
-                    >
-                      {product.available ? "Còn hàng" : "Hết hàng"}
-                    </span>
-                    <span className="text-sm text-gray-600">
-                      {product.category}
-                    </span>
+            {data?.products?.length! > 0 ? (
+              data?.products.map((product) => (
+                <div
+                  key={product.id}
+                  className="bg-white rounded-lg shadow-md overflow-hidden border border-gray-200 hover:shadow-lg transition-shadow cursor-pointer"
+                  onClick={() => openDetailModal(product)}
+                >
+                  <div className="h-48 overflow-hidden">
+                    <Image
+                      src={product.imageUrl[0] || "/images/placeholder.jpg"}
+                      alt={product.name}
+                      className="w-full h-full object-cover"
+                      width={500}
+                      height={200}
+                    />
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-semibold text-lg mb-1 text-gray-800">
+                      {product.name}
+                    </h3>
+                    <p className="text-blue-600 font-medium mb-2">
+                      {product.price.toLocaleString("vi-VN")} đ
+                    </p>
+                    <div className="flex justify-between items-center">
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs ${
+                          product.available
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                        }`}
+                      >
+                        {product.available ? "Còn hàng" : "Hết hàng"}
+                      </span>
+                      <span className="text-sm text-gray-600 rounded-full bg-gray-100 px-2 py-1">
+                        {product.label}
+                      </span>
+                      <span className="text-sm text-gray-600 rounded-full bg-gray-100 px-2 py-1">
+                        {product?.category?.name || "Không có danh mục"}
+                      </span>
+                    </div>
                   </div>
                 </div>
+              ))
+            ) : (
+              // center message when no products found
+              <div className="col-span-4 text-center py-12 text-gray-500">
+                Không tìm thấy sản phẩm nào 🥲
               </div>
-            ))}
+            )}
           </div>
 
           {/* Pagination */}
-          <div className="flex justify-center mt-8">
-            <nav className="flex items-center space-x-2">
-              <button
-                onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-                disabled={currentPage === 1}
-                className="px-3 py-1 rounded-md border border-gray-300 disabled:opacity-50"
-              >
-                &lt;
-              </button>
-
-              {[...Array(totalPages)].map((_, index) => (
+          {totalPages > 1 ? (
+            <div className="flex justify-center mt-8">
+              <nav className="flex items-center space-x-2">
                 <button
-                  key={index}
-                  onClick={() => setCurrentPage(index + 1)}
-                  className={`px-3 py-1 rounded-md ${
-                    currentPage === index + 1
-                      ? "bg-blue-600 text-white"
-                      : "border border-gray-300 hover:bg-gray-50"
-                  }`}
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.max(prev - 1, 1))
+                  }
+                  disabled={currentPage === 1}
+                  className="px-3 py-1 rounded-md border border-gray-300 disabled:opacity-50"
                 >
-                  {index + 1}
+                  &lt;
                 </button>
-              ))}
 
-              <button
-                onClick={() =>
-                  setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-                }
-                disabled={currentPage === totalPages}
-                className="px-3 py-1 rounded-md border border-gray-300 disabled:opacity-50"
-              >
-                &gt;
-              </button>
-            </nav>
-          </div>
+                {[...Array(totalPages)].map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentPage(index + 1)}
+                    className={`px-3 py-1 rounded-md ${
+                      currentPage === index + 1
+                        ? "bg-blue-600 text-white"
+                        : "border border-gray-300 hover:bg-gray-50"
+                    }`}
+                  >
+                    {index + 1}
+                  </button>
+                ))}
+
+                <button
+                  onClick={() =>
+                    setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+                  }
+                  disabled={currentPage === totalPages}
+                  className="px-3 py-1 rounded-md border border-gray-300 disabled:opacity-50"
+                >
+                  &gt;
+                </button>
+              </nav>
+            </div>
+          ) : null}
         </>
       )}
 
@@ -483,12 +538,16 @@ const ProductsManagement: React.FC = () => {
                     required
                     className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-500"
                     value={newProduct.price}
-                    onChange={(e) =>
+                    onChange={(e) => {
+                      const input = e.target.value;
+                      // Nếu input rỗng thì giữ nguyên
+                      const formatted =
+                        input === "" ? "" : String(Number(input));
                       setNewProduct({
                         ...newProduct,
-                        price: parseFloat(e.target.value),
-                      })
-                    }
+                        price: Number(formatted),
+                      });
+                    }}
                   />
                 </div>
 
@@ -576,17 +635,43 @@ const ProductsManagement: React.FC = () => {
                   <select
                     id="productType"
                     className="mt-1 block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm text-gray-500 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
-                    value={newProduct.category}
+                    value={newProduct.label}
                     onChange={(e) =>
                       setNewProduct({
                         ...newProduct,
-                        category: e.target.value,
+                        label: e.target.value,
                       })
                     }
                   >
                     <option value="Mới">Mới</option>
                     <option value="Hot">Hot</option>
                     <option value="Truyền thống">Truyền thống</option>
+                  </select>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label
+                    htmlFor="category"
+                    className="block text-sm font-medium text-gray-700"
+                  >
+                    Danh mục sản phẩm
+                  </label>
+                  <select
+                    id="category"
+                    className="mt-1 block w-full rounded-lg border border-gray-300 bg-white py-2 px-3 text-sm text-gray-500 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                    value={newProduct.categoryId}
+                    onChange={(e) =>
+                      setNewProduct({
+                        ...newProduct,
+                        categoryId: e.target.value,
+                      })
+                    }
+                  >
+                    {categories.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
                   </select>
                 </div>
 
@@ -705,8 +790,11 @@ const ProductsManagement: React.FC = () => {
                   >
                     {currentProduct.available ? "Còn hàng" : "Hết hàng"}
                   </span>
+                  <span className="inline-block ml-2 px-3 py-1 text-gray-800 rounded-full text-sm bg-gray-100">
+                    {currentProduct?.category?.name || "Không có danh mục"}
+                  </span>
                   <span className="inline-block ml-2 px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-sm">
-                    {currentProduct.category}
+                    {currentProduct.label}
                   </span>
                 </div>
 

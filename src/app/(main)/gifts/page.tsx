@@ -24,7 +24,12 @@ interface Gift {
   available: boolean;
   description: string;
   imageUrl: string[];
-  category: string;
+  category: {
+    id: string;
+    name: string;
+    label: string;
+  };
+  label: string;
   createdAt: string;
 }
 
@@ -69,7 +74,7 @@ const GiftCard = ({ gift }: { gift: Gift }) => {
         )}
 
         <div className="absolute top-2 right-2 bg-white bg-opacity-90 text-amber-800 text-xs px-2 py-1 rounded-full">
-          {gift.category}
+          {gift.label}
         </div>
 
         <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-40 transition-opacity duration-300"></div>

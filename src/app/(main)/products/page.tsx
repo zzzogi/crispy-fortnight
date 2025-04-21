@@ -2,6 +2,7 @@
 /* eslint-disable  @typescript-eslint/no-unused-vars */
 "use client";
 
+import { useCategoryContext } from "@/app/context/CategoryContext";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
 import Link from "next/link";
@@ -21,18 +22,23 @@ interface Product {
   available: boolean;
   description: string;
   imageUrl: string[];
-  category: string;
+  category: {
+    id: string;
+    name: string;
+    label: string;
+  };
   createdAt: string;
+  label: string;
 }
 
 const fetchProducts = async ({ queryKey }: { queryKey: any[] }) => {
-  const [_, search, priceOrder, page, limit] = queryKey;
+  const [_, search, priceOrder, page, limit, slug] = queryKey;
   const offset = (page - 1) * limit;
 
   const response = await fetch(
     `/api/products?type=RETAIL&limit=${limit}&offset=${offset}&search=${
       search || ""
-    }&${priceOrder || ""}`
+    }&${priceOrder || ""}&category=${slug}`
   );
   if (!response.ok) {
     throw new Error("Network response was not ok");
@@ -63,9 +69,9 @@ const ProductCard = ({ product }: { product: Product }) => {
             <span className="text-amber-800">Hình ảnh đang cập nhật</span>
           </div>
         )}
-        {product.category && (
+        {product.label && (
           <span className="absolute top-2 right-2 bg-amber-700 text-white text-xs px-2 py-1 rounded">
-            {product.category}
+            {product.label}
           </span>
         )}
         {!product.available && (
@@ -101,10 +107,11 @@ export default function Products() {
   const [showFilters, setShowFilters] = useState(false);
   const [priceOrder, setPriceOrder] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const { slug } = useCategoryContext();
   const limit = 8;
 
   const { data, isLoading, error } = useQuery({
-    queryKey: ["products", searchTerm, priceOrder, currentPage, limit],
+    queryKey: ["products", searchTerm, priceOrder, currentPage, limit, slug],
     queryFn: fetchProducts,
     placeholderData: {
       products: [],

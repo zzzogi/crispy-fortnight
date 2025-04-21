@@ -2,6 +2,7 @@
 
 import { useAdminContext } from "@/app/context/AdminContext";
 import {
+  BoxIcon,
   ChevronDown,
   FileCheck,
   Gift,
@@ -22,6 +23,7 @@ import LogoutButton from "./components/LogoutButton";
 import OrderManagement from "./components/OrderManagement";
 import ProductsManagement from "./components/ProductManagement";
 import UserManagement from "./components/UserManagement";
+import CategoryManagement from "./components/CategoryManagement";
 
 interface SidebarItem {
   id: string;
@@ -67,7 +69,12 @@ export default function AdminPanel() {
       icon: <FileCheck className="h-5 w-5" />,
       content: <OrderManagement />,
     },
-
+    {
+      id: "catergories",
+      title: "Quản lí danh mục",
+      icon: <BoxIcon className="h-5 w-5" />,
+      content: <CategoryManagement />,
+    },
     {
       id: "messages",
       title: "Tin nhắn",

@@ -19,7 +19,12 @@ interface GiftProduct {
   available: boolean;
   description: string;
   imageUrl: string[];
-  category: string;
+  category: {
+    id: string;
+    name: string;
+    label: string;
+  };
+  label: string;
   createdAt: string;
   type: string;
 }
@@ -168,7 +173,7 @@ export default function GiftDetail({
             <div className="flex flex-col">
               <div className="mb-2 text-sm text-amber-600">
                 <span className="inline-block px-2 py-1 bg-amber-100 rounded">
-                  {product.category || "Sản phẩm đặc trưng"}
+                  {product.label || "Sản phẩm đặc trưng"}
                 </span>
               </div>
 
@@ -298,9 +303,9 @@ export default function GiftDetail({
                           </span>
                         </div>
                       )}
-                      {item.category && (
+                      {item.label && (
                         <span className="absolute top-2 left-2 bg-amber-500 text-white text-xs px-2 py-1 rounded">
-                          {item.category}
+                          {item.label}
                         </span>
                       )}
                     </div>

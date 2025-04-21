@@ -11,6 +11,7 @@ export async function GET(request: Request) {
   const type = searchParams.get("type") || undefined;
   const priceDesc = searchParams.get("priceDesc") || undefined;
   const priceAsc = searchParams.get("priceAsc") || undefined;
+  const category = searchParams.get("category") || undefined;
 
   const products = await prisma.product.findMany({
     where: {
@@ -18,25 +19,26 @@ export async function GET(request: Request) {
         contains: search || undefined,
         mode: "insensitive",
       },
-      type: {
-        equals: type as Type | undefined,
+      type: type as Type | undefined,
+      category: {
+        label: category || undefined,
       },
     },
-    orderBy: {
-      createdAt: "desc",
+    include: {
+      category: true, // include category details if you want them in the response
     },
+    orderBy: priceDesc
+      ? { price: "desc" }
+      : priceAsc
+      ? { price: "asc" }
+      : { createdAt: "desc" },
     take: limit ? parseInt(limit as string) : undefined,
     skip: offset ? parseInt(offset as string) : undefined,
-    ...(priceDesc && {
-      orderBy: { price: "desc" },
-    }),
-    ...(priceAsc && {
-      orderBy: { price: "asc" },
-    }),
   });
+
   return NextResponse.json(
     {
-      products: products,
+      products,
       total: products.length,
       limit: limit ? parseInt(limit as string) : undefined,
       offset: offset ? parseInt(offset as string) : undefined,
@@ -52,19 +54,37 @@ export async function GET(request: Request) {
 
 export async function POST(request: Request) {
   const body = await request.json();
-  const { name, price, available, description, imageUrl, category, type } =
-    body;
+  console.log(body);
+
+  const {
+    name,
+    price,
+    available = true,
+    description,
+    imageUrl,
+    categoryId,
+    type,
+    label,
+  } = body;
+
   const product = await prisma.product.create({
     data: {
       name,
+      label,
       price,
       available,
       description,
       imageUrl,
-      category,
       type,
+      category: {
+        connect: { id: categoryId },
+      },
+    },
+    include: {
+      category: true,
     },
   });
+
   return NextResponse.json(product, {
     status: 201,
     headers: {
@@ -72,23 +92,40 @@ export async function POST(request: Request) {
     },
   });
 }
+
 export async function PATCH(request: Request) {
   const body = await request.json();
-  const { id, name, price, available, description, imageUrl, category, type } =
-    body;
+  const {
+    id,
+    name,
+    price,
+    available,
+    description,
+    imageUrl,
+    categoryId,
+    type,
+    label,
+  } = body;
 
   const product = await prisma.product.update({
     where: { id },
     data: {
       name,
       price,
+      label,
       available,
       description,
       imageUrl,
-      category,
       type,
+      category: {
+        connect: { id: categoryId },
+      },
+    },
+    include: {
+      category: true,
     },
   });
+
   return NextResponse.json(product, {
     status: 200,
     headers: {
@@ -96,12 +133,15 @@ export async function PATCH(request: Request) {
     },
   });
 }
+
 export async function DELETE(request: Request) {
   const body = await request.json();
   const { id } = body;
+
   const product = await prisma.product.delete({
     where: { id },
   });
+
   return NextResponse.json(product, {
     status: 200,
     headers: {
