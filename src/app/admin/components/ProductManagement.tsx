@@ -1,5 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable  @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Loader, Plus, Search, Trash2, Upload, X } from "lucide-react";
@@ -93,7 +95,6 @@ const ProductsManagement: React.FC = () => {
   }, []);
 
   useEffect(() => {
-   
     setNewProduct({
       ...newProduct,
       categoryId: categories[0]?.id || "",
@@ -402,7 +403,7 @@ const ProductsManagement: React.FC = () => {
       ) : (
         <>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {data?.products?.length! > 0 ? (
+            {data?.products ? (
               data?.products.map((product) => (
                 <div
                   key={product.id}

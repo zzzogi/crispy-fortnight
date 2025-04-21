@@ -1,4 +1,5 @@
-// app/admin/categories/page.tsx
+/* eslint-disable react-hooks/exhaustive-deps */
+
 "use client";
 
 import { useState, useEffect } from "react";

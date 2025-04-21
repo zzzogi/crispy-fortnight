@@ -1,5 +1,7 @@
 /* eslint-disable  @typescript-eslint/no-explicit-any */
 /* eslint-disable  @typescript-eslint/no-unused-vars */
+/* eslint-disable react-hooks/exhaustive-deps */
+
 "use client";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Edit, Loader, Plus, Search, Trash2, Upload, X } from "lucide-react";
@@ -105,7 +107,6 @@ const GiftsManagement: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    console.log("trigger");
     setNewGift({
       ...newGift,
       categoryId: categories[0]?.id || "",

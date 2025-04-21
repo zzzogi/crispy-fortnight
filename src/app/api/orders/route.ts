@@ -78,7 +78,6 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  console.log("body", body);
   const {
     buyerName,
     buyerEmail,

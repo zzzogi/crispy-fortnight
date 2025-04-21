@@ -24,7 +24,7 @@ export async function middleware(request: NextRequest) {
       console.log("Token valid, proceeding...");
       return NextResponse.next();
     } catch (error) {
-      console.log(error);
+      console.error(error);
       console.log("Invalid token, redirecting...");
       return NextResponse.redirect(new URL("/admin/login", request.url));
     }
