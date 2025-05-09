@@ -3,23 +3,17 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { LogOut } from "lucide-react";
-import axios from "axios";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function LogoutButton() {
   const router = useRouter();
   const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
-    try {
-      setIsLoggingOut(true);
-      await axios.post("/api/auth/logout");
-      router.push("/admin/login");
-      router.refresh(); // Refresh the page to update auth state
-    } catch (error) {
-      console.error("Logout error:", error);
-    } finally {
-      setIsLoggingOut(false);
-    }
+    setIsLoggingOut(true);
+    await logout();
+    router.push("/");
   };
 
   return (

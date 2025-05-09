@@ -4,6 +4,7 @@ import Layout from "./components/Layout";
 import { ReactQueryClientProvider } from "../providers/ReactQueryClientProvider";
 import { CartProvider } from "../context/CartContext";
 import { CategoryProvider } from "../context/CategoryContext";
+import AuthProvider from "../providers/AuthProvider";
 
 export const metadata: Metadata = {
   title: "Thực phẩm Kim Vĩnh Vương",
@@ -21,7 +22,9 @@ export default function RootLayout({
         <CartProvider>
           <html lang="vi">
             <body>
-              <Layout>{children}</Layout>
+              <AuthProvider>
+                <Layout>{children}</Layout>
+              </AuthProvider>
             </body>
           </html>
         </CartProvider>

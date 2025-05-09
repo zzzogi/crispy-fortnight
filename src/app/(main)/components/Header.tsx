@@ -5,14 +5,18 @@ import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import {
   FaBars,
+  FaChevronDown,
+  FaChevronUp,
   FaFacebookF,
   FaPhone,
   FaTimes,
-  FaChevronDown,
-  FaChevronUp,
 } from "react-icons/fa";
-import { RiAdminLine } from "react-icons/ri";
+import { IoPersonSharp } from "react-icons/io5";
+import { TiShoppingCart } from "react-icons/ti";
 
+import { useAuth } from "@/hooks/useAuth";
+import { LogOut } from "lucide-react";
+import { useSession } from "next-auth/react";
 import CartDropdown from "./CartDropdown";
 
 export default function Header() {
@@ -24,6 +28,9 @@ export default function Header() {
   const [isMobileProductsOpen, setIsMobileProductsOpen] = useState(false);
   const [categories, setCategories] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+  const { data: session } = useSession();
+  const { logout } = useAuth();
 
   // Fetch categories on component mount
   useEffect(() => {
@@ -105,11 +112,97 @@ export default function Header() {
           <FaPhone className="mr-2 text-amber-200" />
           <span className="text-sm font-medium">Hotline: 0935 388 699</span>
         </div>
-        <div className="flex space-x-4">
-          <RiAdminLine
-            className="cursor-pointer hover:text-amber-200 transition duration-300"
-            onClick={() => router.push("/admin")}
-          />
+        <div className="flex space-x-4 items-center">
+          {session?.user.role === "admin" && (
+            <p
+              className="cursor-pointer hover:text-amber-200 transition duration-300 text-sm font-medium"
+              onClick={() => router.push("/admin")}
+            >
+              Admin console
+            </p>
+          )}
+          {session?.user ? (
+            <div className="relative">
+              <button
+                className="text-white cursor-pointer"
+                onClick={() => {
+                  setIsUserMenuOpen(!isUserMenuOpen);
+                }}
+              >
+                <IoPersonSharp className="h-4 w-4" />
+              </button>
+
+              {/* User dropdown */}
+              {isUserMenuOpen && (
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border z-9999">
+                  <div className="py-1">
+                    <div className="flex items-center px-4 py-2 text-sm text-gray-700">
+                      <span className="font-medium">
+                        Xin chào, {session.user.name}
+                      </span>
+                      <Image
+                        src={session.user.image || "/gif/greeting.gif"}
+                        alt="funny gif"
+                        className="ml-2 h-8 w-8 rounded-full"
+                        width={32}
+                        height={32}
+                      />
+                    </div>
+                    <button
+                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        router.push("/profile");
+                      }}
+                    >
+                      <IoPersonSharp className="h-4 w-4 mr-2" />
+                      <span>Trang cá nhân</span>
+                    </button>
+                    <button
+                      className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => {
+                        setIsUserMenuOpen(false);
+                        router.push("/my-orders");
+                      }}
+                    >
+                      <TiShoppingCart className="h-4 w-4 mr-2" />
+                      <span>Đơn hàng</span>
+                    </button>
+                    <div className="flex items-center w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+                      <span
+                        className="flex items-center cursor-pointer"
+                        onClick={async () => {
+                          setIsUserMenuOpen(false);
+                          await logout();
+                          router.push("/");
+                        }}
+                      >
+                        <LogOut className="h-4 w-4 mr-2" />
+                        <span>Đăng xuất</span>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="hidden md:flex space-x-2 items-center">
+              <p
+                className="text-sm font-medium cursor-pointer hover:text-amber-200 transition duration-300"
+                onClick={() => router.push("/login")}
+              >
+                Đăng nhập
+              </p>
+              <p>/</p>
+              <p
+                className="text-sm font-medium cursor-pointer hover:text-amber-200 transition duration-300"
+                onClick={() => router.push("/register")}
+              >
+                Đăng ký
+              </p>
+            </div>
+          )}
+
           <FaFacebookF
             className="cursor-pointer hover:text-amber-200 transition duration-300"
             onClick={() =>

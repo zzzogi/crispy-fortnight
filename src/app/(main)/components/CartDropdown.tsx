@@ -4,6 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
 import { FaShoppingCart } from "react-icons/fa";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat("vi-VN", {
@@ -19,6 +21,8 @@ export default function CartDropdown() {
     useCart();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const { data: session } = useSession();
+  const router = useRouter();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -161,13 +165,21 @@ export default function CartDropdown() {
                 >
                   Xem giỏ hàng
                 </Link>
-                <Link
-                  href="/checkout"
+                <button
                   className="flex-1 bg-amber-700 hover:bg-amber-800 text-white py-2 px-4 rounded text-sm text-center"
-                  onClick={() => setIsOpen(false)}
+                  onClick={() => {
+                    if (session) {
+                      router.push("/checkout");
+                    } else {
+                      alert(
+                        "Vui lòng đăng nhập để thanh toán sản phẩm trong giỏ hàng."
+                      );
+                      router.push("/login?redirect=/checkout");
+                    }
+                  }}
                 >
                   Thanh toán
-                </Link>
+                </button>
               </div>
             </div>
           )}

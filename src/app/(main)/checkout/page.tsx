@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { useAuth } from "@/hooks/useAuth";
 
 const Checkout = () => {
   const router = useRouter();
@@ -18,13 +19,27 @@ const Checkout = () => {
     useState<CheckoutResponseDataType | null>(null);
   const [checkoutUrl, setCheckoutUrl] = useState("");
   const orderSubmitted = useRef(false);
+  const { user } = useAuth();
 
   const [formData, setFormData] = useState({
+    buyerId: "",
     buyerName: "",
     buyerEmail: "",
     buyerPhone: "",
     buyerAddress: "",
   });
+
+  useEffect(() => {
+    // Populate form with current user data if available
+    if (user) {
+      setFormData((prev) => ({
+        ...prev,
+        buyerId: user.id || "",
+        buyerName: user.name || "",
+        buyerEmail: user.email || "",
+      }));
+    }
+  }, [user]);
 
   // Configure PayOS
   const payOSConfig: PayOSConfig = {
@@ -129,7 +144,6 @@ const Checkout = () => {
     mutationFn: async () => {
       // Check if order has already been submitted
       if (orderSubmitted.current) {
-        console.log("Order already submitted, preventing duplicate submission");
         return { status: "already_submitted" };
       }
 
@@ -142,6 +156,7 @@ const Checkout = () => {
       orderSubmitted.current = true;
 
       const orderData = {
+        buyerId: formData.buyerId,
         buyerName: formData.buyerName,
         buyerEmail: formData.buyerEmail,
         buyerPhone: formData.buyerPhone,
@@ -149,8 +164,6 @@ const Checkout = () => {
         products: items, // Pass the entire items array instead of mapping
         totalPrice: totalPrice,
       };
-
-      console.log("Sending order data:", orderData);
 
       const response = await fetch("/api/orders", {
         method: "POST",
@@ -201,7 +214,6 @@ const Checkout = () => {
     if (!orderSubmitted.current) {
       createOrderMutation.mutate();
     } else {
-      console.log("Payment completed but order already submitted");
       clearCart();
       router.push("/thank-you");
     }

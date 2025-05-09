@@ -1,15 +1,19 @@
 "use client";
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
 import { useCart } from "@/app/context/CartContext";
 import { formatCurrency } from "@/app/utils/format";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function CartPage() {
   const { items, removeFromCart, updateQuantity, totalItems, totalPrice } =
     useCart();
   const [couponCode, setCouponCode] = useState("");
+  const { data: session } = useSession();
+  const router = useRouter();
 
   if (items.length === 0) {
     return (
@@ -268,12 +272,21 @@ export default function CartPage() {
                     </span>
                   </div>
 
-                  <Link
-                    href="/checkout"
+                  <button
+                    onClick={() => {
+                      if (session) {
+                        router.push("/checkout");
+                      } else {
+                        alert(
+                          "Vui lòng đăng nhập để thanh toán sản phẩm trong giỏ hàng."
+                        );
+                        router.push("/login?redirect=/checkout");
+                      }
+                    }}
                     className="w-full bg-amber-700 hover:bg-amber-800 text-white py-3 px-6 rounded-md font-medium flex items-center justify-center"
                   >
                     Thanh toán
-                  </Link>
+                  </button>
                 </div>
 
                 <div className="mt-6">

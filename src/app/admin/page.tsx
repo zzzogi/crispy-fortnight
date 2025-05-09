@@ -1,6 +1,6 @@
 "use client";
 
-import { useAdminContext } from "@/app/context/AdminContext";
+import { useAuth } from "@/hooks/useAuth";
 import {
   BoxIcon,
   ChevronDown,
@@ -9,21 +9,24 @@ import {
   Menu,
   MessageSquare,
   Package,
+  PictureInPicture2,
   Undo2,
   User,
   Users,
   X,
 } from "lucide-react";
 import Head from "next/head";
+import Image from "next/image";
 import { redirect } from "next/navigation";
 import { useState } from "react";
+import BannerManagement from "./components/BannerManagement";
+import CategoryManagement from "./components/CategoryManagement";
 import ContactManagement from "./components/ContactManagement";
 import GiftsManagement from "./components/GiftManagement";
 import LogoutButton from "./components/LogoutButton";
 import OrderManagement from "./components/OrderManagement";
 import ProductsManagement from "./components/ProductManagement";
 import UserManagement from "./components/UserManagement";
-import CategoryManagement from "./components/CategoryManagement";
 
 interface SidebarItem {
   id: string;
@@ -36,15 +39,35 @@ export default function AdminPanel() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [activeTab, setActiveTab] = useState("products");
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
-  const { user, isLoading } = useAdminContext();
 
-  if (isLoading || !user) {
-    return null; // Don't render navbar while loading or if user not authenticated
+  const { user, status } = useAuth();
+
+  // Show loading state while checking authentication
+  if (status === "loading") {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <p className="text-lg">Đang tải...</p>
+      </div>
+    );
   }
 
-  const username = user.name || user.email || "Admin";
+  // Redirect if not authenticated
+
+  const username = user?.name || user?.email || "Admin";
 
   const sidebarItems: SidebarItem[] = [
+    {
+      id: "orders",
+      title: "Quản lí đơn hàng",
+      icon: <FileCheck className="h-5 w-5" />,
+      content: <OrderManagement />,
+    },
+    {
+      id: "messages",
+      title: "Quản lí tin nhắn",
+      icon: <MessageSquare className="h-5 w-5" />,
+      content: <ContactManagement />,
+    },
     {
       id: "products",
       title: "Quản lí sản phẩm",
@@ -58,28 +81,22 @@ export default function AdminPanel() {
       content: <GiftsManagement />,
     },
     {
-      id: "users",
-      title: "Quản lí người dùng",
-      icon: <Users className="h-5 w-5" />,
-      content: <UserManagement />,
-    },
-    {
-      id: "orders",
-      title: "Quản lí đơn hàng",
-      icon: <FileCheck className="h-5 w-5" />,
-      content: <OrderManagement />,
-    },
-    {
       id: "catergories",
       title: "Quản lí danh mục",
       icon: <BoxIcon className="h-5 w-5" />,
       content: <CategoryManagement />,
     },
     {
-      id: "messages",
-      title: "Tin nhắn",
-      icon: <MessageSquare className="h-5 w-5" />,
-      content: <ContactManagement />,
+      id: "users",
+      title: "Quản lí người dùng",
+      icon: <Users className="h-5 w-5" />,
+      content: <UserManagement />,
+    },
+    {
+      id: "banners",
+      title: "Quản lí banner",
+      icon: <PictureInPicture2 className="h-5 w-5" />,
+      content: <BannerManagement />,
     },
   ];
 
@@ -90,7 +107,7 @@ export default function AdminPanel() {
   return (
     <>
       <Head>
-        <title>Admin Console</title>
+        <title>Trang quản trị</title>
       </Head>
       <div className="flex h-screen bg-gray-100">
         {/* Sidebar */}
@@ -102,9 +119,17 @@ export default function AdminPanel() {
           {/* Sidebar Header */}
           <div className="flex items-center justify-between h-16 border-b px-4">
             {!isCollapsed && (
-              <span className="text-lg font-bold text-blue-700">
-                Admin Console
-              </span>
+              <div className="flex items-center space-x-2">
+                <Image
+                  src="/icons/kim-vinh-vuong-icon.png"
+                  alt="Logo"
+                  width={40}
+                  height={40}
+                />
+                <span className=" font-bold text-lg text-amber-500">
+                  Trang quản trị
+                </span>
+              </div>
             )}
             <button
               onClick={() => setIsCollapsed(!isCollapsed)}
@@ -126,14 +151,14 @@ export default function AdminPanel() {
                 onClick={() => setActiveTab(item.id)}
                 className={`flex items-center w-full px-4 py-3 transition-colors ${
                   activeTab === item.id
-                    ? "bg-blue-50 text-blue-700 border-l-4 border-blue-700 font-medium"
+                    ? "bg-amber-50 text-amber-700 border-l-4 border-amber-700 font-medium"
                     : "text-gray-700 hover:bg-gray-50"
                 }`}
               >
                 <div className="flex items-center">
                   <span
                     className={
-                      activeTab === item.id ? "text-blue-700" : "text-gray-600"
+                      activeTab === item.id ? "text-amber-700" : "text-gray-600"
                     }
                   >
                     {item.icon}

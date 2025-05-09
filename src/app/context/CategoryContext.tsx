@@ -3,7 +3,7 @@
 import { createContext, ReactNode, useContext, useState } from "react";
 
 // Context type
-type CategoryType = {
+export type CategoryType = {
   slug: string;
   setSlug: (slug: string) => void;
 };

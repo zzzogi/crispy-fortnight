@@ -79,6 +79,7 @@ export async function GET(request: NextRequest) {
 export async function POST(request: NextRequest) {
   const body = await request.json();
   const {
+    buyerId,
     buyerName,
     buyerEmail,
     buyerPhone,
@@ -105,6 +106,7 @@ export async function POST(request: NextRequest) {
         0
       ),
       status: "paid",
+      userId: buyerId,
     },
   });
   return NextResponse.json(order, {

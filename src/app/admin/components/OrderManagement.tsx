@@ -15,7 +15,7 @@ import { useState } from "react";
 import Image from "next/image";
 
 // Types
-type OrderStatus = "pending" | "paid" | "shipping" | "done" | "cancel";
+type OrderStatus = "pending" | "paid" | "shipping" | "done" | "cancelled";
 
 interface Product {
   id: string;
@@ -137,7 +137,7 @@ export default function OrdersPage() {
         return "bg-purple-100 text-purple-800";
       case "done":
         return "bg-green-100 text-green-800";
-      case "cancel":
+      case "cancelled":
         return "bg-red-100 text-red-800";
       default:
         return "bg-gray-100 text-gray-800";
@@ -179,7 +179,7 @@ export default function OrdersPage() {
             <option value="paid">Đã thanh toán</option>
             <option value="shipping">Đang giao hàng</option>
             <option value="done">Hoàn thành</option>
-            <option value="cancel">Đã hủy</option>
+            <option value="cancelled">Đã hủy</option>
           </select>
 
           <button
@@ -303,7 +303,7 @@ export default function OrdersPage() {
                         {order.status === "paid" && "Đã thanh toán"}
                         {order.status === "shipping" && "Đang giao hàng"}
                         {order.status === "done" && "Hoàn thành"}
-                        {order.status === "cancel" && "Đã hủy"}
+                        {order.status === "cancelled" && "Đã hủy"}
                       </span>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap">
@@ -462,7 +462,7 @@ export default function OrdersPage() {
                       <option value="paid">Đã thanh toán</option>
                       <option value="shipping">Đang giao hàng</option>
                       <option value="done">Hoàn thành</option>
-                      <option value="cancel">Đã hủy</option>
+                      <option value="cancelled">Đã hủy</option>
                     </select>
                   </div>
                 </div>
