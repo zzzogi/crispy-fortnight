@@ -11,19 +11,10 @@ import { authOptions } from "@/app/libs/authOptions";
 
 // Initialize S3 client
 const s3Client = new S3Client({
-  region:
-    process.env.NODE_ENV === "production"
-      ? process.env.AWS_REGION!
-      : process.env.NEXT_PUBLIC_AWS_REGION!,
+  region: process.env.NEXT_PUBLIC_AWS_REGION!,
   credentials: {
-    accessKeyId:
-      process.env.NODE_ENV === "production"
-        ? process.env.AWS_ACCESS_KEY_ID!
-        : process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID!,
-    secretAccessKey:
-      process.env.NODE_ENV === "production"
-        ? process.env.AWS_SECRET_ACCESS_KEY!
-        : process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY!,
   },
 });
 
@@ -96,10 +87,7 @@ export async function PUT(
 
         try {
           const deleteCommand = new DeleteObjectCommand({
-            Bucket:
-              process.env.NODE_ENV === "production"
-                ? process.env.AWS_S3_BUCKET!
-                : process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+            Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
             Key: key,
           });
           await s3Client.send(deleteCommand);
@@ -118,10 +106,7 @@ export async function PUT(
       const buffer = Buffer.from(arrayBuffer);
 
       const command = new PutObjectCommand({
-        Bucket:
-          process.env.NODE_ENV === "production"
-            ? process.env.AWS_S3_BUCKET!
-            : process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+        Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
         Key: key,
         Body: buffer,
         ContentType: getMimeType(imageFile.name),
@@ -131,15 +116,7 @@ export async function PUT(
       await s3Client.send(command);
 
       // Construct the URL for the uploaded image
-      imageUrl = `https://${
-        process.env.NODE_ENV === "production"
-          ? process.env.AWS_S3_BUCKET
-          : process.env.NEXT_PUBLIC_AWS_S3_BUCKET
-      }.s3.${
-        process.env.NODE_ENV === "production"
-          ? process.env.AWS_REGION
-          : process.env.NEXT_PUBLIC_AWS_REGION
-      }.amazonaws.com/${key}`;
+      imageUrl = `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${key}`;
     }
 
     // Update banner in database
@@ -197,10 +174,7 @@ export async function DELETE(
         const key = oldImageUrl.pathname.substring(1); // Remove leading slash
 
         const deleteCommand = new DeleteObjectCommand({
-          Bucket:
-            process.env.NODE_ENV === "production"
-              ? process.env.AWS_S3_BUCKET!
-              : process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+          Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
           Key: key,
         });
         await s3Client.send(deleteCommand);
