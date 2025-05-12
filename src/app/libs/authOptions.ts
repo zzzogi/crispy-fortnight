@@ -86,4 +86,5 @@ export const authOptions: NextAuthOptions = {
     maxAge: 8 * 60 * 60, // 8 hours (same as your current token)
   },
   secret: process.env.NEXTAUTH_SECRET!,
+  debug: process.env.NODE_ENV === "development",
 };
