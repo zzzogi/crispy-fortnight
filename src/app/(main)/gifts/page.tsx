@@ -199,7 +199,7 @@ export default function Gifts() {
             transform: "translateY(0)",
           }}
         >
-          <div className="absolute inset-0 bg-gradient-to-r from-amber-900/80 to-black/40"></div>
+          <div className="absolute inset-0 bg-gradient-to-r from-amber-900/80 to-amber-200"></div>
         </div>
 
         <div className="container mx-auto px-12 h-full flex items-center relative z-10">

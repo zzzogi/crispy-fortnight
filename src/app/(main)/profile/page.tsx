@@ -284,7 +284,7 @@ export default function ProfilePage() {
             <div className="flex justify-between">
               <span className="text-gray-700">Vai trò</span>
               <span className="font-medium text-gray-500">
-                {user?.role === "user" ? "Người dùng" : user?.role}
+                {user?.role && "Người dùng"}
               </span>
             </div>
 

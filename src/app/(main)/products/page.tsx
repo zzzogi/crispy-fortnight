@@ -169,11 +169,11 @@ export default function Products() {
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
               Khám Phá Tinh Hoa Đặc Sản Kinh Bắc
             </h1>
-            <p className="text-amber-100 md:text-lg mb-6">
+            {/* <p className="text-amber-100 md:text-lg mb-6">
               Từ những ngọn đồi xanh ngát của vùng đất Kinh Bắc, chúng tôi đã
               chắt lọc và mang đến những sản phẩm đặc trưng được chế biến bằng
               bí quyết gia truyền, kết hợp với công nghệ hiện đại.
-            </p>
+            </p> */}
             <div className="flex flex-wrap gap-4">
               <Link
                 href="#product-list"
@@ -406,20 +406,22 @@ export default function Products() {
       {/* Story & Testimonial */}
       <div className="mt-16 bg-amber-50 rounded-xl overflow-hidden border border-amber-200 shadow-lg">
         <div className="grid md:grid-cols-2">
-          <div className="p-8 md:p-10">
-            <h2 className="text-2xl font-bold text-amber-900 mb-4">
-              Chất Lượng Từ Từng Nguyên Liệu
-            </h2>
-            <p className="text-amber-800 mb-4">
-              Tại Kim Vĩnh Vương, chúng tôi đặc biệt chú trọng vào việc lựa chọn
-              nguyên liệu tự nhiên, tươi ngon từ những vùng trồng nổi tiếng của
-              Việt Nam.
-            </p>
-            <p className="text-amber-800 mb-6">
-              Mỗi sản phẩm đều được chế biến theo công thức gia truyền, giữ trọn
-              hương vị đặc trưng của vùng đất Kinh Bắc, nơi giao thoa giữa văn
-              hóa và ẩm thực truyền thống.
-            </p>
+          <div className="p-8 md:p-10 flex flex-col justify-between">
+            <div>
+              <h2 className="text-2xl font-bold text-amber-900 mb-4">
+                Chất Lượng Từ Từng Nguyên Liệu
+              </h2>
+              <p className="text-amber-800 mb-4">
+                Tại Kim Vĩnh Vương, chúng tôi đặc biệt chú trọng vào việc lựa
+                chọn nguyên liệu tự nhiên, tươi ngon từ những vùng trồng nổi
+                tiếng của Việt Nam.
+              </p>
+              <p className="text-amber-800 mb-6">
+                Mỗi sản phẩm đều được chế biến theo công thức gia truyền, giữ
+                trọn hương vị đặc trưng của vùng đất Kinh Bắc, nơi giao thoa
+                giữa văn hóa và ẩm thực truyền thống.
+              </p>
+            </div>
             <Link
               href="/about"
               className="text-amber-700 font-medium hover:text-amber-800 flex items-center"
@@ -428,7 +430,15 @@ export default function Products() {
               <FiArrowRight className="ml-2" />
             </Link>
           </div>
-          <div className="bg-amber-200 h-64 md:h-auto"></div>
+          <div className="bg-amber-200 h-64 md:h-auto flex items-center justify-center">
+            <Image
+              src="/images/customers.jpg"
+              alt="Customers"
+              width={600}
+              height={600}
+              className="object-fill"
+            />
+          </div>
         </div>
       </div>
     </div>

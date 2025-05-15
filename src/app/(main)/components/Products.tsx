@@ -194,18 +194,18 @@ export default function ProductSection() {
           <div className="grid md:grid-cols-2 gap-8 items-center relative z-10 p-8 md:p-12">
             <div className="text-center md:text-left">
               <h1
-                className="text-4xl md:text-5xl font-bold text-amber-900 mb-4"
+                className="text-3xl md:text-4xl font-bold text-amber-900 mb-4"
                 style={{
                   whiteSpace: "pre-line",
                 }}
               >
-                Kim Vĩnh Vương &#45; {"\n"} Chè Lam Truyền Thống
+                Thực phẩm Kim Vĩnh Vương &#45; {"\n"} Tinh hoa đặc sản Kinh Bắc
               </h1>
-              <p className="text-lg text-amber-800 mb-6">
+              {/* <p className="text-lg text-amber-800 mb-6">
                 Khám phá hương vị truyền thống từ những sản phẩm tự nhiên, chất
                 lượng cao. Chúng tôi mang đến cho bạn những trải nghiệm ẩm thực
                 độc đáo và đáng nhớ.
-              </p>
+              </p> */}
               <button
                 className="bg-amber-600 hover:bg-amber-700 text-white font-medium py-3 px-6 rounded-full transition duration-300 shadow-lg hover:shadow-xl"
                 onClick={() => router.push("/about")}
@@ -240,14 +240,14 @@ export default function ProductSection() {
                 <h3 className="text-xl font-semibold text-amber-900 mb-2">
                   {benefit.title}
                 </h3>
-                <p
+                {/* <p
                   className="text-amber-700"
                   style={{
                     whiteSpace: "pre-line",
                   }}
                 >
                   {benefit.description}
-                </p>
+                </p> */}
               </div>
             ))}
           </div>
@@ -266,7 +266,7 @@ export default function ProductSection() {
             >
               Sản phẩm nổi bật
             </button>
-            <button
+            {/* <button
               onClick={() => setActiveTab("giftsets")}
               className={`px-6 py-3 font-medium text-lg ${
                 activeTab === "giftsets"
@@ -275,7 +275,7 @@ export default function ProductSection() {
               }`}
             >
               Set quà tặng
-            </button>
+            </button> */}
           </div>
         </div>
 
@@ -287,7 +287,7 @@ export default function ProductSection() {
                 Sản phẩm nổi bật
               </h2>
               <p className="text-amber-700 max-w-2xl mx-auto">
-                Chè lam truyền thống cực kỳ sang trọng và chất lượng.
+                Đặc sản Kinh Bắc thơm ngon, đảm bảo vệ sinh an toàn thực phẩm.
               </p>
             </div>
 
@@ -341,7 +341,6 @@ export default function ProductSection() {
           </div>
         )}
 
-        {/* Gift Sets */}
         {activeTab === "giftsets" && (
           <div>
             <div className="text-center mb-10">
@@ -360,7 +359,6 @@ export default function ProductSection() {
               </p>
             </div>
 
-            {/* Loading State */}
             {isLoadingGifts && (
               <div className="text-center py-4">
                 <div className="inline-block animate-spin rounded-full h-8 w-8 border-4 border-amber-400 border-t-amber-700"></div>
@@ -444,9 +442,9 @@ export default function ProductSection() {
             gửi gắm cả tâm huyết và niềm tự hào về văn hóa ẩm thực dân tộc. Mỗi
             sản phẩm là một cam kết về{"\n"} chất lượng và sự chân thành.&quot;
           </p>
-          <p className="text-sm text-amber-100 mb-8">
+          {/* <p className="text-sm text-amber-100 mb-8">
             &#45; Người sáng lập Kim Vĩnh Vương
-          </p>
+          </p> */}
         </div>
       </section>
     </div>
