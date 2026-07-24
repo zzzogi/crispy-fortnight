@@ -11,10 +11,10 @@ import { authOptions } from "@/app/libs/authOptions";
 
 // Initialize S3 client
 const s3Client = new S3Client({
-  region: process.env.NEXT_PUBLIC_AWS_REGION!,
+  region: process.env.AWS_REGION!,
   credentials: {
-    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
   },
 });
 
@@ -46,7 +46,7 @@ function slugify(text: string): string {
 // GET /api/admin/banners/[id] - Retrieve a specific banner
 export async function PUT(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> },
 ) {
   const id = (await context.params).id;
 
@@ -55,7 +55,7 @@ export async function PUT(
     if (!session || session.user.role !== "admin") {
       return NextResponse.json(
         { success: false, message: "Unauthorized" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -71,7 +71,7 @@ export async function PUT(
     if (!currentBanner) {
       return NextResponse.json(
         { success: false, message: "Banner not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -87,7 +87,7 @@ export async function PUT(
 
         try {
           const deleteCommand = new DeleteObjectCommand({
-            Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+            Bucket: process.env.AWS_S3_BUCKET!,
             Key: key,
           });
           await s3Client.send(deleteCommand);
@@ -106,7 +106,7 @@ export async function PUT(
       const buffer = Buffer.from(arrayBuffer);
 
       const command = new PutObjectCommand({
-        Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+        Bucket: process.env.AWS_S3_BUCKET!,
         Key: key,
         Body: buffer,
         ContentType: getMimeType(imageFile.name),
@@ -116,7 +116,7 @@ export async function PUT(
       await s3Client.send(command);
 
       // Construct the URL for the uploaded image
-      imageUrl = `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${key}`;
+      imageUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
     }
 
     // Update banner in database
@@ -133,7 +133,7 @@ export async function PUT(
     console.error("Error updating banner:", error);
     return NextResponse.json(
       { success: false, message: "Failed to update banner" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -141,7 +141,7 @@ export async function PUT(
 // DELETE /api/admin/banners/[id] - Delete a banner
 export async function DELETE(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> }
+  context: { params: Promise<{ id: string }> },
 ) {
   const params = await context.params;
   const id = params.id;
@@ -150,7 +150,7 @@ export async function DELETE(
     if (!session || session.user.role !== "admin") {
       return NextResponse.json(
         { success: false, message: "Unauthorized" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -162,7 +162,7 @@ export async function DELETE(
     if (!banner) {
       return NextResponse.json(
         { success: false, message: "Banner not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -174,7 +174,7 @@ export async function DELETE(
         const key = oldImageUrl.pathname.substring(1); // Remove leading slash
 
         const deleteCommand = new DeleteObjectCommand({
-          Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+          Bucket: process.env.AWS_S3_BUCKET!,
           Key: key,
         });
         await s3Client.send(deleteCommand);
@@ -194,7 +194,7 @@ export async function DELETE(
     console.error("Error deleting banner:", error);
     return NextResponse.json(
       { success: false, message: "Failed to delete banner" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

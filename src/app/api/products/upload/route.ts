@@ -8,10 +8,10 @@ import {
 
 // Configure S3 client
 const s3Client = new S3Client({
-  region: process.env.NEXT_PUBLIC_AWS_REGION!,
+  region: process.env.AWS_REGION!,
   credentials: {
-    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
   },
 });
 
@@ -47,7 +47,7 @@ export async function POST(request: NextRequest) {
     if (!productName) {
       return NextResponse.json(
         { error: "Product ID is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     if (!imageFiles || imageFiles.length === 0) {
       return NextResponse.json(
         { error: "No images were uploaded" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -75,7 +75,7 @@ export async function POST(request: NextRequest) {
       const buffer = Buffer.from(arrayBuffer);
 
       const command = new PutObjectCommand({
-        Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+        Bucket: process.env.AWS_S3_BUCKET!,
         Key: key,
         Body: buffer,
         ContentType: getMimeType(file.name),
@@ -85,7 +85,7 @@ export async function POST(request: NextRequest) {
       await s3Client.send(command);
 
       // Construct the URL for the uploaded image
-      const imageUrl = `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${key}`;
+      const imageUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
       uploadedUrls.push(imageUrl);
     }
 
@@ -98,7 +98,7 @@ export async function POST(request: NextRequest) {
     console.error("Error uploading to S3:", error);
     return NextResponse.json(
       { error: "Failed to upload images" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -112,7 +112,7 @@ export async function DELETE(request: NextRequest) {
     if (!productName) {
       return NextResponse.json(
         { error: "Product ID is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -120,7 +120,7 @@ export async function DELETE(request: NextRequest) {
     const folderPrefix = `products/${slugify(productName)}/`;
 
     const listCommand = new ListObjectsV2Command({
-      Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+      Bucket: process.env.AWS_S3_BUCKET!,
       Prefix: folderPrefix,
     });
 
@@ -138,7 +138,7 @@ export async function DELETE(request: NextRequest) {
     for (const object of listedObjects.Contents) {
       if (object.Key) {
         const deleteCommand = new DeleteObjectCommand({
-          Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+          Bucket: process.env.AWS_S3_BUCKET!,
           Key: object.Key,
         });
 
@@ -154,7 +154,7 @@ export async function DELETE(request: NextRequest) {
     console.error("Error deleting from S3:", error);
     return NextResponse.json(
       { error: "Failed to delete images" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -168,7 +168,7 @@ export async function GET(request: NextRequest) {
     if (!productId) {
       return NextResponse.json(
         { error: "Product ID is required" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -176,7 +176,7 @@ export async function GET(request: NextRequest) {
     const folderPrefix = `products/${productId}/`;
 
     const listCommand = new ListObjectsV2Command({
-      Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+      Bucket: process.env.AWS_S3_BUCKET!,
       Prefix: folderPrefix,
     });
 
@@ -189,7 +189,7 @@ export async function GET(request: NextRequest) {
 
     // Construct URLs for each image
     const imageUrls = listedObjects.Contents.map((object) => {
-      return `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${object.Key}`;
+      return `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${object.Key}`;
     });
 
     return NextResponse.json({
@@ -200,7 +200,7 @@ export async function GET(request: NextRequest) {
     console.error("Error fetching images from S3:", error);
     return NextResponse.json(
       { error: "Failed to fetch images" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

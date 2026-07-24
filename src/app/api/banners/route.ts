@@ -7,10 +7,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 // Configure S3 client
 const s3Client = new S3Client({
-  region: process.env.NEXT_PUBLIC_AWS_REGION!,
+  region: process.env.AWS_REGION!,
   credentials: {
-    accessKeyId: process.env.NEXT_PUBLIC_AWS_ACCESS_KEY_ID!,
-    secretAccessKey: process.env.NEXT_PUBLIC_AWS_SECRET_ACCESS_KEY!,
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
   },
 });
 
@@ -53,7 +53,7 @@ export async function GET() {
     console.error("Error fetching banners:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch banners" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
     if (!session || session.user.role !== "admin") {
       return NextResponse.json(
         { success: false, message: "Unauthorized" },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
       const buffer = Buffer.from(arrayBuffer);
 
       const command = new PutObjectCommand({
-        Bucket: process.env.NEXT_PUBLIC_AWS_S3_BUCKET!,
+        Bucket: process.env.AWS_S3_BUCKET!,
         Key: key,
         Body: buffer,
         ContentType: getMimeType(imageFile.name),
@@ -96,7 +96,7 @@ export async function POST(request: NextRequest) {
       await s3Client.send(command);
 
       // Construct the URL for the uploaded image
-      imageUrl = `https://${process.env.NEXT_PUBLIC_AWS_S3_BUCKET}.s3.${process.env.NEXT_PUBLIC_AWS_REGION}.amazonaws.com/${key}`;
+      imageUrl = `https://${process.env.AWS_S3_BUCKET}.s3.${process.env.AWS_REGION}.amazonaws.com/${key}`;
     }
 
     // Create banner in database
@@ -112,7 +112,7 @@ export async function POST(request: NextRequest) {
     console.error("Error creating banner:", error);
     return NextResponse.json(
       { success: false, message: "Failed to create banner" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
